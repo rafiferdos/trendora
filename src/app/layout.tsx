@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Jost } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "@/components/themeProvider/theme-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -10,6 +11,11 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const jost = Jost({
+  subsets: ["latin"], // Specify the subset
+  weight: ["400", "700"], // Optional: Specify font weights
 });
 
 export const metadata: Metadata = {
@@ -23,12 +29,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.className} ${geistMono.className} antialiased`}
+        className={`${geistSans.className} ${geistMono.className} ${jost.className} antialiased`}
       >
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
       </body>
-    </html>
+    </html >
   );
 }
