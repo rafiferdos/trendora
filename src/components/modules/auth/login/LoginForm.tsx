@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use client";
+'use client'
 
 import {
   Form,
@@ -8,48 +8,48 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { loginSchema } from "./loginValidation";
-import { loginUser } from "@/services/AuthService";
-import { Button } from "@/components/ui/button";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useUser } from "@/context/UserContext";
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { zodResolver } from '@hookform/resolvers/zod'
+import Link from 'next/link'
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
+import { loginSchema } from './loginValidation'
+import { loginUser } from '@/services/AuthService'
+import { Button } from '@/components/ui/button'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useUser } from '@/context/UserContext'
 
 const LoginForm = () => {
-  const form = useForm({ resolver: zodResolver(loginSchema) });
+  const form = useForm({ resolver: zodResolver(loginSchema) })
   const {
     formState: { isSubmitting },
-  } = form;
+  } = form
 
-  const { setIsLoading } = useUser();
+  const { setIsLoading } = useUser()
 
-  const searchParams = useSearchParams();
-  const redirect = searchParams.get("redirectPath");
-  const router = useRouter();
+  const searchParams = useSearchParams()
+  const redirect = searchParams.get('redirectPath')
+  const router = useRouter()
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
-      const res = await loginUser(data);
+      const res = await loginUser(data)
 
-      setIsLoading(true);
+      setIsLoading(true)
       if (res?.success) {
-        alert(res?.message);
+        alert(res?.message)
         if (redirect) {
-          router.push(redirect);
+          router.push(redirect)
         } else {
-          router.push("/");
+          router.push('/')
         }
       } else {
-        alert(res?.message);
+        alert(res?.message)
       }
     } catch (error: any) {
-      console.error(error);
+      console.error(error)
     }
-  };
+  }
 
   return (
     <div className="rounded-sm flex-grow max-w-md w-full p-8 shadow-lg">
@@ -75,7 +75,7 @@ const LoginForm = () => {
                     type="email"
                     {...field}
                     placeholder="Enter your email or phone number"
-                    value={field.value || ""}
+                    value={field.value || ''}
                   />
                 </FormControl>
                 <FormMessage />
@@ -95,7 +95,7 @@ const LoginForm = () => {
                     type="password"
                     placeholder="Enter your password"
                     {...field}
-                    value={field.value || ""}
+                    value={field.value || ''}
                   />
                 </FormControl>
                 <FormMessage />
@@ -108,7 +108,7 @@ const LoginForm = () => {
             className="mt-5 w-full py-5 "
             variant="swapnext"
           >
-            {isSubmitting ? "Login In...." : "Log In"}
+            {isSubmitting ? 'Login In....' : 'Log In'}
           </Button>
         </form>
       </Form>
@@ -122,7 +122,7 @@ const LoginForm = () => {
         </Link>
       </p>
     </div>
-  );
-};
+  )
+}
 
-export default LoginForm;
+export default LoginForm

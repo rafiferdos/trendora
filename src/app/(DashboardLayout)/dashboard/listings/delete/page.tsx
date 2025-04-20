@@ -1,11 +1,7 @@
-import React from 'react';
+import React from 'react'
 
 const DeleteListing = () => {
-    return (
-        <div>
-            delete listing page
-        </div>
-    );
-};
+  return <div>delete listing page</div>
+}
 
-export default DeleteListing;
+export default DeleteListing

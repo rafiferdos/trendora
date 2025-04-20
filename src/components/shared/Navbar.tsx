@@ -1,37 +1,37 @@
-"use client";
+'use client'
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useTheme } from "next-themes";
-import { Menu, Heart, PlusCircle, Moon, Sun } from "lucide-react";
-import { useEffect, useState } from "react";
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { useTheme } from 'next-themes'
+import { Menu, Heart, PlusCircle, Moon, Sun } from 'lucide-react'
+import { useEffect, useState } from 'react'
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { cn } from "@/lib/utils";
+} from '@/components/ui/dropdown-menu'
+import { Button } from '@/components/ui/button'
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import { cn } from '@/lib/utils'
 
 type UserType = {
-  name: string;
-  image?: string;
-};
+  name: string
+  image?: string
+}
 
 interface NavbarProps {
-  user?: UserType | null;
+  user?: UserType | null
 }
 
 export default function Navbar({ user }: NavbarProps) {
-  const pathname = usePathname();
-  const { setTheme, theme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+  const pathname = usePathname()
+  const { setTheme, theme } = useTheme()
+  const [mounted, setMounted] = useState(false)
 
-  useEffect(() => setMounted(true), []);
+  useEffect(() => setMounted(true), [])
 
   const NavLink = ({ href, label }: { href: string; label: string }) => (
     <Link
@@ -39,13 +39,13 @@ export default function Navbar({ user }: NavbarProps) {
       className={cn(
         'relative text-sm font-medium transition-colors duration-200 after:content-[""] after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:rounded-full after:w-full after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300',
         pathname === href
-          ? "text-primary after:scale-x-100 after:bg-primary"
-          : "text-muted-foreground hover:text-primary after:bg-primary/50"
+          ? 'text-primary after:scale-x-100 after:bg-primary'
+          : 'text-muted-foreground hover:text-primary after:bg-primary/50',
       )}
     >
       {label}
     </Link>
-  );
+  )
 
   return (
     <header className="sticky top-0 z-50 bg-background border-b">
@@ -82,7 +82,7 @@ export default function Navbar({ user }: NavbarProps) {
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     onClick={() => {
-                      console.log("Logout");
+                      console.log('Logout')
                     }}
                   >
                     Logout
@@ -125,13 +125,13 @@ export default function Navbar({ user }: NavbarProps) {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => setTheme("light")}>
+                <DropdownMenuItem onClick={() => setTheme('light')}>
                   Light
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setTheme("dark")}>
+                <DropdownMenuItem onClick={() => setTheme('dark')}>
                   Dark
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setTheme("system")}>
+                <DropdownMenuItem onClick={() => setTheme('system')}>
                   System
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -157,7 +157,7 @@ export default function Navbar({ user }: NavbarProps) {
                     <Link href="/dashboard">Dashboard</Link>
                     <button
                       onClick={() => {
-                        console.log("Logout");
+                        console.log('Logout')
                       }}
                     >
                       Logout
@@ -181,11 +181,11 @@ export default function Navbar({ user }: NavbarProps) {
                   <Button
                     variant="outline"
                     onClick={() =>
-                      setTheme(theme === "dark" ? "light" : "dark")
+                      setTheme(theme === 'dark' ? 'light' : 'dark')
                     }
                     className="w-full"
                   >
-                    {theme === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode"}
+                    {theme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode'}
                   </Button>
                 )}
 
@@ -198,13 +198,13 @@ export default function Navbar({ user }: NavbarProps) {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
-                    <DropdownMenuItem onClick={() => setTheme("light")}>
+                    <DropdownMenuItem onClick={() => setTheme('light')}>
                       Light
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setTheme("dark")}>
+                    <DropdownMenuItem onClick={() => setTheme('dark')}>
                       Dark
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setTheme("system")}>
+                    <DropdownMenuItem onClick={() => setTheme('system')}>
                       System
                     </DropdownMenuItem>
                   </DropdownMenuContent>
@@ -215,5 +215,5 @@ export default function Navbar({ user }: NavbarProps) {
         </div>
       </div>
     </header>
-  );
+  )
 }
