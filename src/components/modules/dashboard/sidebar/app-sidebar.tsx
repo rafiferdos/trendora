@@ -4,12 +4,9 @@ import * as React from "react"
 import {
     AudioWaveform,
     BookOpen,
-    Bot,
-    Command,
-    Frame,
-    GalleryVerticalEnd,
-    Map,
     PieChart,
+    Command,
+    GalleryVerticalEnd,
     Settings2,
     SquareTerminal,
 } from "lucide-react"
@@ -24,7 +21,6 @@ import {
 } from "@/components/ui/sidebar"
 import { TeamSwitcher } from "./team-switcher"
 import { NavMain } from "./nav-main"
-import { NavProjects } from "./nav-projects"
 import { NavUser } from "./nav-user"
 
 // This is sample data.
@@ -36,9 +32,8 @@ const data = {
     },
     teams: [
         {
-            name: "Acme Inc",
+            name: "SwapNest",
             logo: GalleryVerticalEnd,
-            plan: "Enterprise",
         },
         {
             name: "Acme Corp.",
@@ -53,106 +48,44 @@ const data = {
     ],
     navMain: [
         {
-            title: "Playground",
-            url: "#",
+            title: "Listings",
+            url: "/dashboard/listings",
             icon: SquareTerminal,
             isActive: true,
             items: [
                 {
-                    title: "History",
-                    url: "#",
+                    title: "All Listings",
+                    url: "/dashboard/listings",
                 },
                 {
-                    title: "Starred",
-                    url: "#",
+                    title: "Add Listing",
+                    url: "/dashboard/listings/add",
                 },
                 {
-                    title: "Settings",
-                    url: "#",
+                    title: "Edit Listing",
+                    url: "/dashboard/listings/edit",
                 },
+                {
+                    title: "Delete Listing",
+                    url: "/dashboard/listings/delete",
+                },
+
             ],
         },
         {
-            title: "Models",
-            url: "#",
-            icon: Bot,
-            items: [
-                {
-                    title: "Genesis",
-                    url: "#",
-                },
-                {
-                    title: "Explorer",
-                    url: "#",
-                },
-                {
-                    title: "Quantum",
-                    url: "#",
-                },
-            ],
-        },
-        {
-            title: "Documentation",
-            url: "#",
+            title: "Purchase History",
+            url: "/dashboard/purchase-history",
             icon: BookOpen,
-            items: [
-                {
-                    title: "Introduction",
-                    url: "#",
-                },
-                {
-                    title: "Get Started",
-                    url: "#",
-                },
-                {
-                    title: "Tutorials",
-                    url: "#",
-                },
-                {
-                    title: "Changelog",
-                    url: "#",
-                },
-            ],
         },
         {
-            title: "Settings",
-            url: "#",
-            icon: Settings2,
-            items: [
-                {
-                    title: "General",
-                    url: "#",
-                },
-                {
-                    title: "Team",
-                    url: "#",
-                },
-                {
-                    title: "Billing",
-                    url: "#",
-                },
-                {
-                    title: "Limits",
-                    url: "#",
-                },
-            ],
-        },
-    ],
-    projects: [
-        {
-            name: "Design Engineering",
-            url: "#",
-            icon: Frame,
-        },
-        {
-            name: "Sales & Marketing",
-            url: "#",
+            title: "Sales History",
+            url: "/dashboard/sales-history",
             icon: PieChart,
         },
         {
-            name: "Travel",
-            url: "#",
-            icon: Map,
+            title: "Profile",
+            url: "/dashboard/profile",
+            icon: Settings2,
         },
     ],
 }
@@ -165,7 +98,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </SidebarHeader>
             <SidebarContent>
                 <NavMain items={data.navMain} />
-                <NavProjects projects={data.projects} />
             </SidebarContent>
             <SidebarFooter>
                 <NavUser user={data.user} />
