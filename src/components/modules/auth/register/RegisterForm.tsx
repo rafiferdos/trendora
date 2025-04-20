@@ -54,10 +54,12 @@ const RegisterForm = () => {
   const passwordConfirm = form.watch("passwordConfirm");
 
   return (
-    <div className="border-2 border-gray-300 rounded-xl flex-grow max-w-md w-full p-5">
+    <div className="rounded-sm flex-grow max-w-md w-full p-8 shadow-lg">
       <div className="flex items-center space-x-4 ">
         <div className="w-full">
-          <h1 className="text-xl font-semibold text-center">Sign Up</h1>
+          <h1 className="text-3xl text-primary font-jost font-semibold text-center mb-14">
+            Register
+          </h1>
         </div>
       </div>
       <Form {...form}>
@@ -67,9 +69,15 @@ const RegisterForm = () => {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Full Name</FormLabel>
+                <FormLabel className="!text-primary text-md font-jost font-medium mt-2.5">
+                  Full Name
+                </FormLabel>
                 <FormControl>
-                  <Input {...field} value={field.value || ""} />
+                  <Input
+                    {...field}
+                    placeholder="Enter your full name"
+                    value={field.value || ""}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -80,9 +88,16 @@ const RegisterForm = () => {
             name="identifier"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email Address or Phone number</FormLabel>
+                <FormLabel className="!text-primary text-md font-jost font-medium mt-2.5">
+                  Email or phone number
+                </FormLabel>
                 <FormControl>
-                  <Input type="email" {...field} value={field.value || ""} />
+                  <Input
+                    type=""
+                    {...field}
+                    placeholder="Enter your email or phone number"
+                    value={field.value || ""}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -93,7 +108,9 @@ const RegisterForm = () => {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
+                <FormLabel className="!text-primary text-md font-jost font-medium mt-2.5">
+                  Password
+                </FormLabel>
                 <FormControl>
                   <Input
                     type="password"
@@ -111,11 +128,17 @@ const RegisterForm = () => {
             name="passwordConfirm"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Confirm Password</FormLabel>
+                <FormLabel className="!text-primary text-md font-jost font-medium mt-2.5 ">
+                  Confirm Password
+                </FormLabel>
                 <FormControl>
-                  <Input type="password" {...field} value={field.value || ""} />
+                  <Input
+                    type="password"
+                    {...field}
+                    placeholder="Enter your confirm password"
+                    value={field.value || ""}
+                  />
                 </FormControl>
-                <FormMessage />
                 {passwordConfirm && password !== passwordConfirm ? (
                   <FormMessage> Password does not match </FormMessage>
                 ) : (
@@ -128,15 +151,19 @@ const RegisterForm = () => {
           <Button
             // disabled={!!passwordConfirm && password !== passwordConfirm}
             type="submit"
-            className="mt-5 w-full"
+            className="mt-5 w-full py-5 "
+            variant="swapnext"
           >
-            {isSubmitting ? "Sign Uping...." : "Sign Up"}
+            {isSubmitting ? "Register In...." : "Register"}
           </Button>
         </form>
       </Form>
-      <p className="text-sm text-gray-600 text-center my-3">
+      <p className="text-primary text-sm font-jost font-medium my-3">
         Already have an account ?
-        <Link href="/login" className="text-primary">
+        <Link
+          href="/login"
+          className="text-primary text-sm font-jost font-semibold underline hover:text-secondary delay-300"
+        >
           Login
         </Link>
       </p>

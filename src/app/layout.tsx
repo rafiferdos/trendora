@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 
 const jost = Jost({
   subsets: ["latin"], // Specify the subset
-  weight: ["400", "700"], // Optional: Specify font weights
+  weight: ["200","300","400","500","600","700","800","900"], // Optional: Specify font weights
 });
 
 export const metadata: Metadata = {
