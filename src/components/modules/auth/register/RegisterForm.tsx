@@ -10,12 +10,48 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { registrationSchema } from "./registerValidation";
+import { registerUser } from "@/services/AuthService";
+import { useUser } from "@/context/UserContext";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const RegisterForm = () => {
-  const form = useForm();
-  const onSubmit = () => {};
+  const form = useForm({ resolver: zodResolver(registrationSchema) });
+  const {
+    formState: { isSubmitting },
+  } = form;
+
+  const { setIsLoading } = useUser();
+
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirectPath");
+  const router = useRouter();
+
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    try {
+      const res = await registerUser(data);
+
+      setIsLoading(true);
+      if (res?.success) {
+        alert(res?.message);
+        if (redirect) {
+          router.push(redirect);
+        } else {
+          router.push("/");
+        }
+      } else {
+        alert(res?.message);
+      }
+    } catch (error: any) {
+      console.error(error);
+    }
+  };
+
+  const password = form.watch("password");
+  const passwordConfirm = form.watch("passwordConfirm");
 
   return (
     <div className="border-2 border-gray-300 rounded-xl flex-grow max-w-md w-full p-5">
@@ -41,7 +77,7 @@ const RegisterForm = () => {
           />
           <FormField
             control={form.control}
-            name="email"
+            name="identifier"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Email Address or Phone number</FormLabel>
@@ -79,12 +115,12 @@ const RegisterForm = () => {
                 <FormControl>
                   <Input type="password" {...field} value={field.value || ""} />
                 </FormControl>
-
-                {/* {passwordConfirm && password !== passwordConfirm ? (
+                <FormMessage />
+                {passwordConfirm && password !== passwordConfirm ? (
                   <FormMessage> Password does not match </FormMessage>
                 ) : (
-                  <FormMessage /> */}
-                {/* )} */}
+                  <FormMessage />
+                )}
               </FormItem>
             )}
           />
@@ -94,8 +130,7 @@ const RegisterForm = () => {
             type="submit"
             className="mt-5 w-full"
           >
-            {/* {isSubmitting ? "Registering...." : "Register"} */}
-            Sign Up
+            {isSubmitting ? "Sign Uping...." : "Sign Up"}
           </Button>
         </form>
       </Form>

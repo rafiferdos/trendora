@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -10,12 +10,46 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { loginSchema } from "./loginValidation";
+import { loginUser } from "@/services/AuthService";
+import { Button } from "@/components/ui/button";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useUser } from "@/context/UserContext";
 
 const LoginForm = () => {
-  const form = useForm();
-  const onSubmit = () => {};
+  const form = useForm({ resolver: zodResolver(loginSchema) });
+  const {
+    formState: { isSubmitting },
+  } = form;
+
+  const {setIsLoading} = useUser()
+
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirectPath");
+  const router = useRouter();
+
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    try {
+      const res = await loginUser(data);
+      
+      setIsLoading(true)
+      if (res?.success) {
+        alert(res?.message);
+        if (redirect) {
+          router.push(redirect);
+        } else {
+          router.push("/");
+        }
+      } else {
+        alert(res?.message);
+      }
+    } catch (error: any) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="border-2 border-gray-300 rounded-xl flex-grow max-w-md w-full p-5">
@@ -28,7 +62,7 @@ const LoginForm = () => {
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
             control={form.control}
-            name="email"
+            name="identifier"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Email Address or Phone number</FormLabel>
@@ -62,8 +96,7 @@ const LoginForm = () => {
             type="submit"
             className="mt-5 w-full"
           >
-            {/* {isSubmitting ? "Registering...." : "Register"} */}
-            Sign In
+            {isSubmitting ? "Signing In...." : "Sign In"}
           </Button>
         </form>
       </Form>
