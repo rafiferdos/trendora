@@ -51,24 +51,6 @@ const data = {
       url: '/dashboard/listings',
       icon: SquareTerminal,
       isActive: true,
-      items: [
-        {
-          title: 'All Listings',
-          url: '/dashboard/listings',
-        },
-        {
-          title: 'Add Listing',
-          url: '/dashboard/listings/add',
-        },
-        {
-          title: 'Edit Listing',
-          url: '/dashboard/listings/edit',
-        },
-        {
-          title: 'Delete Listing',
-          url: '/dashboard/listings/delete',
-        },
-      ],
     },
     {
       title: 'Purchase History',
