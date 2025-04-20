@@ -53,25 +53,50 @@ export const getCurrentUser = async () => {
   }
 };
 
+// export const getNewAccessToken = async () => {
+//   try {
+//     const res = await fetch(
+//       `${process.env.NEXT_PUBLIC_BASE_API}/auth/refresh-token`,
+//       {
+//         method: "POST",
+//         credentials: "include",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//       }
+//     );
+
+//     return res.json();
+//   } catch (error: any) {
+//     console.error("Error refreshing token:", error.message);
+//     return null;
+//   }
+// };
+
 export const getNewAccessToken = async () => {
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/auth/refresh-token`,
-      {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/auth/refresh-token`, {
+      method: "POST",
+      credentials: "include", // ✅ send cookie with request
+    });
 
-    return res.json();
+    const result = await res.json();
+
+    if (res.ok) {
+      (await cookies()).set("accessToken", result.data.accessToken)
+      console.log(result)
+      return result.data.accessToken;
+    }
+
+    throw new Error(result.message);
   } catch (error: any) {
     console.error("Error refreshing token:", error.message);
     return null;
   }
 };
+
+
+
 
 export const getCurrentUserInfo = async () => {
   try {
