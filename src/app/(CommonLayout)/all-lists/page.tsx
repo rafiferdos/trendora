@@ -430,7 +430,6 @@ export default function AllListsPage() {
           )}
         </div>
       </section>
-
       {/* Results count */}
       <div className="max-w-7xl mx-auto mb-6 flex justify-between items-center">
         <p className="text-purple-100 text-lg">
@@ -470,18 +469,73 @@ export default function AllListsPage() {
         </div>
       </div>
 
-      {/* Loading state */}
+      {/* Loading state with modern animation */}
       {isLoading && (
         <div className="max-w-md mx-auto my-20 text-center">
-          <div className="relative bg-white/10 backdrop-blur-xl p-10 rounded-3xl border border-white/20 shadow-xl">
-            <div className="flex justify-center items-center">
-              <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-pink-500"></div>
+          <div className="relative bg-black/40 backdrop-blur-xl p-10 rounded-3xl border border-white/20 shadow-2xl overflow-hidden">
+            {/* Animated gradient background */}
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-600/30 via-pink-500/30 to-blue-500/30 animate-gradient-x"></div>
+
+            {/* Staggered animated dots */}
+            <div className="relative flex justify-center items-center gap-4 py-6">
+              {[0, 1, 2].map((i) => (
+                <div
+                  key={i}
+                  className={`w-4 h-4 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 animate-bounce`}
+                  style={{ animationDelay: `${i * 0.15}s` }}
+                ></div>
+              ))}
             </div>
-            <p className="text-white mt-6">Loading amazing treasures...</p>
+
+            {/* Animated glowing ring */}
+            <div className="relative flex justify-center items-center my-4">
+              <div
+                className="w-20 h-20 rounded-full border-4 border-transparent 
+                      border-t-pink-500 border-r-purple-500 border-b-blue-500
+                      animate-spin"
+              ></div>
+              <div
+                className="absolute w-14 h-14 rounded-full bg-gradient-to-br from-pink-500/80 to-purple-600/80 
+                      blur-sm animate-pulse"
+              ></div>
+              <div className="absolute">
+                <svg
+                  className="w-8 h-8 text-white animate-pulse"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+
+            <p className="text-white mt-6 font-medium">
+              <span className="inline-block animate-pulse">
+                Discovering amazing treasures
+              </span>
+              <span className="inline-block animate-bounce mx-1">.</span>
+              <span
+                className="inline-block animate-bounce mx-1"
+                style={{ animationDelay: '0.2s' }}
+              >
+                .
+              </span>
+              <span
+                className="inline-block animate-bounce mx-1"
+                style={{ animationDelay: '0.4s' }}
+              >
+                .
+              </span>
+            </p>
           </div>
         </div>
       )}
-
       {/* Error state */}
       {error && (
         <div className="max-w-md mx-auto my-20 text-center relative">
@@ -500,7 +554,6 @@ export default function AllListsPage() {
           </div>
         </div>
       )}
-
       {/* Listings grid with colorful cards */}
       {!isLoading && !error && (
         <section className="max-w-7xl mx-auto pb-20">
@@ -567,7 +620,6 @@ export default function AllListsPage() {
           )}
         </section>
       )}
-
       {/* Empty state with vibrant design */}
       {!isLoading && !error && filteredListings.length === 0 && (
         <div className="max-w-md mx-auto my-20 text-center relative">
