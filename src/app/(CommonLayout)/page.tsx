@@ -1,22 +1,22 @@
-"use client";
-import { Button } from "@/components/ui/button";
-import { protectedRoutes } from "@/constants";
-import { useUser } from "@/context/UserContext";
-import { logout } from "@/services/AuthService";
-import { usePathname, useRouter } from "next/navigation";
+'use client'
+import { Button } from '@/components/ui/button'
+import { protectedRoutes } from '@/constants'
+import { useUser } from '@/context/UserContext'
+import { logout } from '@/services/AuthService'
+import { usePathname, useRouter } from 'next/navigation'
 
 const Homepage = () => {
-  const { user, setIsLoading } = useUser();
-  console.log(user);
-  const pathname = usePathname();
-  const router = useRouter();
+  const { user, setIsLoading } = useUser()
+  console.log(user)
+  const pathname = usePathname()
+  const router = useRouter()
   const handleLogOut = () => {
-    logout();
-    setIsLoading(true);
+    logout()
+    setIsLoading(true)
     if (protectedRoutes.some((route) => pathname.match(route))) {
-      router.push("/");
+      router.push('/')
     }
-  };
+  }
 
   return (
     <div>
@@ -24,7 +24,7 @@ const Homepage = () => {
       <Button>Click me</Button>
       <Button onClick={handleLogOut}>Log Out</Button>
     </div>
-  );
-};
+  )
+}
 
-export default Homepage;
+export default Homepage

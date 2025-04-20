@@ -1,6 +1,6 @@
-"use client";
+'use client'
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
@@ -8,50 +8,50 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { registrationSchema } from "./registerValidation";
-import { registerUser } from "@/services/AuthService";
-import { useUser } from "@/context/UserContext";
-import { useRouter, useSearchParams } from "next/navigation";
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { zodResolver } from '@hookform/resolvers/zod'
+import Link from 'next/link'
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
+import { registrationSchema } from './registerValidation'
+import { registerUser } from '@/services/AuthService'
+import { useUser } from '@/context/UserContext'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 const RegisterForm = () => {
-  const form = useForm({ resolver: zodResolver(registrationSchema) });
+  const form = useForm({ resolver: zodResolver(registrationSchema) })
   const {
     formState: { isSubmitting },
-  } = form;
+  } = form
 
-  const { setIsLoading } = useUser();
+  const { setIsLoading } = useUser()
 
-  const searchParams = useSearchParams();
-  const redirect = searchParams.get("redirectPath");
-  const router = useRouter();
+  const searchParams = useSearchParams()
+  const redirect = searchParams.get('redirectPath')
+  const router = useRouter()
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
-      const res = await registerUser(data);
+      const res = await registerUser(data)
 
-      setIsLoading(true);
+      setIsLoading(true)
       if (res?.success) {
-        alert(res?.message);
+        alert(res?.message)
         if (redirect) {
-          router.push(redirect);
+          router.push(redirect)
         } else {
-          router.push("/");
+          router.push('/')
         }
       } else {
-        alert(res?.message);
+        alert(res?.message)
       }
     } catch (error: any) {
-      console.error(error);
+      console.error(error)
     }
-  };
+  }
 
-  const password = form.watch("password");
-  const passwordConfirm = form.watch("passwordConfirm");
+  const password = form.watch('password')
+  const passwordConfirm = form.watch('passwordConfirm')
 
   return (
     <div className="rounded-sm flex-grow max-w-md w-full p-8 shadow-lg">
@@ -76,7 +76,7 @@ const RegisterForm = () => {
                   <Input
                     {...field}
                     placeholder="Enter your full name"
-                    value={field.value || ""}
+                    value={field.value || ''}
                   />
                 </FormControl>
                 <FormMessage />
@@ -96,7 +96,7 @@ const RegisterForm = () => {
                     type=""
                     {...field}
                     placeholder="Enter your email or phone number"
-                    value={field.value || ""}
+                    value={field.value || ''}
                   />
                 </FormControl>
                 <FormMessage />
@@ -116,7 +116,7 @@ const RegisterForm = () => {
                     type="password"
                     placeholder="Enter your password"
                     {...field}
-                    value={field.value || ""}
+                    value={field.value || ''}
                   />
                 </FormControl>
                 <FormMessage />
@@ -136,7 +136,7 @@ const RegisterForm = () => {
                     type="password"
                     {...field}
                     placeholder="Enter your confirm password"
-                    value={field.value || ""}
+                    value={field.value || ''}
                   />
                 </FormControl>
                 {passwordConfirm && password !== passwordConfirm ? (
@@ -154,7 +154,7 @@ const RegisterForm = () => {
             className="mt-5 w-full py-5 "
             variant="swapnext"
           >
-            {isSubmitting ? "Register In...." : "Register"}
+            {isSubmitting ? 'Register In....' : 'Register'}
           </Button>
         </form>
       </Form>
@@ -168,7 +168,7 @@ const RegisterForm = () => {
         </Link>
       </p>
     </div>
-  );
-};
+  )
+}
 
-export default RegisterForm;
+export default RegisterForm
