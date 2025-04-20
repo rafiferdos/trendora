@@ -76,7 +76,7 @@ export function DataTable<TData, TValue>({
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="text-center">
-                No results found.
+                No listings product found.
               </TableCell>
             </TableRow>
           )}

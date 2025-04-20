@@ -37,3 +37,22 @@ export const addListingItem = async (listingData: Record<string, any>): Promise<
     return Error(error);
   }
 };
+
+//for the delete service
+export const deleteListingItem = async (id: string): Promise<any> => {
+  try {
+    const res = await fetch(`http://localhost:5000/api/v1/listings/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "x-user-id": "test-user-123",    // mocked userId
+        "x-user-role": "user",           // or "admin" if you want admin permissions
+      },
+    });
+
+    revalidateTag("LISTINGS");
+    return res.json();
+  } catch (error: any) {
+    return Error(error);
+  }
+};

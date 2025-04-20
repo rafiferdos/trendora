@@ -19,7 +19,10 @@ export default function DashboardPage() {
     const fetchData = async () => {
       try {
         const listings = await getListings();
-        const data = listings?.data;
+        const data = listings?.data.filter(item => {
+          const userId = item.userID?._id;
+          return userId.toString() === "6800a9d71b7bd924a31cbfa6";
+        });
         setData(data);
       } catch (error) {
         console.error("Error fetching listings", error);
@@ -36,9 +39,9 @@ export default function DashboardPage() {
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-semibold">Your Listings</h2>
         <Link href="/dashboard/user/listings/create-listing">
-          <Button>
+          <Button className="cursor-pointer">
             <Plus className="mr-2 h-4 w-4" />
-            Create Product
+            Create Listings
           </Button>
         </Link>
       </div>

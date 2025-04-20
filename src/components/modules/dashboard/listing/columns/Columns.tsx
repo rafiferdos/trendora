@@ -60,11 +60,12 @@ export const columns: ColumnDef<TListing>[] = [
       return (
         <div className="flex gap-2">
           <Link href={`/dashboard/edit/${listing.id}`}>
-            <Button variant="outline" size="icon">
+            <Button variant="outline" size="icon" className="cursor-pointer">
               <Pencil className="h-4 w-4" />
             </Button>
           </Link>
           <Button
+            className="cursor-pointer"
             variant="destructive"
             size="icon"
             onClick={() => {

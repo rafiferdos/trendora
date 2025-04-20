@@ -53,28 +53,6 @@ export enum ListingLocation {
   OTHER = "Other",
 }
 
-// ==================== LISTING TYPES ====================
-// export interface IListing  {
-//   title: string;
-//   description: string;
-//   price: number;
-//   condition: ListingCondition;
-//   images: string[];
-//   userID: object;
-//   status?: ListingStatus;
-//   isDeleted?: boolean;
-//   category: ListingCategory;
-//   location: ListingLocation;
-//   customLocation?: string;
-//   createdAt: Date;
-//   updatedAt: Date;
-// }
-
-// export type TListing = Omit<
-//   IListing,
-//   "createdAt" | "updatedAt" | "status" | "userID"
-// >;
-
 export type TListing= {
   id: string;
   images: string[];       // Array of image URLs
@@ -84,8 +62,14 @@ export type TListing= {
   condition: string;
   location: string;
   status: string;
+  userID: TUser;
 };
 
+export type TUser ={
+  _id: string;
+  email: string;
+  name: string;
+}
 export type ApiResponse<T> = {
   success: boolean;
   message: string;

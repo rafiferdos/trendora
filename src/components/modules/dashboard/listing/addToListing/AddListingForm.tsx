@@ -77,14 +77,13 @@ export default function AddListingForm() {
       (image: { value: string }) => image.value
     );
 
-    // console.log({ availableImages });
-
     const modifiedData = {
       ...data,
       images,
       price: parseFloat(data.price),
+      userID: '6800a9d71b7bd924a31cbfa6'
     };
-    console.log("modifiedData:", modifiedData);
+    // console.log("modifiedData:", modifiedData);
 
     try {
       const res = await addListingItem(modifiedData);
@@ -94,6 +93,7 @@ export default function AddListingForm() {
         router.push("/dashboard/user/listings");
       } else {
         toast.error(res.message);
+        console.log(res.message);
       }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
