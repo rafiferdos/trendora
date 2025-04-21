@@ -1,19 +1,18 @@
-
-import { AppSidebar } from "@/components/modules/dashboard/sidebar/app-sidebar";
+import { AppSidebar } from '@/components/modules/dashboard/sidebar/app-sidebar'
 import {
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    BreadcrumbList,
-    BreadcrumbPage,
-    BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
-import { Separator } from "@/components/ui/separator"
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb'
+import { Separator } from '@/components/ui/separator'
 import {
-    SidebarInset,
-    SidebarProvider,
-    SidebarTrigger,
-} from "@/components/ui/sidebar"
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from '@/components/ui/sidebar'
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
     return (
@@ -56,4 +55,4 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
     );
 };
 
-export default DashboardLayout;
+export default DashboardLayout
