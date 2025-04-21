@@ -1,4 +1,5 @@
 "use server"
+import { getValidToken } from "@/lib/verifyToken";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ApiResponse, TListing } from "@/types/listings/listing";
 import { revalidateTag } from "next/cache";
@@ -7,10 +8,15 @@ import { cookies } from "next/headers";
 
 
 export async function getListings(): Promise<ApiResponse<TListing[]>> {
+  const token = await getValidToken()
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/listings`, {
     next: {
       tags: ["LISTINGS"],
     },
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    }
   });
 
   if (!res.ok) {
@@ -22,10 +28,11 @@ export async function getListings(): Promise<ApiResponse<TListing[]>> {
 
 // single fetch data by id
 export const getSingleListing = async (id: string): Promise<ApiResponse<TListing>> => {
+  const token = await getValidToken()
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/listings/${id}`, {
     method: "GET",
     headers: {
-      Authorization: `Bearer ${(await cookies()).get("accessToken")?.value}`, 
+      Authorization: `Bearer ${token}`, 
     },
   });
   if (!res.ok) {
@@ -37,12 +44,14 @@ export const getSingleListing = async (id: string): Promise<ApiResponse<TListing
 
 //Add Listing - sends raw JSON
 export const addListingItem = async (listingData: Record<string, any>): Promise<any> => {
+  
   try {
+    const token = await getValidToken()
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/listings`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${(await cookies()).get("accessToken")?.value}`, // if needed
+        Authorization: `Bearer ${token}`, // if needed
       },
       body: JSON.stringify(listingData),
     });
@@ -59,11 +68,12 @@ export const updateListingItem = async (
   updatedData: Partial<TListing>
 ): Promise<any> => {
   try {
+    const token = await getValidToken()
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/listings/${id}`, {
       method: "PUT", 
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${(await cookies()).get("accessToken")?.value}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(updatedData),
     });
@@ -84,11 +94,12 @@ export const updateListingItem = async (
 export const deleteListingItem = async (id: string): Promise<any> => {
   console.log(id);
   try {
+    const token = await getValidToken()
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/listings/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${(await cookies()).get("accessToken")?.value}`,
+        Authorization: `Bearer ${token}`,
       },
     });
 

@@ -54,8 +54,8 @@ export enum ListingLocation {
 }
 
 export type TListing= {
-  id: string;
-  images: string[];       // Array of image URLs
+  _id: string;
+  images: string[];
   title: string;
   price: number;
   category: string;
@@ -63,6 +63,7 @@ export type TListing= {
   location: string;
   status: string;
   userID: TUser;
+  data: TUser;
 };
 
 export type TUser ={
@@ -75,3 +76,4 @@ export type ApiResponse<T> = {
   message: string;
   data: T;
 };
+

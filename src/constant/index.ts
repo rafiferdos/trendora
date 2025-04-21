@@ -1,4 +1,4 @@
-import { ListingCategory, ListingCondition } from "@/types/listings/listing";
+import { ListingCategory, ListingCondition, ListingLocation, ListingStatus } from "@/types/listings/listing";
 
 
 export const categoriesArray: ListingCategory[] = [
@@ -35,4 +35,21 @@ export const conditionArray: ListingCondition[] = [
   ListingCondition.GOOD,
   ListingCondition.FAIR,
   ListingCondition.POOR
+]
+
+export const statusArray: ListingStatus[] = [
+  ListingStatus.AVAILABLE,
+  ListingStatus.SOLD
+]
+
+export const locationArray: ListingLocation[] = [
+  ListingLocation.BARISAL,
+  ListingLocation.CHATTOGRAM,
+  ListingLocation.DHAKA,
+  ListingLocation.KHULNA,
+  ListingLocation.MYMENSINGH,
+  ListingLocation.RAJSHAHI,
+  ListingLocation.RANGPUR,
+  ListingLocation.SYLHET,
+  ListingLocation.OTHER,
 ]
