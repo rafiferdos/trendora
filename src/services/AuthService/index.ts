@@ -33,14 +33,15 @@ export const loginUser = async (userData: FieldValues) => {
       body: JSON.stringify(userData),
     });
     const result = await res.json();
-    if ((await cookies()).set("accessToken", result.data.accessToken))
+    if (
+      ((await cookies()).set("accessToken", result.data.accessToken),
+      (await cookies()).set("refreshToken", result.data.refreshToken))
+    )
       return result;
   } catch (error: any) {
     Error(error);
   }
 };
-
-// Import js-cookie for cookie management
 
 export const getCurrentUser = async () => {
   const accessToken = (await cookies()).get("accessToken")?.value;
@@ -52,51 +53,6 @@ export const getCurrentUser = async () => {
     return null;
   }
 };
-
-// export const getNewAccessToken = async () => {
-//   try {
-//     const res = await fetch(
-//       `${process.env.NEXT_PUBLIC_BASE_API}/auth/refresh-token`,
-//       {
-//         method: "POST",
-//         credentials: "include",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//       }
-//     );
-
-//     return res.json();
-//   } catch (error: any) {
-//     console.error("Error refreshing token:", error.message);
-//     return null;
-//   }
-// };
-
-export const getNewAccessToken = async () => {
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/auth/refresh-token`, {
-      method: "POST",
-      credentials: "include", // ✅ send cookie with request
-    });
-
-    const result = await res.json();
-
-    if (res.ok) {
-      (await cookies()).set("accessToken", result.data.accessToken)
-      console.log(result)
-      return result.data.accessToken;
-    }
-
-    throw new Error(result.message);
-  } catch (error: any) {
-    console.error("Error refreshing token:", error.message);
-    return null;
-  }
-};
-
-
-
 
 export const getCurrentUserInfo = async () => {
   try {
@@ -175,4 +131,25 @@ export const getCurrentUserInfo = async () => {
 
 export const logout = async () => {
   (await cookies()).delete("accessToken");
+};
+
+export const getNewAccessToken = async () => {
+  try {
+    const refreshToken = (await cookies()).get("refreshToken")?.value;
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/auth/refresh-token`,
+      {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${refreshToken}`,
+        },
+      }
+    );
+    return res.json();
+  } catch (error: any) {
+    console.error("Error refreshing token:", error.message);
+    return null;
+  }
 };

@@ -1,7 +1,5 @@
-
-
+"use server";
 import { Button } from "@/components/ui/button";
-import { getNewAccessToken } from "@/services/AuthService";
 
 // import { protectedRoutes } from "@/constants";
 // import { useUser } from "@/context/UserContext";
@@ -9,8 +7,6 @@ import { getNewAccessToken } from "@/services/AuthService";
 // import { usePathname, useRouter } from "next/navigation";
 
 const Homepage = () => {
-  const newToken = getNewAccessToken()
- console.log(newToken)
   // const { user, setIsLoading } = useUser();
   // console.log(user);
   // const pathname = usePathname();
