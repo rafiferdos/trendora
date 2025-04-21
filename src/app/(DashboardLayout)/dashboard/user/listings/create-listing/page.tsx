@@ -3,7 +3,7 @@ import ListingForm from "@/components/modules/dashboard/listing/addToListing/Lis
 
 const CreateListingPage = () => {
   return (
-    <div>
+    <div className="flex justify-center items-center py-24">
       <ListingForm></ListingForm>
     </div>
   );

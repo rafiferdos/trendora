@@ -1,3 +1,4 @@
+"use client"
 import ListingForm from '@/components/modules/dashboard/listing/addToListing/ListingForm';
 import { getSingleListing } from '@/services/listings';
 import { useParams } from 'next/navigation';
@@ -7,7 +8,7 @@ import Skeleton from 'react-loading-skeleton';
 import { toast } from 'sonner';
 
 const ListingEditPage = () => {
-  const { listingId }: {listingId: string} = useParams()
+  const { listingId }: { listingId: string } = useParams()
 
   const [listingData, setListingData] = useState<Partial<FieldValues>>({})
   const [loading, setLoading] = useState(true)
@@ -23,6 +24,7 @@ const ListingEditPage = () => {
         }
       } catch (error) {
         console.error(error)
+        toast.error('Something went wrong!')
       } finally {
         setLoading(false)
       }
@@ -33,9 +35,9 @@ const ListingEditPage = () => {
 
   if (loading) {
     return (
-      <div className="space-y-2">
+      <div className="space-y-2 text-center flex justify-center items-center">
                 <p className="text-muted-foreground text-sm">
-                  Loading the listing...
+                  Loading The listing...
                 </p>
                 <Skeleton
                   count={10}
@@ -47,7 +49,13 @@ const ListingEditPage = () => {
     )
   }
 
-  return listingData && <ListingForm initialData={listingData} isEditMode />
+  return (
+    listingData && (
+      <div className='flex justify-center items-center py-24'>
+        <ListingForm initialData={listingData} isEditMode />
+      </div>
+    )
+  )
 
 };
 

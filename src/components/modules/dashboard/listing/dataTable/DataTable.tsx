@@ -23,13 +23,15 @@ import { useState } from "react";
 type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  error: string;
 };
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  error,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState<SortingState>([]);
+  const [sorting, setSorting] = useState<SortingState>([])
 
   const table = useReactTable({
     data,
@@ -40,7 +42,7 @@ export function DataTable<TData, TValue>({
     state: {
       sorting,
     },
-  });
+  })
 
   return (
     <div className="rounded-md border">
@@ -53,9 +55,12 @@ export function DataTable<TData, TValue>({
                   <TableHead key={header.id} className="text-sm font-bold">
                     {header.isPlaceholder
                       ? null
-                      : flexRender(header.column.columnDef.header, header.getContext())}
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
                   </TableHead>
-                );
+                )
               })}
             </TableRow>
           ))}
@@ -75,12 +80,13 @@ export function DataTable<TData, TValue>({
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="text-center">
-                No listings product found.
+                  {error}
+                  {table.getRowModel().rows?.length === 0 ? "You don't have any listing product. Please create listing to sell..!" : ""}
               </TableCell>
             </TableRow>
           )}
         </TableBody>
       </Table>
     </div>
-  );
+  )
 }
