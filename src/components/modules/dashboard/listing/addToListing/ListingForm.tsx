@@ -54,18 +54,20 @@ export default function ListingForm({
   const [statuses] = useState<ListingStatus[]>(statusArray)
   const [locations] = useState<string[]>(locationArray)
 
-  const [selectedLocation, setSelectedLocation] = useState<string>('Dhaka') // for edit mode only
+  const [selectedLocation, setSelectedLocation] = useState<string>(
+    isEditMode && initialData?.location === 'Other' ? 'Other' : '',
+  )
 
   const form = useForm<FieldValues>({
     defaultValues: {
       title: initialData?.title || '',
       description: initialData?.description || '',
       price: initialData?.price?.toString() || '',
-      category: initialData?.category || 'mobile',
-      condition: initialData?.condition || 'good',
-      location: initialData?.location || 'Dhaka',
-      // customLocation: initialData?.customLocation || '',
-      status: initialData?.status || undefined, 
+      category: initialData?.category || '',
+      condition: initialData?.condition || '',
+      location: initialData?.location || '',
+      ...(initialData?.location === "Other" && {customLocation: initialData?.customLocation}),
+      ...(isEditMode && {status: initialData?.status}),
       images: initialData?.images?.map((url: string) => ({ value: url })) || [
         { value: '' },
       ],
@@ -86,14 +88,18 @@ export default function ListingForm({
   const addImage = () => appendImage({ value: '' })
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    const images = data.images.map((img: { value: string }) => img.value)
+    const images = data.images
+      .map((img: { value: string }) => img.value)
+      .filter((url: string ) => url.trim() !== '')
+
 
     const payload = {
       ...data,
       images,
       price: parseFloat(data.price),
+      ...(data?.location === "Other" && {customLocation: data?.customLocation})
     }
-
+console.log({payload});
     try {
       let res
       if (isEditMode && initialData?._id) {
@@ -104,7 +110,7 @@ export default function ListingForm({
 
       if (res.success) {
         toast.success(res.message)
-        router.push('/user/dashboard/listings')
+        router.push('/dashboard/user/listings')
       } else {
         toast.error(res.message)
       }
@@ -254,7 +260,7 @@ export default function ListingForm({
                 name="customLocation"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Custom Location</FormLabel>
+                    <FormLabel>Any Location</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
