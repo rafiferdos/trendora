@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from 'next/link'
 
 const Footer = () => {
   return (
@@ -140,7 +140,7 @@ const Footer = () => {
                 <p>123 Business Ave</p>
                 <p>San Francisco, CA 94107</p>
                 <p className="mt-2">
-                  Email:{" "}
+                  Email:{' '}
                   <Link
                     href="mailto:swapnest@gmail.com"
                     className="text-white hover:text-secondary transition"
@@ -149,7 +149,7 @@ const Footer = () => {
                   </Link>
                 </p>
                 <p>
-                  Phone:{" "}
+                  Phone:{' '}
                   <Link
                     href="tel:+880123548791"
                     className="text-white hover:text-secondary transition"
@@ -163,14 +163,14 @@ const Footer = () => {
 
           <div className="border-t border-gray-400 pt-6 flex flex-col md:flex-row justify-between items-center">
             <p className="text-white text-sm mb-4 md:mb-0 mx-auto">
-              Copyright ©2025 All rights reserved{" "}
+              Copyright ©2025 All rights reserved{' '}
               <span className="text-secondary">SwapNest</span>
             </p>
           </div>
         </div>
       </footer>
     </div>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer

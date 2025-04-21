@@ -1,11 +1,7 @@
-import React from 'react';
+import React from 'react'
 
 const AllListing = () => {
-    return (
-        <div>
-            All Listings page
-        </div>
-    );
-};
+  return <div>All Listings page</div>
+}
 
-export default AllListing;
+export default AllListing

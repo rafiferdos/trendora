@@ -1,11 +1,7 @@
-import React from 'react';
+import React from 'react'
 
 const PurchaseHistory = () => {
-    return (
-        <div>
-            purchase history page
-        </div>
-    );
-};
+  return <div>purchase history page</div>
+}
 
-export default PurchaseHistory;
+export default PurchaseHistory
