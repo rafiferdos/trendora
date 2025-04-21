@@ -1,8 +1,9 @@
 'use client'
+
 import { Button } from '@/components/ui/button'
 import { protectedRoutes } from '@/constants'
 import { useUser } from '@/context/UserContext'
-import { logout } from '@/services/AuthService'
+import { getCurrentUserInfo, logout } from '@/services/AuthService'
 import { usePathname, useRouter } from 'next/navigation'
 
 const Homepage = () => {

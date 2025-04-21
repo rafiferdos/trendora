@@ -1,9 +1,9 @@
-import type { Metadata } from 'next'
-import { Geist, Geist_Mono, Jost } from 'next/font/google'
-import './globals.css'
-import { ThemeProvider } from '@/components/themeProvider/theme-provider'
-import Providers from '@/providers/Providers'
-
+import type { Metadata } from "next";
+import { Geist, Geist_Mono, Jost } from "next/font/google";
+import "./globals.css";
+import { ThemeProvider } from "@/components/themeProvider/theme-provider";
+import { Toaster } from 'sonner';
+import Providers from "@/providers/Providers";
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
@@ -34,17 +34,17 @@ export default function RootLayout({
       <html lang="en" suppressHydrationWarning>
         <body
           className={`${geistSans.className} ${geistMono.className} ${jost.className} antialiased`}
-        >
-          <ThemeProvider
+        ><ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
           >
-            {children}
-          </ThemeProvider>
-        </body>
-      </html>
+          {children}
+          <Toaster position="top-center" richColors />
+        </ThemeProvider>
+      </body>
+    </html >
     </Providers>
-  )
+  );
 }
