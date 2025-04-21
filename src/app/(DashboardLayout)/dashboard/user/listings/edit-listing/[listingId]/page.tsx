@@ -51,7 +51,7 @@ const ListingEditPage = () => {
 
   return (
     listingData && (
-      <div className='flex justify-center items-center'>
+      <div className='flex justify-center items-center py-24'>
         <ListingForm initialData={listingData} isEditMode />
       </div>
     )

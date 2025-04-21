@@ -12,6 +12,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { getCurrentUser } from "@/services/AuthService";
 import { getColumns } from "@/components/modules/dashboard/listing/columns/Columns";
+import { useUser } from "@/context/UserContext";
 
 
 
@@ -20,6 +21,7 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [error, serError] = useState('')
   const [role, setRole] = useState('')
+  const {user}  = useUser()
 
   
   useEffect(() => {
@@ -70,7 +72,7 @@ export default function DashboardPage() {
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-semibold">
           {role === "admin" ? "All" : "Your"} Listings : Mr/s{' '}
-          {role === 'admin' ? 'Admin' : data[0].userID?.name}
+          {role === 'admin' ? 'Admin' : data[0]?.userID?.name || user?.data?.name}
         </h2>
         {role === 'admin' ? (
           ''
