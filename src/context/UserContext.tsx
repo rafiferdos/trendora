@@ -27,7 +27,7 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
     setUser(user)
     setIsLoading(false)
   }
-
+ 
   useEffect(() => {
     handleUser()
   }, [isLoading])
