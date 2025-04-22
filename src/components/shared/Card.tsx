@@ -1,8 +1,10 @@
 import Image from 'next/image'
-import React from 'react'
-import { FiHeart, FiStar, FiShoppingBag } from 'react-icons/fi'
+import Link from 'next/link'
+import { FiHeart, FiShoppingBag, FiStar } from 'react-icons/fi'
 
 interface CardProps {
+  id?: string
+  _id: string
   title: string
   price: number
   condition: string
@@ -14,6 +16,8 @@ interface CardProps {
 }
 
 export default function Card({
+  id,
+  _id,
   title,
   price,
   condition,
@@ -23,6 +27,7 @@ export default function Card({
     text: 'text-gray-800 dark:text-white',
   },
 }: CardProps) {
+  const productId = id || _id
   // Determine condition badge color
   const conditionBadge =
     {
@@ -31,6 +36,8 @@ export default function Card({
       fair: 'bg-amber-500 text-white',
       poor: 'bg-rose-500 text-white',
     }[condition.toLowerCase()] || 'bg-gray-500 text-white'
+
+  console.log(_id)
 
   return (
     <div
@@ -83,7 +90,9 @@ export default function Card({
           </p>
 
           <button className="rounded-lg px-3 py-1.5 bg-white/20 text-sm font-medium text-white hover:bg-white/30 transition-all">
-            View Details
+            <Link href={`/product/${productId}`} className="...">
+              View Product
+            </Link>
           </button>
         </div>
       </div>

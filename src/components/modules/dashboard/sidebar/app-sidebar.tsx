@@ -9,6 +9,10 @@ import {
   GalleryVerticalEnd,
   Settings2,
   SquareTerminal,
+  Home,
+  ShoppingCart,
+  Heart,
+  Package
 } from 'lucide-react'
 
 import {
@@ -21,41 +25,59 @@ import {
 import { TeamSwitcher } from './team-switcher'
 import { NavMain } from './nav-main'
 import { NavUser } from './nav-user'
+import { motion } from 'framer-motion'
 
-// This is sample data.
+// Updated data with more vibrant icons and options
 const data = {
   user: {
-    name: 'shadcn',
-    email: 'm@example.com',
-    avatar: '/avatars/shadcn.jpg',
+    name: 'SwapNest User',
+    email: 'user@swapnest.com',
+    avatar: '/avatars/user.jpg',
   },
   teams: [
     {
       name: 'SwapNest',
       logo: GalleryVerticalEnd,
+      plan: 'Pro',
     },
     {
-      name: 'Acme Corp.',
-      logo: AudioWaveform,
-      plan: 'Startup',
+      name: 'Market Hub',
+      logo: ShoppingCart,
+      plan: 'Business',
     },
     {
-      name: 'Evil Corp.',
+      name: 'Trading Co.',
       logo: Command,
       plan: 'Free',
     },
   ],
   navMain: [
     {
-      title: 'Listings',
-      url: '/dashboard/listings',
-      icon: SquareTerminal,
+      title: 'Dashboard',
+      url: '/dashboard',
+      icon: Home,
       isActive: true,
+    },
+    {
+      title: 'Listings',
+      url: '/dashboard/user/listings',
+      icon: Package,
+      isActive: true,
+      items: [
+        {
+          title: 'All Listings',
+          url: '/dashboard/user/listings',
+        },
+        {
+          title: 'Create New',
+          url: '/dashboard/user/listings/create-listing',
+        },
+      ]
     },
     {
       title: 'Purchase History',
       url: '/dashboard/purchase-history',
-      icon: BookOpen,
+      icon: ShoppingCart,
     },
     {
       title: 'Sales History',
@@ -63,8 +85,13 @@ const data = {
       icon: PieChart,
     },
     {
-      title: 'Profile',
-      url: '/dashboard/profile',
+      title: 'Wishlist',
+      url: '/dashboard/wishlist',
+      icon: Heart,
+    },
+    {
+      title: 'Settings',
+      url: '/dashboard/settings',
       icon: Settings2,
     },
   ],
@@ -72,17 +99,21 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar collapsible="icon" {...props}>
-      <SidebarHeader>
+    <Sidebar 
+      collapsible="icon" 
+      className="bg-gradient-to-b from-gray-900/80 to-purple-950/80 backdrop-blur-xl border-r border-white/10"
+      {...props}
+    >
+      <SidebarHeader className="border-b border-white/10 pb-2">
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
       </SidebarContent>
-      <SidebarFooter>
+      <SidebarFooter className="border-t border-white/10 pt-2">
         <NavUser user={data.user} />
       </SidebarFooter>
-      <SidebarRail />
+      <SidebarRail className="bg-white/5 backdrop-blur-xl" />
     </Sidebar>
   )
 }
