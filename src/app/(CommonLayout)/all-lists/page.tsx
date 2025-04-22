@@ -97,7 +97,7 @@ export default function AllListsPage() {
   const [filterPriceRange, setFilterPriceRange] = useState<{
     min: number
     max: number
-  }>({ min: 0, max: 10000 })
+  }>({ min: 0, max: 10000000 })
 
   // Create array of categories from enum
   const categories = Object.values(ListingCategory)
@@ -117,10 +117,18 @@ export default function AllListsPage() {
         if (!listingsResponse.ok) throw new Error('Failed to fetch listings')
         const listingsData = await listingsResponse.json()
 
+        console.log('API Response Data:', listingsData)
+        console.log('Total listings received:', listingsData.data.length)
+
+        // Make sure we're getting an array and it's not empty
+        if (!Array.isArray(listingsData.data)) {
+          throw new Error('Invalid data format received')
+        }
+
         setListings(listingsData.data)
         setFilteredListings(listingsData.data)
       } catch (error) {
-        console.error(error)
+        console.error('Error fetching listings:', error)
         setError('Failed to load data. Please try again later.')
       } finally {
         setIsLoading(false)
@@ -132,7 +140,10 @@ export default function AllListsPage() {
 
   // Apply filters when any filter parameter changes
   useEffect(() => {
+    // Start with a fresh copy of all listings
     let result = [...listings]
+
+    console.log('Starting filter with', listings.length, 'listings')
 
     // Filter by search query
     if (searchQuery) {
@@ -229,7 +240,7 @@ export default function AllListsPage() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 px-4 py-8 md:px-8">
       {/* Main content layout with flex */}
-      <div className="flex flex-col lg:flex-row-reverse gap-16">
+      <div className="flex flex-col lg:flex-row">
         {/* Left side content area (70% width) */}
         <div className="w-full lg:w-[70%] lg:pr-8">
           {/* Results count */}
@@ -369,7 +380,7 @@ export default function AllListsPage() {
 
                     return (
                       <div
-                        key={item._id}
+                        key={item._id || index}
                         className="transform hover:scale-105 transition-transform duration-300"
                       >
                         <Card
@@ -393,7 +404,7 @@ export default function AllListsPage() {
 
                     return (
                       <div
-                        key={item._id}
+                        key={item._id || index}
                         className={`${colorScheme.bg} ${colorScheme.text} rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 flex`}
                       >
                         <div className="w-32 h-32 md:w-48 md:h-48">
@@ -420,7 +431,7 @@ export default function AllListsPage() {
                               {item.condition}
                             </span>
                           </div>
-                          <button className="mt-4 px-4 py-2 bg-white/20 rounded-lg text-white font-medium hover:from-pink-600 hover:to-purple-700 transition-all duration-800">
+                          <button className="mt-4 px-4 py-2 bg-white/20 rounded-lg text-white font-medium hover:bg-white/20 transition-all duration-300">
                             <Link href={`/product/${item._id}`}>
                               View Details
                             </Link>
