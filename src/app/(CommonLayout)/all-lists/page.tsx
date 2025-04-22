@@ -1,7 +1,7 @@
 'use client'
 
+import SanitizedImage from '@/components/shared/SanitizedImage'
 import dynamic from 'next/dynamic'
-import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import {
@@ -408,7 +408,7 @@ export default function AllListsPage() {
                         className={`${colorScheme.bg} ${colorScheme.text} rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 flex`}
                       >
                         <div className="w-32 h-32 md:w-48 md:h-48">
-                          <Image
+                          <SanitizedImage
                             src={item.images?.[0] || '/placeholder.jpg'}
                             alt={item.title}
                             className="w-full h-full object-cover"
