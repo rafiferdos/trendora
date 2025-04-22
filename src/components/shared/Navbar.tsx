@@ -76,10 +76,28 @@ export default function Navbar({ user }: NavbarProps) {
     <header className="sticky top-0 z-50 bg-gradient-to-r from-white/70 to-white/30 dark:from-gray-900/70 dark:to-gray-900/30 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 shadow-sm">
       <div className="container mx-auto flex items-center justify-between px-6 py-4">
         <Link href="/" className="flex items-center gap-2">
-          <ShoppingBag className="h-7 w-7 text-primary" />
-          <span className="text-xl font-extrabold tracking-tight">
-            SwapNest
-          </span>
+        <div className="flex items-center">
+                <div className="bg-gradient-to-r from-pink-500 to-violet-600 p-2.5 rounded-lg shadow-lg shadow-purple-500/30">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12 2L19 6V18L12 22L5 18V6L12 2Z"
+                      stroke="white"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </div>
+                <span className="ml-3 text-2xl font-bold bg-gradient-to-r from-white via-purple-200 to-pink-100 text-transparent bg-clip-text">
+                  SwapNest
+            </span>
+              </div>
         </Link>
 
         {/* Desktop */}
