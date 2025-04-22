@@ -1,9 +1,9 @@
 "use server"
-import { getValidToken } from "@/lib/verifyToken";
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { getValidToken } from "@/lib/verifyToken";
 import { ApiResponse, TListing } from "@/types/listings/listing";
 import { revalidateTag } from "next/cache";
-import { cookies } from "next/headers";
+
 
 
 
@@ -18,11 +18,6 @@ export async function getListings(): Promise<ApiResponse<TListing[]>> {
       Authorization: `Bearer ${token}`,
     }
   });
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch listings");
-  }
-
   return res.json();
 }
 
@@ -35,9 +30,6 @@ export const getSingleListing = async (id: string): Promise<ApiResponse<TListing
       Authorization: `Bearer ${token}`, 
     },
   });
-  if (!res.ok) {
-    throw new Error("Failed to fetch listing");
-  }
   return res.json();
 };
 
@@ -51,11 +43,10 @@ export const addListingItem = async (listingData: Record<string, any>): Promise<
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // if needed
+        Authorization: `Bearer ${token}`, 
       },
       body: JSON.stringify(listingData),
     });
-
     revalidateTag("LISTINGS");
     return res.json();
   } catch (error: any) {
@@ -77,12 +68,6 @@ export const updateListingItem = async (
       },
       body: JSON.stringify(updatedData),
     });
-    console.log(res);
-
-    if (!res.ok) {
-      throw new Error("Failed to update listing");
-    }
-
     return res.json();
   } catch (error: any) {
     return Error(error);
@@ -92,7 +77,6 @@ export const updateListingItem = async (
 
 //for the delete service
 export const deleteListingItem = async (id: string): Promise<any> => {
-  console.log(id);
   try {
     const token = await getValidToken()
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/listings/${id}`, {
@@ -102,7 +86,6 @@ export const deleteListingItem = async (id: string): Promise<any> => {
         Authorization: `Bearer ${token}`,
       },
     });
-
     revalidateTag("LISTINGS");
     return res.json();
   } catch (error: any) {

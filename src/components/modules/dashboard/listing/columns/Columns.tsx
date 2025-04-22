@@ -21,10 +21,11 @@ import {
 import { toast } from 'sonner'
 
 type Props = {
+  role: string;
   onDeleteSuccess: (id: string) => void
 }
 
-export const getColumns = ({ onDeleteSuccess }: Props): ColumnDef<TListing>[] => [
+export const getColumns = ({ onDeleteSuccess , role}: Props): ColumnDef<TListing>[] => [
   {
     id: 'serial',
     header: 'SL',
@@ -73,12 +74,15 @@ export const getColumns = ({ onDeleteSuccess }: Props): ColumnDef<TListing>[] =>
       return (
         <div className="flex items-center gap-2">
           {/* Edit Button */}
-          <Link href={`/dashboard/listings/edit/${listing._id}`}>
-            <Button variant="outline" size="icon">
-              <Pencil className="h-4 w-4" />
-            </Button>
-          </Link>
-
+          {role === 'admin' ? (
+            ''
+          ) : (
+            <Link href={`/dashboard/user/listings/edit-listing/${listing._id}`}>
+              <Button variant="outline" size="icon">
+                <Pencil className="h-4 w-4" />
+              </Button>
+            </Link>
+          )}
           {/* Delete Button with Modal */}
           <AlertDialog>
             <AlertDialogTrigger asChild>
@@ -99,9 +103,13 @@ export const getColumns = ({ onDeleteSuccess }: Props): ColumnDef<TListing>[] =>
                 <AlertDialogAction
                   onClick={async () => {
                     try {
-                      await deleteListingItem(listing._id)
-                      toast.success('Listing deleted successfully!')
-                      onDeleteSuccess(listing._id)
+                      const res = await deleteListingItem(listing._id)
+                      if (res.success) {
+                        toast.success('Listing deleted successfully!')
+                        onDeleteSuccess(listing._id)
+                      } else {
+                        toast.error(res.message)
+                      }
                     } catch (error) {
                       toast.error('Failed to delete listing.')
                       console.error(error)

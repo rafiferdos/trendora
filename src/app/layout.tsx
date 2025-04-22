@@ -30,11 +30,13 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <Providers>
+    
       <html lang="en" suppressHydrationWarning>
         <body
           className={`${geistSans.className} ${geistMono.className} ${jost.className} antialiased`}
-        ><ThemeProvider
+      >
+        <Providers>
+        <ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
@@ -43,8 +45,9 @@ export default function RootLayout({
           {children}
           <Toaster position="top-center" richColors />
         </ThemeProvider>
+        </Providers>
       </body>
     </html >
-    </Providers>
+    
   );
 }
