@@ -45,15 +45,15 @@ function GlowingTooltip({
     <span className="relative inline-block group">
       {children}
       <span
-        className="pointer-events-none absolute -top-12 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-xl 
-                       bg-gradient-to-r from-purple-600 to-pink-600 p-2 text-xs font-medium text-white opacity-0 
-                       shadow-lg shadow-purple-500/20 backdrop-blur-md border border-white/10
-                       scale-75 group-hover:scale-100 group-hover:opacity-100 transition-all duration-200 z-50"
+        className="pointer-events-none absolute -bottom-12 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-xl 
+                   bg-gradient-to-r from-purple-600 to-pink-600 p-2 text-xs font-medium text-white opacity-0 
+                   shadow-lg shadow-purple-500/20 backdrop-blur-md border border-white/10
+                   scale-75 group-hover:scale-100 group-hover:opacity-100 transition-all duration-200 z-50"
       >
         {label}
         <span
-          className="absolute h-2 w-2 top-[95%] left-1/2 -translate-x-1/2 rotate-45 
-                       bg-gradient-to-br from-purple-600 to-pink-600"
+          className="absolute h-2 w-2 bottom-[95%] left-1/2 -translate-x-1/2 rotate-45 
+                   bg-gradient-to-br from-purple-600 to-pink-600"
         ></span>
       </span>
     </span>
