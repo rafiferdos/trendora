@@ -473,7 +473,7 @@ export default function AllListsPage() {
         </div>
 
         {/* Right side floating header section (30% width) */}
-        <div className="w-full lg:w-[30%] lg:pl-4 mb-8 lg:mb-0">
+        <div className="w-full lg:w-[30%] lg:pl-4 mb-8 lg:mb-0 lg:pt-18">
           <div className="lg:sticky lg:top-8">
             <section className="relative">
               <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl blur-2xl opacity-30"></div>
