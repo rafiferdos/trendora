@@ -50,7 +50,7 @@ export function NavProjects({
             </SidebarMenuButton>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <SidebarMenuAction showOnHover>
+                <SidebarMenuAction className="opacity-0 group-hover:opacity-100 transition-opacity">
                   <MoreHorizontal />
                   <span className="sr-only">More</span>
                 </SidebarMenuAction>
