@@ -66,9 +66,11 @@ export default function Navbar({ user }: NavbarProps) {
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  
+
   // State for wishlist animation
-  const [lastWishlistClick, setLastWishlistClick] = useState<number | null>(null)
+  const [lastWishlistClick, setLastWishlistClick] = useState<number | null>(
+    null,
+  )
 
   useEffect(() => {
     setMounted(true)
@@ -139,22 +141,22 @@ export default function Navbar({ user }: NavbarProps) {
 
   // Animated wishlist button with clicking effect
   function WishlistButton() {
-    const [isLiked, setIsLiked] = useState(false);
-    const [isAnimating, setIsAnimating] = useState(false);
-    
+    const [isLiked, setIsLiked] = useState(false)
+    const [isAnimating, setIsAnimating] = useState(false)
+
     const handleWishlistClick = (e: React.MouseEvent) => {
-      e.preventDefault();
-      setIsLiked(!isLiked);
-      setIsAnimating(true);
+      e.preventDefault()
+      setIsLiked(!isLiked)
+      setIsAnimating(true)
       // Store timestamp of click for animation triggers
-      setLastWishlistClick(Date.now());
-      
+      setLastWishlistClick(Date.now())
+
       // Navigate after animation completes
       setTimeout(() => {
-        router.push('/wishlist');
-      }, 600);
-    };
-    
+        router.push('/wishlist')
+      }, 600)
+    }
+
     return (
       <GlowingTooltip label="Wishlist">
         <button
@@ -162,20 +164,23 @@ export default function Navbar({ user }: NavbarProps) {
           className="group relative p-3 rounded-full overflow-hidden transition-all duration-300"
         >
           {/* Background effects */}
-          <span className={`absolute inset-0 rounded-full transition-all duration-500
-            ${isLiked 
-              ? 'bg-gradient-to-r from-pink-500/30 to-rose-500/30'
-              : 'bg-gradient-to-r from-purple-500/0 to-pink-500/0 group-hover:from-purple-500/20 group-hover:to-pink-500/20'
+          <span
+            className={`absolute inset-0 rounded-full transition-all duration-500
+            ${
+              isLiked
+                ? 'bg-gradient-to-r from-pink-500/30 to-rose-500/30'
+                : 'bg-gradient-to-r from-purple-500/0 to-pink-500/0 group-hover:from-purple-500/20 group-hover:to-pink-500/20'
             }`}
           />
-          
+
           {/* Pulsing hover effect */}
-          <span className={`animate-pulse-slow absolute inset-0 -z-10 
+          <span
+            className={`animate-pulse-slow absolute inset-0 -z-10 
             ${isLiked ? 'opacity-30' : 'opacity-0 group-hover:opacity-100'}
             rounded-full bg-gradient-to-r from-pink-500/10 via-rose-500/10 to-pink-500/10 
-            blur-lg transform transition-all duration-300`}>
-          </span>
-          
+            blur-lg transform transition-all duration-300`}
+          ></span>
+
           {/* Click animation particles */}
           {isAnimating && (
             <>
@@ -184,18 +189,18 @@ export default function Navbar({ user }: NavbarProps) {
                   key={i}
                   className={`absolute w-1.5 h-1.5 rounded-full bg-gradient-to-r 
                     ${isLiked ? 'from-pink-400 to-rose-400' : 'from-purple-400 to-pink-400'}`}
-                  initial={{ 
-                    x: 0, 
-                    y: 0, 
-                    opacity: 1, 
-                    scale: 0.8
+                  initial={{
+                    x: 0,
+                    y: 0,
+                    opacity: 1,
+                    scale: 0.8,
                   }}
-                  animate={{ 
-                    x: (Math.random() - 0.5) * 30, 
-                    y: (Math.random() - 0.5) * 30, 
+                  animate={{
+                    x: (Math.random() - 0.5) * 30,
+                    y: (Math.random() - 0.5) * 30,
                     opacity: 0,
                     scale: Math.random() + 0.5,
-                    rotate: Math.random() * 360
+                    rotate: Math.random() * 360,
                   }}
                   transition={{ duration: 0.6 }}
                   onAnimationComplete={() => setIsAnimating(false)}
@@ -203,45 +208,45 @@ export default function Navbar({ user }: NavbarProps) {
               ))}
             </>
           )}
-          
+
           {/* Heart icon with animation */}
           <motion.div
             animate={isAnimating ? { scale: [1, 1.5, 1] } : {}}
             transition={{ duration: 0.4 }}
             className="relative z-10"
           >
-            <Heart 
-              fill={isLiked ? "#ec4899" : "none"} 
+            <Heart
+              fill={isLiked ? '#ec4899' : 'none'}
               className={`h-5 w-5 transition-all duration-300
-                ${isLiked ? 'text-pink-500' : 'text-gray-300 group-hover:text-white'}`} 
+                ${isLiked ? 'text-pink-500' : 'text-gray-300 group-hover:text-white'}`}
             />
           </motion.div>
         </button>
       </GlowingTooltip>
-    );
+    )
   }
 
   // Enhanced Mobile Wishlist Button
   function MobileWishlistButton() {
-    const [isLiked, setIsLiked] = useState(false);
-    
+    const [isLiked, setIsLiked] = useState(false)
+
     useEffect(() => {
       // Sync with desktop button if clicked recently (within 2 seconds)
       if (lastWishlistClick && Date.now() - lastWishlistClick < 2000) {
-        setIsLiked(true);
+        setIsLiked(true)
       }
-    }, [lastWishlistClick]);
-    
+    }, [lastWishlistClick])
+
     return (
       <Link
         href="/wishlist"
         className="flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors relative overflow-hidden"
       >
         <div className="relative">
-          <Heart 
-            size={18} 
-            className={isLiked ? "text-pink-500" : ""}
-            fill={isLiked ? "#ec4899" : "none"} 
+          <Heart
+            size={18}
+            className={isLiked ? 'text-pink-500' : ''}
+            fill={isLiked ? '#ec4899' : 'none'}
           />
           {isLiked && (
             <span className="absolute inset-0 animate-ping opacity-30 bg-pink-500 rounded-full"></span>
@@ -254,7 +259,7 @@ export default function Navbar({ user }: NavbarProps) {
           </span>
         )}
       </Link>
-    );
+    )
   }
 
   return (
@@ -298,7 +303,10 @@ export default function Navbar({ user }: NavbarProps) {
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex items-center space-x-2">
           <NavLink href="/all-lists" label="Browse" />
-          <NavLink href="/post-ad" label="Sell" />
+          <NavLink
+            href="/dashboard/user/listings/create-listing"
+            label="Sell"
+          />
 
           <div className="flex items-center space-x-2 ml-4">
             <div className="h-8 border-r border-white/10"></div>
