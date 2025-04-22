@@ -10,12 +10,28 @@ import { MdEmail, MdLocationOn, MdPhone } from 'react-icons/md'
 const Footer = () => {
   return (
     <footer className="relative overflow-hidden pt-24 pb-12 font-jost">
-      {/* Gradient background blur effects */}
+      {/* Enhanced vibrant gradient background with multiple colorful elements */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-r from-purple-600/30 via-pink-500/30 to-transparent rounded-full blur-3xl"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-gradient-to-r from-blue-500/30 via-cyan-400/30 to-transparent rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 left-1/2 w-72 h-72 bg-gradient-to-r from-amber-400/20 to-transparent rounded-full blur-3xl"></div>
-        <div className="absolute inset-0 bg-gray-900/90 backdrop-blur-sm"></div>
+        {/* Large primary gradient orb */}
+        <div className="absolute top-0 left-1/4 w-[40rem] h-[40rem] bg-gradient-to-r from-purple-600/50 via-pink-500/50 to-fuchsia-400/50 rounded-full blur-3xl animate-pulse-slow"></div>
+        
+        {/* Secondary blue orb */}
+        <div className="absolute bottom-1/4 right-1/4 w-[35rem] h-[35rem] bg-gradient-to-r from-blue-500/40 via-cyan-400/40 to-teal-300/40 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '2s' }}></div>
+        
+        {/* Amber/gold accent */}
+        <div className="absolute bottom-0 left-1/2 w-[30rem] h-[30rem] bg-gradient-to-r from-amber-400/30 via-yellow-300/30 to-orange-300/30 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '1s' }}></div>
+        
+        {/* Green accent */}
+        <div className="absolute top-1/3 right-1/3 w-[25rem] h-[25rem] bg-gradient-to-r from-emerald-500/20 via-green-400/20 to-lime-300/20 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '3s' }}></div>
+        
+        {/* Rose/red accent */}
+        <div className="absolute bottom-1/3 left-10 w-[28rem] h-[28rem] bg-gradient-to-r from-rose-500/20 via-red-400/20 to-pink-300/20 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '2.5s' }}></div>
+        
+        {/* Moving gradient streaks */}
+        <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-pink-500/10 opacity-80 mix-blend-overlay animate-gradient-x"></div>
+        
+        {/* Dark overlay to ensure text readability with subtle noise texture */}
+        <div className="absolute inset-0 bg-gray-900/85 backdrop-blur-sm bg-blend-multiply"></div>
       </div>
 
       {/* Main footer content */}
@@ -74,7 +90,7 @@ const Footer = () => {
         {/* Main footer grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
           {/* Company links */}
-          <div className="backdrop-blur-md bg-white/5 border border-white/10 rounded-2xl p-6 shadow-xl transform transition-transform hover:translate-y-[-5px] hover:shadow-2xl">
+          <div className="backdrop-blur-md bg-white/5 border border-white/10 rounded-2xl p-6 shadow-xl transform transition-transform hover:translate-y-[-5px] hover:shadow-2xl hover:bg-gradient-to-br hover:from-purple-600/20 hover:to-pink-600/20">
             <h3 className="text-lg font-semibold text-white mb-4 pb-2 border-b border-white/10">
               Company
             </h3>
@@ -128,7 +144,7 @@ const Footer = () => {
           </div>
 
           {/* Categories links */}
-          <div className="backdrop-blur-md bg-white/5 border border-white/10 rounded-2xl p-6 shadow-xl transform transition-transform hover:translate-y-[-5px] hover:shadow-2xl">
+          <div className="backdrop-blur-md bg-white/5 border border-white/10 rounded-2xl p-6 shadow-xl transform transition-transform hover:translate-y-[-5px] hover:shadow-2xl hover:bg-gradient-to-br hover:from-blue-600/20 hover:to-cyan-600/20">
             <h3 className="text-lg font-semibold text-white mb-4 pb-2 border-b border-white/10">
               Categories
             </h3>
@@ -182,7 +198,7 @@ const Footer = () => {
           </div>
 
           {/* Support links */}
-          <div className="backdrop-blur-md bg-white/5 border border-white/10 rounded-2xl p-6 shadow-xl transform transition-transform hover:translate-y-[-5px] hover:shadow-2xl">
+          <div className="backdrop-blur-md bg-white/5 border border-white/10 rounded-2xl p-6 shadow-xl transform transition-transform hover:translate-y-[-5px] hover:shadow-2xl hover:bg-gradient-to-br hover:from-amber-600/20 hover:to-orange-600/20">
             <h3 className="text-lg font-semibold text-white mb-4 pb-2 border-b border-white/10">
               Support
             </h3>
@@ -236,7 +252,7 @@ const Footer = () => {
           </div>
 
           {/* Contact information */}
-          <div className="backdrop-blur-md bg-white/5 border border-white/10 rounded-2xl p-6 shadow-xl transform transition-transform hover:translate-y-[-5px] hover:shadow-2xl">
+          <div className="backdrop-blur-md bg-white/5 border border-white/10 rounded-2xl p-6 shadow-xl transform transition-transform hover:translate-y-[-5px] hover:shadow-2xl hover:bg-gradient-to-br hover:from-emerald-600/20 hover:to-teal-600/20">
             <h3 className="text-lg font-semibold text-white mb-4 pb-2 border-b border-white/10">
               Contact Us
             </h3>
@@ -281,25 +297,25 @@ const Footer = () => {
               <div className="flex gap-3">
                 <Link
                   href="#"
-                  className="bg-white/10 hover:bg-white/20 p-2.5 rounded-lg transition-all duration-300"
+                  className="bg-gradient-to-br from-blue-500/30 to-blue-600/30 hover:from-blue-500/50 hover:to-blue-600/50 p-2.5 rounded-lg transition-all duration-300 backdrop-blur-sm border border-white/10"
                 >
                   <FaFacebookF className="text-white" size={18} />
                 </Link>
                 <Link
                   href="#"
-                  className="bg-white/10 hover:bg-white/20 p-2.5 rounded-lg transition-all duration-300"
+                  className="bg-gradient-to-br from-sky-500/30 to-sky-600/30 hover:from-sky-500/50 hover:to-sky-600/50 p-2.5 rounded-lg transition-all duration-300 backdrop-blur-sm border border-white/10"
                 >
                   <FaTwitter className="text-white" size={18} />
                 </Link>
                 <Link
                   href="#"
-                  className="bg-white/10 hover:bg-white/20 p-2.5 rounded-lg transition-all duration-300"
+                  className="bg-gradient-to-br from-pink-500/30 to-purple-600/30 hover:from-pink-500/50 hover:to-purple-600/50 p-2.5 rounded-lg transition-all duration-300 backdrop-blur-sm border border-white/10"
                 >
                   <FaInstagram className="text-white" size={18} />
                 </Link>
                 <Link
                   href="#"
-                  className="bg-white/10 hover:bg-white/20 p-2.5 rounded-lg transition-all duration-300"
+                  className="bg-gradient-to-br from-blue-600/30 to-cyan-600/30 hover:from-blue-600/50 hover:to-cyan-600/50 p-2.5 rounded-lg transition-all duration-300 backdrop-blur-sm border border-white/10"
                 >
                   <FaLinkedinIn className="text-white" size={18} />
                 </Link>
@@ -310,7 +326,7 @@ const Footer = () => {
 
         {/* Copyright section */}
         <div className="relative">
-          <div className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+          <div className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
           <div className="pt-8 flex flex-col md:flex-row justify-between items-center">
             <p className="text-purple-100/70 text-sm mb-4 md:mb-0">
               &copy; {new Date().getFullYear()} SwapNest. All rights reserved.
