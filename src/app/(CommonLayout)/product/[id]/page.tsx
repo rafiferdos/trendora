@@ -1,17 +1,19 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { getValidToken } from '@/lib/verifyToken'
 import Image from 'next/image'
 import Link from 'next/link'
-import {
-  FiArrowLeft,
-  FiHeart,
-  FiShare2,
-  FiMessageSquare,
-  FiCheckCircle,
-  FiAlertCircle,
-} from 'react-icons/fi'
 import { useParams, useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import {
+  FiAlertCircle,
+  FiArrowLeft,
+  FiCheckCircle,
+  FiHeart,
+  FiMessageSquare,
+  FiShare2,
+} from 'react-icons/fi'
+import { toast } from 'sonner'
 
 // You may need to update this interface based on your actual data structure
 interface Product {
@@ -134,8 +136,16 @@ export default function ProductDetailPage() {
 
       setLoading(true)
       try {
+        // Get the token using the same method as your other authenticated requests
+        const token = await getValidToken()
+
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_BASE_API}/listings/${productId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
         )
 
         if (!response.ok) {
@@ -159,6 +169,30 @@ export default function ProductDetailPage() {
 
     fetchProduct()
   }, [productId])
+
+  const [disable, setDisable] = useState(false)
+  // Handle message request sent
+  const handleMsgReqSent = () => {
+    toast.success('Message request sent successfully!', {
+      icon: <FiCheckCircle size={20} className="text-green-500" />,
+      style: {
+        background: 'rgba(0, 0, 0, 0.5)',
+        color: '#fff',
+        borderRadius: '9999px',
+        border: 'none',
+        padding: '16px',
+        fontSize: '16px',
+        fontWeight: '500',
+        textAlign: 'center',
+        maxWidth: '400px',
+        margin: '0 auto',
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)',
+        transition: 'all 0.3s ease-in-out',
+      },
+    })
+    //disable the button
+    setDisable(true)
+  }
 
   // Loading state with animated effects
   if (loading) {
@@ -373,7 +407,7 @@ export default function ProductDetailPage() {
                                  bg-gradient-to-r ${colorScheme.bg} 
                                  hover:shadow-lg hover:shadow-purple-500/30 transition-all duration-300`}
                 >
-                  Contact Seller
+                  Purchase
                 </button>
               ) : (
                 <div className="w-full py-4 rounded-xl font-bold text-white/60 text-lg bg-gray-800/50 cursor-not-allowed text-center">
@@ -435,9 +469,15 @@ export default function ProductDetailPage() {
                   </div>
                   <div className="ml-auto">
                     <button
-                      className={`px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 
+                      onClick={handleMsgReqSent}
+                      disabled={disable}
+                      className={
+                        !disable
+                          ? `px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 
                                      text-white transition-all duration-300 
-                                     flex items-center gap-2`}
+                                     flex items-center gap-2`
+                          : 'disabled:opacity-50 cursor-not-allowed px-4 py-2 rounded-xl bg-white/10 text-white transition-all duration-300 flex items-center gap-2'
+                      }
                     >
                       <FiMessageSquare size={16} />
                       <span>Message</span>

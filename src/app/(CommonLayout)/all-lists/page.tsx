@@ -570,7 +570,7 @@ export default function AllListsPage() {
                   >
                     <Card
                       id={item.id}
-                      _id={item._id}
+                      _id={item._id || ''}
                       title={item.title}
                       price={item.price}
                       condition={item.condition}
