@@ -7,7 +7,15 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "**",
       },
+      {
+        protocol: "http",
+        hostname: "**",
+      },
     ],
+    // For maximum compatibility (including data URLs and relative URLs)
+    domains: ['localhost', '127.0.0.1'],
+    // Add this if you want to disable the default image optimization
+    unoptimized: true,
   },
 };
 
