@@ -1,24 +1,24 @@
 'use client'
 
+import dynamic from 'next/dynamic'
+import Image from 'next/image'
+import { useEffect, useState } from 'react'
 import {
+  FiArrowDown,
+  FiFilter,
   FiGrid,
   FiList,
   FiSearch,
-  FiFilter,
-  FiArrowDown,
   FiX,
 } from 'react-icons/fi'
-import { useEffect, useState } from 'react'
-import dynamic from 'next/dynamic'
-import Image from 'next/image'
 
-// Import Card component dynamically to avoid issues with Image component
 const Card = dynamic(() => import('@/components/shared/Card'), {
   ssr: true,
 })
 
 interface Listing {
-  _id: string
+  id?: string
+  _id?: string
   title: string
   description: string
   price: number
@@ -569,6 +569,8 @@ export default function AllListsPage() {
                     className="transform hover:scale-105 transition-transform duration-300"
                   >
                     <Card
+                      id={item.id}
+                      _id={item._id}
                       title={item.title}
                       price={item.price}
                       condition={item.condition}
