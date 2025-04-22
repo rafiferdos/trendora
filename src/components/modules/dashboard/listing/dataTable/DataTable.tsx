@@ -102,7 +102,7 @@ export function DataTable<TData, TValue>({
             placeholder="Search listings..."
             value={globalFilter ?? ""}
             onChange={(e) => setGlobalFilter(e.target.value)}
-            className="pl-8 bg-white/10 border-white/20 text-white placeholder:text-white/50 focus-visible:ring-purple-500 focus-visible:border-purple-500"
+            className="pl-8 bg-white/10 border-white/20 text-white placeholder:text-white/50 focus-visible:ring-purple-500 focus-visible:border-purple-500 rounded-3xl"
           />
         </div>
         
