@@ -108,36 +108,43 @@ export default function AllListsPage() {
     const fetchData = async () => {
       setIsLoading(true)
       try {
-        // Fetch listings
-        const listingsResponse = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_API}/listings`,
-          {
-            cache: 'no-store',
+        // Log the full URL being called
+        const apiUrl = `${process.env.NEXT_PUBLIC_BASE_API}/listings`;
+        console.log('Fetching from:', apiUrl);
+
+        const listingsResponse = await fetch(apiUrl, {
+          cache: 'no-store',
+          headers: {
+            'Content-Type': 'application/json',
           },
-        )
-        if (!listingsResponse.ok) throw new Error('Failed to fetch listings')
-        const listingsData = await listingsResponse.json()
+        });
 
-        console.log('API Response Data:', listingsData)
-        console.log('Total listings received:', listingsData.data.length)
-
-        // Make sure we're getting an array and it's not empty
-        if (!Array.isArray(listingsData.data)) {
-          throw new Error('Invalid data format received')
+        if (!listingsResponse.ok) {
+          const errorData = await listingsResponse.text();
+          console.error('Response not ok:', listingsResponse.status, errorData);
+          throw new Error(`HTTP error! status: ${listingsResponse.status}`);
         }
 
-        setListings(listingsData.data)
-        setFilteredListings(listingsData.data)
-      } catch (error) {
-        console.error('Error fetching listings:', error)
-        setError('Failed to load data. Please try again later.')
-      } finally {
-        setIsLoading(false)
-      }
-    }
+        const listingsData = await listingsResponse.json();
+        console.log('Received data structure:', listingsData);
 
-    fetchData()
-  }, [])
+        if (!listingsData.data || !Array.isArray(listingsData.data)) {
+          console.error('Invalid data structure:', listingsData);
+          throw new Error('Invalid data format received');
+        }
+
+        setListings(listingsData.data);
+        setFilteredListings(listingsData.data);
+      } catch (error) {
+        console.error('Detailed fetch error:', error);
+        setError(error instanceof Error ? error.message : 'Failed to load data');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   // Apply filters when any filter parameter changes
   useEffect(() => {

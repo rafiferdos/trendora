@@ -193,6 +193,25 @@ export default function ProductDetailPage() {
     //disable the button
     setDisable(true)
   }
+const handlePurchase = () => {
+  if (!product) {
+    toast.error("Product not available");
+    return;
+  }
+
+  const checkoutData = {
+    _id: product._id,
+    title: product.title,
+    price: product.price,
+    images: product.images,
+    category: product.category,
+    condition: product.condition,
+    userID: product.userID
+  };
+  
+  const queryString = encodeURIComponent(JSON.stringify(checkoutData));
+  router.push(`/checkout?productData=${queryString}`);
+};
 
   // Loading state with animated effects
   if (loading) {
@@ -403,12 +422,13 @@ export default function ProductDetailPage() {
             <div className="space-y-4">
               {product.status !== 'sold' ? (
                 <button
-                  className={`w-full py-4 rounded-xl font-bold text-white text-lg
-                                 bg-gradient-to-r ${colorScheme.bg} 
-                                 hover:shadow-lg hover:shadow-purple-500/30 transition-all duration-300`}
-                >
-                  Purchase
-                </button>
+                onClick={handlePurchase}
+                className={`w-full py-4 rounded-xl font-bold text-white text-lg
+                            bg-gradient-to-r ${colorScheme.bg} 
+                            hover:shadow-lg hover:shadow-purple-500/30 transition-all duration-300`}
+              >
+                Purchase
+              </button>
               ) : (
                 <div className="w-full py-4 rounded-xl font-bold text-white/60 text-lg bg-gray-800/50 cursor-not-allowed text-center">
                   No Longer Available
