@@ -2,18 +2,38 @@
 
 import ListingForm from '@/components/modules/dashboard/listing/addToListing/ListingForm'
 import { motion } from 'framer-motion'
-import { Camera, Package, ShoppingBag, TrendingUp } from 'lucide-react'
+import { Camera, Info, Package, ShoppingBag, Sparkles } from 'lucide-react'
 import { useState } from 'react'
 
 const CreateListingPage = () => {
   const [activeStep, setActiveStep] = useState(1)
 
-  // The steps in the listing creation process
+  // Unified steps array that will be passed to the form component
   const steps = [
-    { id: 1, title: 'Basic Info', icon: ShoppingBag },
-    { id: 2, title: 'Add Photos', icon: Camera },
-    { id: 3, title: 'Set Price', icon: TrendingUp },
-    { id: 4, title: 'Publish', icon: Package },
+    {
+      id: 1,
+      title: 'Basic Info',
+      icon: ShoppingBag,
+      description: 'Product name, category, and condition',
+    },
+    {
+      id: 2,
+      title: 'Details',
+      icon: Info,
+      description: 'Description, price, and location',
+    },
+    {
+      id: 3,
+      title: 'Photos',
+      icon: Camera,
+      description: 'High-quality images of your item',
+    },
+    {
+      id: 4,
+      title: 'Publish',
+      icon: Package,
+      description: 'Review and list your item',
+    },
   ]
 
   return (
@@ -51,69 +71,83 @@ const CreateListingPage = () => {
           </p>
         </motion.div>
 
-        {/* Step indicators */}
-        <div className="hidden md:flex justify-center mb-8">
-          <div className="flex items-center bg-white/5 backdrop-blur-lg rounded-xl p-1.5 border border-white/10 shadow-lg">
-            {steps.map((step, index) => (
-              <div key={step.id} className="flex items-center">
-                <button
-                  onClick={() => setActiveStep(step.id)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 ${
-                    activeStep === step.id
-                      ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg shadow-purple-900/30'
-                      : 'hover:bg-white/10 text-purple-100'
-                  }`}
-                >
-                  <div
-                    className={`rounded-full p-1.5 ${
-                      activeStep === step.id ? 'bg-white/20' : 'bg-white/10'
-                    }`}
-                  >
-                    <step.icon size={16} />
-                  </div>
-                  <span className="text-sm font-medium">{step.title}</span>
-                </button>
+        {/* Step indicators on desktop - these are visual only and sync with form state */}
+        <div className="hidden md:block mb-12">
+          <div className="relative">
+            {/* Progress bar */}
+            <div className="h-1 w-full bg-white/10 rounded-full overflow-hidden mb-10">
+              <motion.div
+                className="absolute top-0 left-0 h-1 bg-gradient-to-r from-purple-500 to-pink-500"
+                animate={{
+                  width: `${((activeStep - 1) / (steps.length - 1)) * 100}%`,
+                }}
+                transition={{ duration: 0.3 }}
+              />
+            </div>
 
-                {index < steps.length - 1 && (
-                  <div className="h-0.5 w-4 bg-white/10"></div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Mobile step indicators */}
-        <div className="md:hidden mb-6">
-          <div className="overflow-x-auto pb-2">
-            <div className="flex min-w-max">
-              {steps.map((step, index) => (
-                <div key={step.id} className="flex items-center">
-                  <button
-                    onClick={() => setActiveStep(step.id)}
-                    className={`flex flex-col items-center px-3 py-2 rounded-lg transition-all duration-300 ${
-                      activeStep === step.id
-                        ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
-                        : 'hover:bg-white/10 text-purple-100'
-                    }`}
-                  >
-                    <div
-                      className={`rounded-full p-1.5 mb-1 ${
-                        activeStep === step.id ? 'bg-white/20' : 'bg-white/10'
+            {/* Step markers */}
+            <div className="flex justify-between relative -mt-6">
+              {steps.map((step) => (
+                <div key={step.id} className="flex flex-col items-center">
+                  <motion.div
+                    animate={{
+                      scale: activeStep === step.id ? 1.1 : 1,
+                      boxShadow:
+                        activeStep === step.id
+                          ? '0 0 0 4px rgba(255, 255, 255, 0.1)'
+                          : '0 0 0 0px rgba(255, 255, 255, 0)',
+                    }}
+                    className={`flex items-center justify-center w-12 h-12 rounded-full mb-2
+                      ${
+                        activeStep >= step.id
+                          ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
+                          : 'bg-white/10 text-white/60'
                       }`}
-                    >
-                      <step.icon size={16} />
-                    </div>
-                    <span className="text-xs font-medium whitespace-nowrap">
-                      {step.title}
-                    </span>
-                  </button>
-
-                  {index < steps.length - 1 && (
-                    <div className="h-0.5 w-4 bg-white/10 self-center"></div>
-                  )}
+                  >
+                    <step.icon size={20} />
+                  </motion.div>
+                  <motion.span
+                    animate={{
+                      color:
+                        activeStep === step.id
+                          ? 'rgba(255, 255, 255, 0.95)'
+                          : 'rgba(255, 255, 255, 0.6)',
+                      fontWeight: activeStep === step.id ? 600 : 400,
+                    }}
+                    className="text-sm block text-center"
+                  >
+                    {step.title}
+                  </motion.span>
+                  <motion.span
+                    animate={{
+                      opacity: activeStep === step.id ? 0.8 : 0.4,
+                    }}
+                    className="text-xs block text-center text-white max-w-[120px] mt-1"
+                  >
+                    {step.description}
+                  </motion.span>
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+
+        {/* Mobile step progress */}
+        <div className="md:hidden mb-6">
+          <div className="flex justify-between items-center mb-4">
+            <span className="text-white font-medium">
+              Step {activeStep} of {steps.length}
+            </span>
+            <span className="text-white/70 text-sm">
+              {steps[activeStep - 1].title}
+            </span>
+          </div>
+          <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+            <motion.div
+              className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"
+              animate={{ width: `${(activeStep / steps.length) * 100}%` }}
+              transition={{ duration: 0.3 }}
+            />
           </div>
         </div>
 
@@ -134,7 +168,10 @@ const CreateListingPage = () => {
           <div className="backdrop-blur-xl bg-white/5 rounded-2xl border border-white/10 shadow-2xl overflow-hidden">
             <div className="p-1">
               <div className="bg-gradient-to-br from-purple-600/20 to-pink-500/20 rounded-xl p-6 md:p-8">
-                <ListingForm />
+                <ListingForm
+                  onStepChange={(step) => setActiveStep(step)}
+                  totalSteps={steps.length}
+                />
               </div>
             </div>
           </div>
@@ -167,7 +204,7 @@ const CreateListingPage = () => {
             className="backdrop-blur-md bg-white/5 p-6 rounded-xl border border-white/10 shadow-lg"
           >
             <div className="bg-gradient-to-br from-blue-500 to-cyan-600 w-12 h-12 rounded-lg flex items-center justify-center mb-4 shadow-lg shadow-blue-900/30">
-              <TrendingUp className="text-white" size={24} />
+              <Sparkles className="text-white" size={24} />
             </div>
             <h3 className="text-white text-lg font-semibold mb-2">
               Price Competitively
