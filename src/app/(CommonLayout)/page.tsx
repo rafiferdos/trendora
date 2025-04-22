@@ -8,7 +8,7 @@ import { usePathname, useRouter } from 'next/navigation'
 
 const Homepage = () => {
   const { user, setIsLoading } = useUser()
-  console.log(user)
+
   const pathname = usePathname()
   const router = useRouter()
   const handleLogOut = () => {
