@@ -1,3 +1,5 @@
+"use client";
+
 import { AppSidebar } from '@/components/modules/dashboard/sidebar/app-sidebar'
 import {
   Breadcrumb,
@@ -29,10 +31,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
             <SidebarProvider>
                 <AppSidebar />
                 <SidebarInset className="backdrop-blur-sm">
-                    <motion.header 
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.4 }}
+                    <header 
                         className="flex h-16 shrink-0 items-center gap-2 transition-all ease-linear bg-white/5 backdrop-blur-md border-b border-white/10 px-2 group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12"
                     >
                         <div className="flex items-center gap-2 px-4">
@@ -52,16 +51,11 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                                 </BreadcrumbList>
                             </Breadcrumb>
                         </div>
-                    </motion.header>
+                    </header>
                     <div className="p-4 pt-2">
-                        <motion.div 
-                            initial={{ opacity: 0, scale: 0.98 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.5, delay: 0.1 }}
-                            className="rounded-xl overflow-hidden"
-                        >
+                        <div className="rounded-xl overflow-hidden">
                             {children}
-                        </motion.div>
+                        </div>
                     </div>
                 </SidebarInset>
             </SidebarProvider>
