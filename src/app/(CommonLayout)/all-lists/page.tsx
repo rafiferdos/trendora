@@ -2,6 +2,7 @@
 
 import SanitizedImage from '@/components/shared/SanitizedImage'
 import dynamic from 'next/dynamic'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import {
@@ -240,7 +241,7 @@ export default function AllListsPage() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 px-4 py-8 md:px-8">
       {/* Main content layout with flex */}
-      <div className="flex flex-col lg:flex-row">
+      <div className="flex flex-col-reverse lg:flex-row-reverse gap-16">
         {/* Left side content area (70% width) */}
         <div className="w-full lg:w-[70%] lg:pr-8">
           {/* Results count */}
@@ -411,7 +412,7 @@ export default function AllListsPage() {
                           <SanitizedImage
                             src={item.images?.[0] || '/placeholder.jpg'}
                             alt={item.title}
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-cover rounded-br-2xl"
                             width={192}
                             height={192}
                           />
