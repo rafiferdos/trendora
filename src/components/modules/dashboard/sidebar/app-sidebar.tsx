@@ -34,6 +34,7 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar'
 import { logout } from '@/services/AuthService'
+import { FaShopware } from 'react-icons/fa'
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { user } = useUser()
@@ -178,7 +179,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-r from-purple-600/70 to-pink-600/70 rounded-xl blur-sm"></div>
               <div className="relative flex items-center justify-center w-10 h-10 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl shadow-lg shadow-purple-900/30">
-                <span className="font-bold text-lg text-white">S</span>
+                <span className="font-bold text-lg text-white">
+                <FaShopware />
+                </span>
               </div>
             </div>
 

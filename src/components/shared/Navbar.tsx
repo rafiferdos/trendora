@@ -29,6 +29,7 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { useUser } from '@/context/UserContext'
 import { cn } from '@/lib/utils'
+import { FaShopware } from 'react-icons/fa'
 
 type UserType = { name: string; email: string }
 
@@ -277,22 +278,9 @@ export default function Navbar() {
           <div className="relative flex items-center">
             <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-purple-600/50 via-pink-600/50 to-purple-600/50 blur-md group-hover:blur-xl opacity-75 group-hover:opacity-100 animate-pulse-slow transition-all duration-500"></div>
             <div className="relative bg-gradient-to-r from-purple-500 via-pink-500 to-violet-600 p-2.5 rounded-xl shadow-lg shadow-purple-500/30 group-hover:shadow-xl group-hover:shadow-purple-500/40 transition-all duration-300">
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="group-hover:scale-110 transition-transform duration-300"
-              >
-                <path
-                  d="M12 2L19 6V18L12 22L5 18V6L12 2Z"
-                  stroke="white"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              
+            <FaShopware />
+
             </div>
             <span className="ml-3 text-2xl font-bold bg-gradient-to-r from-white via-purple-200 to-pink-100 group-hover:from-white group-hover:via-pink-200 group-hover:to-purple-100 bg-clip-text text-transparent transition-all duration-300">
               SwapNest
