@@ -1,11 +1,12 @@
-import { useWishlist } from '@/context/WishLists.context'
+
 import Image from 'next/image'
-import React, { useState } from 'react'
-import { FiStar, FiShoppingBag } from 'react-icons/fi'
+import Link from 'next/link'
+import { FiHeart, FiShoppingBag, FiStar } from 'react-icons/fi'
 import { FaRegHeart, FaHeart } from 'react-icons/fa6'
-import { toast } from 'sonner'
+import { useWishlist } from '@/context/WishLists.context'
 interface CardProps {
-  id: string
+  id?: string
+  _id: string
   title: string
   price: number
   condition: string
@@ -18,6 +19,7 @@ interface CardProps {
 
 export default function Card({
   id,
+  _id,
   title,
   price,
   condition,
@@ -27,6 +29,7 @@ export default function Card({
     text: 'text-gray-800 dark:text-white',
   },
 }: CardProps) {
+  const productId = id || _id
   // Determine condition badge color
   const conditionBadge =
     {
@@ -91,7 +94,9 @@ export default function Card({
           </p>
 
           <button className="rounded-lg px-3 py-1.5 bg-white/20 text-sm font-medium text-white hover:bg-white/30 transition-all">
-            View Details
+            <Link href={`/product/${productId}`} className="...">
+              View Product
+            </Link>
           </button>
         </div>
       </div>

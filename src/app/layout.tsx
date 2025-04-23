@@ -32,11 +32,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <Providers>
-        <WishlistProvider>
-          <body
-            className={`${geistSans.className} ${geistMono.className} ${jost.className} antialiased`}
-          >
+      <body
+        className={`${geistSans.className} ${geistMono.className} ${jost.className} antialiased`}
+      >
+        <Providers>
+          <WishlistProvider>
             <ThemeProvider
               attribute="class"
               defaultTheme="system"
@@ -46,9 +46,9 @@ export default function RootLayout({
               {children}
               <Toaster position="top-center" richColors />
             </ThemeProvider>
-          </body>
-        </WishlistProvider>
-      </Providers>
+          </WishlistProvider>
+        </Providers>
+      </body>
     </html>
   )
 }

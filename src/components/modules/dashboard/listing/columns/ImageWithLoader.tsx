@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
+import SanitizedImage from "@/components/shared/SanitizedImage";
 
 interface ImageWithLoaderProps {
   src: string;
@@ -25,7 +26,7 @@ export const ImageWithLoader: React.FC<ImageWithLoaderProps> = ({
           <p className="text-center">No <br />Image</p>
         </div>
       )}
-      <Image
+      <SanitizedImage
         src={src}
         alt={alt}
         width={width}

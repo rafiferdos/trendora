@@ -67,6 +67,7 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
     fetchToken()
   }, []) // This effect will run once when the component mounts
+  if (isLoading) return
 
   return (
     <UserContext.Provider
