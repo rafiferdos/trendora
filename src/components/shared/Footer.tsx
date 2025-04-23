@@ -3,6 +3,7 @@ import {
   FaFacebookF,
   FaInstagram,
   FaLinkedinIn,
+  FaShopware,
   FaTwitter,
 } from 'react-icons/fa'
 import { MdEmail, MdLocationOn, MdPhone } from 'react-icons/md'
@@ -14,22 +15,34 @@ const Footer = () => {
       <div className="absolute inset-0 -z-10">
         {/* Large primary gradient orb */}
         <div className="absolute top-0 left-1/4 w-[40rem] h-[40rem] bg-gradient-to-r from-purple-600/50 via-pink-500/50 to-fuchsia-400/50 rounded-full blur-3xl animate-pulse-slow"></div>
-        
+
         {/* Secondary blue orb */}
-        <div className="absolute bottom-1/4 right-1/4 w-[35rem] h-[35rem] bg-gradient-to-r from-blue-500/40 via-cyan-400/40 to-teal-300/40 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '2s' }}></div>
-        
+        <div
+          className="absolute bottom-1/4 right-1/4 w-[35rem] h-[35rem] bg-gradient-to-r from-blue-500/40 via-cyan-400/40 to-teal-300/40 rounded-full blur-3xl animate-pulse-slow"
+          style={{ animationDelay: '2s' }}
+        ></div>
+
         {/* Amber/gold accent */}
-        <div className="absolute bottom-0 left-1/2 w-[30rem] h-[30rem] bg-gradient-to-r from-amber-400/30 via-yellow-300/30 to-orange-300/30 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '1s' }}></div>
-        
+        <div
+          className="absolute bottom-0 left-1/2 w-[30rem] h-[30rem] bg-gradient-to-r from-amber-400/30 via-yellow-300/30 to-orange-300/30 rounded-full blur-3xl animate-pulse-slow"
+          style={{ animationDelay: '1s' }}
+        ></div>
+
         {/* Green accent */}
-        <div className="absolute top-1/3 right-1/3 w-[25rem] h-[25rem] bg-gradient-to-r from-emerald-500/20 via-green-400/20 to-lime-300/20 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '3s' }}></div>
-        
+        <div
+          className="absolute top-1/3 right-1/3 w-[25rem] h-[25rem] bg-gradient-to-r from-emerald-500/20 via-green-400/20 to-lime-300/20 rounded-full blur-3xl animate-pulse-slow"
+          style={{ animationDelay: '3s' }}
+        ></div>
+
         {/* Rose/red accent */}
-        <div className="absolute bottom-1/3 left-10 w-[28rem] h-[28rem] bg-gradient-to-r from-rose-500/20 via-red-400/20 to-pink-300/20 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '2.5s' }}></div>
-        
+        <div
+          className="absolute bottom-1/3 left-10 w-[28rem] h-[28rem] bg-gradient-to-r from-rose-500/20 via-red-400/20 to-pink-300/20 rounded-full blur-3xl animate-pulse-slow"
+          style={{ animationDelay: '2.5s' }}
+        ></div>
+
         {/* Moving gradient streaks */}
         <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-pink-500/10 opacity-80 mix-blend-overlay animate-gradient-x"></div>
-        
+
         {/* Dark overlay to ensure text readability with subtle noise texture */}
         <div className="absolute inset-0 bg-gray-900/85 backdrop-blur-sm bg-blend-multiply"></div>
       </div>
@@ -42,21 +55,7 @@ const Footer = () => {
             <div className="mb-8 md:mb-0">
               <div className="flex items-center">
                 <div className="bg-gradient-to-r from-pink-500 to-violet-600 p-2.5 rounded-lg shadow-lg shadow-purple-500/30">
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M12 2L19 6V18L12 22L5 18V6L12 2Z"
-                      stroke="white"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
+                  <FaShopware />
                 </div>
                 <span className="ml-3 text-2xl font-bold bg-gradient-to-r from-white via-purple-200 to-pink-100 text-transparent bg-clip-text">
                   SwapNest

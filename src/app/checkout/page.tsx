@@ -1,79 +1,83 @@
-"use client";
-
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
+'use client'
+import {
+  bangladeshLocations,
+  getDistricts,
+  getThanas,
+} from '@/types/bangladesh-location'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Button } from '@/components/ui/button'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
-import "./checkout.css";
-import { toast } from "sonner";
-
+} from '@/components/ui/select'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useState, useEffect } from 'react'
+import './checkout.css'
+import { toast } from 'sonner'
+import { UserCircle, Mail, Phone, MapPin } from 'lucide-react'
 interface ProductCheckoutData {
-  _id: string;
-  title: string;
-  price: number;
-  images: string[];
-  quantity: number;
-  category: string;
-  condition: string;
+  _id: string
+  title: string
+  price: number
+  images: string[]
+  quantity: number
+  category: string
+  condition: string
   userID?: {
-    _id: string;
-    name: string;
-    email: string;
-    avatar?: string;
-  };
+    _id: string
+    name: string
+    email: string
+    avatar?: string
+  }
 }
 
 export default function Checkout() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  const router = useRouter()
+  const searchParams = useSearchParams()
 
-  const [address, setAddress] = useState("");
-  const [phone, setPhone] = useState("");
-  const [division, setDivision] = useState("");
-  const [district, setDistrict] = useState("");
-  const [thana, setThana] = useState("");
-  const [product, setProduct] = useState<ProductCheckoutData | null>(null);
+  const [address, setAddress] = useState('')
+  const [phone, setPhone] = useState('')
+  const [division, setDivision] = useState('')
+  const [district, setDistrict] = useState('')
+  const [thana, setThana] = useState('')
+  const [product, setProduct] = useState<ProductCheckoutData | null>(null)
 
   useEffect(() => {
-    const productData = searchParams.get('productData');
+    const productData = searchParams.get('productData')
     if (productData) {
       try {
-        const parsedProduct = JSON.parse(decodeURIComponent(productData));
+        const parsedProduct = JSON.parse(decodeURIComponent(productData))
         setProduct({
           ...parsedProduct,
-          quantity: 1 // Default quantity if not specified
-        });
+          quantity: 1, // Default quantity if not specified
+        })
       } catch (error) {
-        console.error('Error parsing product data:', error);
-        toast.error("Invalid product data");
-        router.push('/'); // Redirect to home if invalid data
+        console.error('Error parsing product data:', error)
+        toast.error('Invalid product data')
+        router.push('/') // Redirect to home if invalid data
       }
     } else {
-      toast.error("No product selected");
-      router.push('/');
+      toast.error('No product selected')
+      router.push('/')
     }
-  }, [searchParams, router]);
+  }, [searchParams, router])
 
   if (!product) {
-    return <div className="loading">Loading...</div>;
+    return <div className="loading">Loading...</div>
   }
 
-  const subtotal = product.price;
-  const shipping = 0;
-  const total = subtotal + shipping;
+  const subtotal = product.price
+  const shipping = 0
+  const total = subtotal + shipping
 
   const handlePlaceOrder = () => {
     if (!address || !phone || !division || !district || !thana) {
-      toast.error("Please fill in all required fields");
-      return;
+      toast.error('Please fill in all required fields')
+      return
     }
 
     const orderDetails = {
@@ -90,13 +94,24 @@ export default function Checkout() {
         price: product.price,
         image: product.images[0],
         condition: product.condition,
-        category: product.category
-      }
-    };
-    
-    const queryString = encodeURIComponent(JSON.stringify(orderDetails));
-    router.push(`/transactions?data=${queryString}`);
-  };
+        category: product.category,
+      },
+    }
+
+    const queryString = encodeURIComponent(JSON.stringify(orderDetails))
+    router.push(`/transactions?data=${queryString}`)
+  }
+
+  const handleDivisionChange = (value: string) => {
+    setDivision(value)
+    setDistrict('') // Reset district when division changes
+    setThana('') // Reset thana when division changes
+  }
+
+  const handleDistrictChange = (value: string) => {
+    setDistrict(value)
+    setThana('') // Reset thana when district changes
+  }
 
   return (
     <div className="checkout-container">
@@ -108,9 +123,9 @@ export default function Checkout() {
             {/* Billing Form */}
             <div className="billing-form">
               <div className="form-section">
-                <h2 className="section-title">Delivery Details</h2>
+                <h2 className="section-title">Buyer Details</h2>
                 <div className="form-group">
-                  <Label htmlFor="address">Delivery Address</Label>
+                  <Label htmlFor="address">Buyer Address</Label>
                   <textarea
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
@@ -124,51 +139,66 @@ export default function Checkout() {
                 <div className="location-grid">
                   <div className="form-group">
                     <Label>Division</Label>
-                    <Select onValueChange={setDivision} required>
+                    <Select onValueChange={handleDivisionChange} required>
                       <SelectTrigger className="select-trigger">
                         <SelectValue placeholder="Select division" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="Dhaka">Dhaka</SelectItem>
-                        <SelectItem value="Chittagong">Chittagong</SelectItem>
-                        <SelectItem value="Rajshahi">Rajshahi</SelectItem>
+                        {Object.keys(bangladeshLocations).map((div) => (
+                          <SelectItem key={div} value={div}>
+                            {div}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                   </div>
 
                   <div className="form-group">
                     <Label>District</Label>
-                    <Select onValueChange={setDistrict} required>
+                    <Select
+                      onValueChange={handleDistrictChange}
+                      required
+                      disabled={!division}
+                    >
                       <SelectTrigger className="select-trigger">
                         <SelectValue placeholder="Select district" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="Gazipur">Gazipur</SelectItem>
-                        <SelectItem value="Gopalganj">Gopalganj</SelectItem>
+                        {getDistricts(division).map((dist) => (
+                          <SelectItem key={dist} value={dist}>
+                            {dist}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                   </div>
 
                   <div className="form-group">
                     <Label>Thana/Upazila</Label>
-                    <Select onValueChange={setThana} required>
+                    <Select
+                      onValueChange={setThana}
+                      required
+                      disabled={!district}
+                    >
                       <SelectTrigger className="select-trigger">
                         <SelectValue placeholder="Select thana" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="Savar">Savar</SelectItem>
-                        <SelectItem value="Dohar">Dohar</SelectItem>
+                        {getThanas(division, district).map((thana) => (
+                          <SelectItem key={thana} value={thana}>
+                            {thana}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                   </div>
                 </div>
-
                 <div className="form-group">
                   <Label>Phone</Label>
-                  <Input 
-                    value={phone} 
-                    onChange={(e) => setPhone(e.target.value)} 
-                    placeholder="Enter your phone number" 
+                  <Input
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="Enter your phone number"
                     className="phone-input"
                     required
                     type="tel"
@@ -190,31 +220,38 @@ export default function Checkout() {
                 />
                 <div className="product-info">
                   <h3 className="product-name">{product.title}</h3>
-                  <p className="product-condition">Condition: {product.condition}</p>
-                  <p className="product-category">Category: {product.category}</p>
+                  <p className="product-condition">
+                    Condition: {product.condition}
+                  </p>
+                  <p className="product-category">
+                    Category: {product.category}
+                  </p>
                   <p className="product-price">${product.price.toFixed(2)}</p>
                 </div>
               </div>
 
               <div className="seller-info">
-                <h3>Seller Information</h3>
-                <p>{product.userID?.name}</p>
-                <p>{product.userID?.email}</p>
-              </div>
-
-              <div className="price-breakdown">
-                <div className="price-row">
-                  <span>Price</span>
-                  <span>${subtotal.toFixed(2)}</span>
-                </div>
-                <div className="price-row">
-                  <span>Shipping</span>
-                  <span>Free</span>
-                </div>
-                <div className="price-row total">
-                  <span>Total</span>
-                  <span>${total.toFixed(2)}</span>
-                </div>
+                <h3>
+                  <UserCircle className="w-5 h-5" />
+                  Seller Information
+                </h3>
+                <p>
+                  <UserCircle className="w-4 h-4 opacity-70" />
+                  {product.userID?.name}
+                </p>
+                <p>
+                  <Mail className="w-4 h-4 opacity-70" />
+                  {product.userID?.email}
+                </p>
+                {product.userID?.avatar && (
+                  <div className="seller-avatar">
+                    <img
+                      src={product.userID.avatar}
+                      alt={product.userID.name}
+                      className="rounded-full w-10 h-10 object-cover"
+                    />
+                  </div>
+                )}
               </div>
 
               <Button className="place-order-btn" onClick={handlePlaceOrder}>
@@ -225,5 +262,5 @@ export default function Checkout() {
         </div>
       </div>
     </div>
-  );
+  )
 }
