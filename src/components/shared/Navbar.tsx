@@ -278,9 +278,7 @@ export default function Navbar() {
           <div className="relative flex items-center">
             <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-purple-600/50 via-pink-600/50 to-purple-600/50 blur-md group-hover:blur-xl opacity-75 group-hover:opacity-100 animate-pulse-slow transition-all duration-500"></div>
             <div className="relative bg-gradient-to-r from-purple-500 via-pink-500 to-violet-600 p-2.5 rounded-xl shadow-lg shadow-purple-500/30 group-hover:shadow-xl group-hover:shadow-purple-500/40 transition-all duration-300">
-              
-            <FaShopware />
-
+              <FaShopware />
             </div>
             <span className="ml-3 text-2xl font-bold bg-gradient-to-r from-white via-purple-200 to-pink-100 group-hover:from-white group-hover:via-pink-200 group-hover:to-purple-100 bg-clip-text text-transparent transition-all duration-300">
               SwapNest
@@ -441,9 +439,9 @@ export default function Navbar() {
                   <span className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500/0 to-pink-500/0 group-hover:from-purple-500/20 group-hover:to-pink-500/20 transform transition-all duration-300"></span>
 
                   {theme === 'dark' ? (
-                    <Sun className="h-5 w-5 text-yellow-200 group-hover:text-yellow-100 group-hover:rotate-45 transition-all duration-300" />
+                    <Sun className="h-8 w-8 text-yellow-600 group-hover:text-yellow-100 group-hover:rotate-45 transition-all duration-300" />
                   ) : (
-                    <Moon className="h-5 w-5 text-purple-200 group-hover:text-white group-hover:-rotate-45 transition-all duration-300" />
+                    <Moon className="h-8 w-8 text-purple-200 group-hover:text-white group-hover:-rotate-45 transition-all duration-300" />
                   )}
                 </Button>
               </GlowingTooltip>
