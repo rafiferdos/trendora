@@ -5,8 +5,8 @@ import { usePathname } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import { Menu, Heart, PlusCircle, Sun, Moon, ShoppingBag } from 'lucide-react'
 import { useEffect, useState, ReactNode } from 'react'
-
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { FaRegHeart, FaHeart } from 'react-icons/fa6'
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -16,6 +16,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetTrigger, SheetContent } from '@/components/ui/sheet'
 import { cn } from '@/lib/utils'
+import { useWishlist } from '@/context/WishLists.context'
 
 type UserType = { name: string; image?: string }
 interface NavbarProps {
@@ -71,7 +72,7 @@ export default function Navbar({ user }: NavbarProps) {
       </Link>
     </Tooltip>
   )
-
+  const { wishlist } = useWishlist()
   return (
     <header className="sticky top-0 z-50 bg-gradient-to-r from-white/70 to-white/30 dark:from-gray-900/70 dark:to-gray-900/30 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 shadow-sm">
       <div className="container mx-auto flex items-center justify-between px-6 py-4">
@@ -85,7 +86,13 @@ export default function Navbar({ user }: NavbarProps) {
         {/* Desktop */}
         <nav className="hidden lg:flex items-center space-x-4">
           <NavLink href="/all-lists" label="All Lists" />
-          <IconLink href="/wishlist" icon={Heart} label="Wishlist" />
+          <Link href="/wishlist" className="relative">
+            <FaHeart className="text-xl text-white" />
+            <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full px-1 text-xs">
+              {wishlist.length || 0} {/* Display 0 if wishlist is empty */}
+            </span>
+          </Link>
+
           <Tooltip label="Ad Post">
             <Link
               href="/post-ad"

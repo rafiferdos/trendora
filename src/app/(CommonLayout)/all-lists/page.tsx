@@ -569,6 +569,7 @@ export default function AllListsPage() {
                     className="transform hover:scale-105 transition-transform duration-300"
                   >
                     <Card
+                      id={item._id}
                       title={item.title}
                       price={item.price}
                       condition={item.condition}
