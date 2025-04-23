@@ -36,6 +36,7 @@ const fadeIn = {
 
 const Dashboard = () => {
   const { user } = useUser()
+  const { name = '', email = '' } = user?.data || {}
   const [mounted, setMounted] = useState(false)
   const [stats, setStats] = useState({
     views: 0,
@@ -180,7 +181,7 @@ const Dashboard = () => {
                   <Avatar className="w-20 h-20 border-2 border-white/20 relative">
                     <AvatarImage src="" />
                     <AvatarFallback className="bg-gradient-to-br from-purple-600 to-pink-600 text-white text-xl font-bold">
-                      {user?.name?.charAt(0) || 'U'}
+                      {name?.charAt(0)}
                     </AvatarFallback>
                   </Avatar>
                 </div>
@@ -192,7 +193,7 @@ const Dashboard = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.1 }}
                   >
-                    Welcome{user?.name ? `, ${user.name.split(' ')[0]}` : ''}!
+                    Welcome{name ? `, ${name.split(' ')[0]}` : ''}!
                   </motion.h1>
                   <motion.p
                     className="text-purple-100/80"
