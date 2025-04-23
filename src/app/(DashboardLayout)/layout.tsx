@@ -16,10 +16,10 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from '@/components/ui/sidebar'
+import { useUser } from '@/context/UserContext'
 import { motion } from 'framer-motion'
 import {
   BellRing,
-  ChevronDown,
   ChevronRight,
   LayoutDashboard,
   RefreshCcw,
@@ -28,6 +28,9 @@ import {
 } from 'lucide-react'
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
+  const { user } = useUser()
+  const { name = '', email = '' } = user?.data || {}
+
   return (
     <div className="bg-gradient-to-br from-gray-900 via-purple-950 to-violet-900 min-h-screen">
       {/* Background decoration elements */}
@@ -171,13 +174,12 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                 <Avatar className="h-6 w-6">
                   <AvatarImage src="" />
                   <AvatarFallback className="bg-gradient-to-br from-purple-600 to-pink-600 text-white text-xs font-medium">
-                    U
+                    {name.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
                 <span className="text-sm text-white/80 hidden sm:block">
-                  User
+                  {name || email}
                 </span>
-                <ChevronDown className="h-3.5 w-3.5 text-white/50 hidden sm:block" />
               </motion.div>
             </div>
           </header>
