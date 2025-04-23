@@ -360,7 +360,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </div>
         </motion.div>
       </SidebarContent>
-
+      
       {/* Footer with User Profile */}
       <SidebarFooter className="p-3 border-t border-white/10 mt-auto">
         <motion.div
