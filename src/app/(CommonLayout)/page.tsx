@@ -1,5 +1,7 @@
 'use client'
 
+
+import { CategorySection } from '@/components/modules/category/Categories'
 import { Button } from '@/components/ui/button'
 import { protectedRoutes } from '@/constants'
 import { useUser } from '@/context/UserContext'
@@ -353,6 +355,9 @@ const Homepage = () => {
           </motion.div>
         </div>
       </section>
+
+      {/* categoires section */}
+      <CategorySection></CategorySection>
 
       {/* Featured Items - Enhanced with vibrant animations */}
       <section className="py-20 relative overflow-hidden">
