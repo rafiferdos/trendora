@@ -354,7 +354,243 @@ const Homepage = () => {
         </div>
       </section>
 
+      {/* Featured Items - Enhanced with vibrant animations */}
+      <section className="py-20 relative overflow-hidden">
+        {/* Animated background elements */}
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute top-20 left-1/4 w-64 h-64 bg-gradient-to-br from-purple-600/10 to-pink-600/10 rounded-full blur-3xl animate-pulse-slow"></div>
+          <div
+            className="absolute bottom-10 right-1/4 w-80 h-80 bg-gradient-to-br from-blue-600/10 to-cyan-600/10 rounded-full blur-3xl animate-pulse-slow"
+            style={{ animationDelay: '2.5s' }}
+          ></div>
+        </div>
 
+        <div className="container mx-auto px-4">
+          <motion.div
+            className="flex flex-col md:flex-row md:items-center justify-between mb-12 gap-4"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <h2 className="text-3xl sm:text-5xl font-bold mb-2 bg-gradient-to-r from-white via-purple-200 to-pink-100 bg-clip-text text-transparent relative">
+                Featured Listings
+                <span className="absolute -top-4 -left-6 text-lg text-pink-500 font-normal">
+                  ✨ Hot items
+                </span>
+              </h2>
+              <p className="text-lg text-purple-100/80">
+                Explore our handpicked selection of amazing items
+              </p>
+            </motion.div>
+
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
+              <Link href="/all-lists">
+                <Button
+                  variant="outline"
+                  className="bg-white/10 hover:bg-white/20 border-white/20 text-white overflow-hidden group relative"
+                >
+                  <span className="absolute inset-0 w-0 bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-500 ease-out group-hover:w-full"></span>
+                  <span className="relative flex items-center">
+                    View All Listings
+                    <motion.div
+                      animate={{ x: [0, 5, 0] }}
+                      transition={{ repeat: Infinity, duration: 1.5 }}
+                    >
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </motion.div>
+                  </span>
+                </Button>
+              </Link>
+            </motion.div>
+          </motion.div>
+
+          {isLoading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[...Array(6)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  className="bg-gradient-to-br from-purple-500/5 via-pink-500/5 to-blue-500/5 p-0.5 rounded-xl overflow-hidden"
+                >
+                  <div className="bg-white/5 h-80 rounded-[calc(0.75rem-1px)] backdrop-blur-sm animate-pulse flex flex-col">
+                    <div className="h-48 bg-white/10 animate-pulse"></div>
+                    <div className="p-4 space-y-3">
+                      <div className="h-4 bg-white/10 rounded-full w-3/4 animate-pulse"></div>
+                      <div className="h-3 bg-white/10 rounded-full animate-pulse"></div>
+                      <div className="h-3 bg-white/10 rounded-full w-1/2 animate-pulse"></div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          ) : featuredListings.length > 0 ? (
+            <motion.div
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+            >
+              {featuredListings.map((listing, index) => (
+                <motion.div
+                  key={listing._id}
+                  variants={{
+                    hidden: { opacity: 0, y: 50 },
+                    visible: {
+                      opacity: 1,
+                      y: 0,
+                      transition: { duration: 0.5, ease: 'easeOut' },
+                    },
+                  }}
+                  whileHover={{
+                    y: -10,
+                    boxShadow:
+                      '0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1)',
+                    transition: { duration: 0.2 },
+                  }}
+                >
+                  <Link
+                    href={`/product/${listing._id}`}
+                    className="block h-full"
+                  >
+                    <div
+                      className={`bg-gradient-to-br ${getCardColorClass(index)} p-0.5 rounded-xl shadow-lg shadow-${getCardColorClass(index).split(' ')[1].replace('to-', '')}/20 overflow-hidden`}
+                    >
+                      <div className="group h-full backdrop-blur-md bg-black/30 rounded-[calc(0.75rem-1px)] overflow-hidden transition-all duration-300">
+                        <div className="h-52 overflow-hidden relative">
+                          <motion.div
+                            className="absolute inset-0 bg-gradient-to-br from-black/70 via-transparent to-transparent z-10"
+                            initial={{ opacity: 0.3 }}
+                            whileHover={{ opacity: 0 }}
+                            transition={{ duration: 0.3 }}
+                          ></motion.div>
+                          <motion.div
+                            whileHover={{ scale: 1.1 }}
+                            transition={{ duration: 0.6 }}
+                            className="h-full w-full"
+                          >
+                            <Image
+                              src={listing.images?.[0] || '/placeholder.jpg'}
+                              alt={listing.title}
+                              fill
+                              className="object-cover object-center"
+                            />
+                          </motion.div>
+                          <motion.div
+                            className={`absolute top-3 right-3 bg-gradient-to-r from-black/60 to-black/60 backdrop-blur-md text-white font-bold px-3 py-1.5 rounded-lg shadow-xl flex items-center z-20`}
+                            whileHover={{ scale: 1.1 }}
+                            transition={{
+                              type: 'spring',
+                              stiffness: 400,
+                              damping: 10,
+                            }}
+                          >
+                            <span className="mr-1 text-xs text-white/70">
+                              $
+                            </span>
+                            <span className="text-sm">{listing.price}</span>
+                          </motion.div>
+
+                          <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileHover={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.2 }}
+                            className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3 flex items-center z-10"
+                          >
+                            <div className="px-2 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs">
+                              View Details
+                            </div>
+                          </motion.div>
+                        </div>
+
+                        <div className="p-5">
+                          <h3 className="font-bold text-lg text-white group-hover:text-purple-200 transition-colors truncate">
+                            {listing.title}
+                          </h3>
+                          <p className="text-white/70 line-clamp-2 text-sm h-10 my-2">
+                            {typeof listing.description === 'string'
+                              ? listing.description
+                              : 'No description provided'}
+                          </p>
+                          <div className="flex justify-between items-center mt-3">
+                            <motion.span
+                              className={`text-xs ${index % 2 === 0 ? 'bg-purple-500/30' : 'bg-pink-500/30'} px-2.5 py-1 rounded-full capitalize flex items-center gap-1`}
+                              whileHover={{ scale: 1.05 }}
+                              transition={{
+                                type: 'spring',
+                                stiffness: 400,
+                                damping: 10,
+                              }}
+                            >
+                              <span
+                                className={`w-2 h-2 rounded-full ${index % 2 === 0 ? 'bg-purple-400' : 'bg-pink-400'}`}
+                              ></span>
+                              {listing.condition}
+                            </motion.span>
+                            <span className="text-xs text-white/60 italic">
+                              {listing.createdAt
+                                ? new Date(
+                                    listing.createdAt,
+                                  ).toLocaleDateString()
+                                : 'Recently added'}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                </motion.div>
+              ))}
+            </motion.div>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="text-center py-16 backdrop-blur-md bg-white/5 rounded-xl border border-white/10"
+            >
+              <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-white/5 flex items-center justify-center border border-white/10">
+                <ShoppingBag className="h-8 w-8 text-white/40" />
+              </div>
+              <p className="text-white/70 text-lg">
+                No featured listings available at the moment.
+              </p>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 10 }}
+                className="mt-4"
+              >
+                <Link
+                  href="/all-lists"
+                  className="text-lg inline-flex items-center gap-2 text-gradient bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent hover:from-purple-300 hover:to-pink-300 transition-all"
+                >
+                  Browse all listings
+                  <motion.div
+                    animate={{ x: [0, 5, 0] }}
+                    transition={{ repeat: Infinity, duration: 1.5 }}
+                  >
+                    <ArrowRight className="h-4 w-4 text-pink-400" />
+                  </motion.div>
+                </Link>
+              </motion.div>
+            </motion.div>
+          )}
+        </div>
+      </section>
 
       {/* How It Works */}
       <section className="py-16 bg-black/20 backdrop-blur-sm">
