@@ -19,7 +19,7 @@ import { ReactNode, useEffect, useState } from 'react'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
-import {  FaHeart } from 'react-icons/fa6'
+import { FaHeart } from 'react-icons/fa6'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -68,7 +68,7 @@ export default function Navbar({ user }: NavbarProps) {
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-
+  const { wishlist } = useWishlist()
   // State for wishlist animation
   const [lastWishlistClick, setLastWishlistClick] = useState<number | null>(
     null,
@@ -217,11 +217,18 @@ export default function Navbar({ user }: NavbarProps) {
             transition={{ duration: 0.4 }}
             className="relative z-10"
           >
-            <Heart
+            {/* <Heart
               fill={isLiked ? '#ec4899' : 'none'}
               className={`h-5 w-5 transition-all duration-300
                 ${isLiked ? 'text-pink-500' : 'text-gray-300 group-hover:text-white'}`}
-            />
+            /> */}
+
+   
+              <FaHeart className="text-xl text-white" />
+              <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full px-1 text-xs">
+                {wishlist.length || 0} 
+              </span>
+   
           </motion.div>
         </button>
       </GlowingTooltip>

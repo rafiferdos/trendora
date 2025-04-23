@@ -9,11 +9,12 @@ const Homepage = () => {
   const { user, setIsLoading, handleLogout } = useUser()
   const pathname = usePathname()
   const router = useRouter()
+
   const handleLogOuts = () => {
     handleLogout()
     setIsLoading(true)
     if (protectedRoutes.some((route) => pathname.match(route))) {
-      router.push('/')
+      router.replace('/')
     }
   }
 

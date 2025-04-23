@@ -1,4 +1,3 @@
-
 import Image from 'next/image'
 import Link from 'next/link'
 import { FiHeart, FiShoppingBag, FiStar } from 'react-icons/fi'
@@ -39,7 +38,7 @@ export default function Card({
       poor: 'bg-rose-500 text-white',
     }[condition.toLowerCase()] || 'bg-gray-500 text-white'
   const { toggleWishlist, isWishlisted } = useWishlist()
-  const isActive = isWishlisted(id)
+  const isActive = isWishlisted(productId)
   return (
     <div
       className={`rounded-2xl overflow-hidden shadow-xl ${colorScheme.bg} relative group`}
@@ -48,7 +47,7 @@ export default function Card({
       <div className="relative h-56 w-full overflow-hidden">
         <div className="absolute inset-0 bg-black/30 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
           <button
-            onClick={() => toggleWishlist(id)}
+            onClick={() => toggleWishlist(productId)}
             className="mx-2 p-3 rounded-full bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 transition-all"
           >
             {isActive ? <FaHeart className="text-red-500" /> : <FaRegHeart />}

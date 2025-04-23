@@ -1,7 +1,8 @@
-import { getValidToken } from '@/lib/verifyToken'
-import { getCurrentUserInfo, logout } from '@/services/AuthService'
+import { getClientToken, logoutUser } from '@/actions/authActions'
+import { getCurrentUserInfo } from '@/services/AuthService'
 import { TUserInfo } from '@/types'
 import { clearLocalWishlist, getLocalWishlist } from '@/utils/localStorage'
+import { logoutClient } from '@/utils/logoutClient'
 
 import { syncWishlistToDB } from '@/utils/syncWishlist'
 import {
@@ -38,35 +39,23 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
   }, [isLoading])
 
   const handleLogout = async () => {
-    await logout()
-    clearLocalWishlist()
-    setUser(null)
+    await logoutUser() // Call the server action
+    setUser(null) // Clear user from the context
   }
 
   useEffect(() => {
-    if (typeof window === 'undefined') return // 👈 guard SSR
-
-    if (user?._id && user.accessToken) {
-      const wishlist = getLocalWishlist()
-
-      if (wishlist.length > 0) {
-        syncWishlistToDB(user.accessToken, wishlist)
-          .then(() => {
-            clearLocalWishlist() // ✅ after sync
-          })
-          .catch((err) => console.error('Wishlist sync error', err))
-      }
-    }
-  }, [user?._id])
-
-  useEffect(() => {
     const fetchToken = async () => {
-      const validToken = await getValidToken() // Await the valid token asynchronously
-      setToken(validToken) // Set token once you have the value
+      try {
+        const validToken = await getClientToken()
+        setToken(validToken)
+      } catch (error) {
+        console.error('Error getting token:', error)
+        setToken(null)
+      }
     }
 
     fetchToken()
-  }, []) // This effect will run once when the component mounts
+  }, [])
   if (isLoading) return
 
   return (

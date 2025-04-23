@@ -3,6 +3,8 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { useUser } from '@/context/UserContext'
 import { toast } from 'sonner'
+import { getLocalWishlist } from '@/utils/localStorage'
+import { syncWishlistToDB } from '@/utils/syncWishlist'
 
 type WishlistContextType = {
   wishlist: string[]
@@ -11,7 +13,6 @@ type WishlistContextType = {
   removeWishlist: (id: string) => void
   clearWishlist: () => void
   setWishlist: (items: string[]) => void
-
 }
 
 const WishlistContext = createContext<WishlistContextType | null>(null)
@@ -24,12 +25,25 @@ export const WishlistProvider = ({
   const [wishlist, setWishlistState] = useState<string[]>([])
   const [wishlistLoading, setWishlistLoading] = useState(true)
   const { user, token } = useUser()
-  console.log('wishlist:', wishlist)
-  // Load wishlist from backend or localStorage
+
+  useEffect(() => {
+    if (token) {
+      // If user logs in, sync the local wishlist with the DB
+      const localWishlist = getLocalWishlist()
+      if (localWishlist.length > 0) {
+        syncWishlistToDB(token, localWishlist).then(() => {
+          // Once sync is complete, clear local storage if necessary
+          localStorage.removeItem('wishlist')
+        })
+      }
+    }
+  }, [token]) // Runs when the token changes (i.e., user logs in)
+
+  // ✅ 1. Fetch wishlist on mount or when user changes
   useEffect(() => {
     const fetchWishlist = async () => {
       if (token) {
-        setWishlistLoading(true) // start loading
+        setWishlistLoading(true)
 
         try {
           const res = await fetch(
@@ -43,12 +57,12 @@ export const WishlistProvider = ({
           if (!res.ok) throw new Error('Failed to fetch wishlist')
           const data = await res.json()
           const wishlistIds =
-            data?.data?.map((item: any) => item.listing._id) || [] // extract only the IDs
-          setWishlistState(wishlistIds) // store only the IDs
+            data?.data?.map((item: any) => item.listing._id) || []
+          setWishlistState(wishlistIds)
         } catch (error) {
           console.error('Failed to fetch wishlist from backend:', error)
         } finally {
-          setWishlistLoading(false) // finish loading
+          setWishlistLoading(false)
         }
       } else {
         const stored = localStorage.getItem('wishlist')
@@ -60,7 +74,17 @@ export const WishlistProvider = ({
     fetchWishlist()
   }, [user])
 
-  // Save to localStorage for guests
+  // ✅ 2. Clear wishlist after logout and optionally load guest wishlist
+  useEffect(() => {
+    if (!token) {
+      setWishlistState([])
+
+      const stored = localStorage.getItem('wishlist')
+      if (stored) setWishlistState(JSON.parse(stored))
+    }
+  }, [token])
+
+  // ✅ 3. Save to localStorage for guest users
   useEffect(() => {
     if (!token) {
       localStorage.setItem('wishlist', JSON.stringify(wishlist))
@@ -68,7 +92,7 @@ export const WishlistProvider = ({
   }, [wishlist, user])
 
   const toggleWishlist = async (id: string) => {
-    if (wishlistLoading) return // ❌ Don't do anything until loaded
+    if (wishlistLoading) return
 
     const isInWishlist = wishlist.includes(id)
 
@@ -99,7 +123,6 @@ export const WishlistProvider = ({
             },
           )
           if (!res.ok) throw new Error('Failed to add to wishlist')
-
           toast.success('Added to Wishlist!')
         }
 
@@ -113,6 +136,8 @@ export const WishlistProvider = ({
       setWishlistState((prev) =>
         isInWishlist ? prev.filter((item) => item !== id) : [...prev, id],
       )
+      // Update the localStorage only when not logged in
+      localStorage.setItem('wishlist', JSON.stringify(wishlist))
     }
   }
 
