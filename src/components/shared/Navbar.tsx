@@ -27,11 +27,10 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
-import { cn } from '@/lib/utils'
 import { useUser } from '@/context/UserContext'
+import { cn } from '@/lib/utils'
 
 type UserType = { name: string; email: string }
-
 
 function GlowingTooltip({
   children,
@@ -71,7 +70,7 @@ export default function Navbar() {
     null,
   )
   const { user } = useUser()
-  const { name, email } = user?.data
+  const { name = '', email = '' } = user?.data || {}
 
   useEffect(() => {
     setMounted(true)
@@ -324,7 +323,7 @@ export default function Navbar() {
                     <div className="absolute inset-0.5 rounded-full bg-gray-900/90 backdrop-blur-sm"></div>
 
                     <Avatar className="w-9 h-9 cursor-pointer relative">
-                      <AvatarImage src='' />
+                      <AvatarImage src="" />
                       <AvatarFallback className="bg-gradient-to-br from-purple-600 to-pink-600 text-white font-medium">
                         {name.charAt(0)}
                       </AvatarFallback>
@@ -342,7 +341,7 @@ export default function Navbar() {
                   <div className="p-4 border-b border-white/10">
                     <div className="flex items-center gap-3">
                       <Avatar className="w-12 h-12 border-2 border-purple-500/30">
-                        <AvatarImage src='' />
+                        <AvatarImage src="" />
                         <AvatarFallback className="bg-gradient-to-br from-purple-600 to-pink-600 text-white font-semibold">
                           {name.charAt(0)}
                         </AvatarFallback>
@@ -468,7 +467,7 @@ export default function Navbar() {
         <div className="lg:hidden flex items-center gap-2">
           {user && (
             <Avatar className="w-8 h-8 cursor-pointer border-2 border-purple-500/30">
-              <AvatarImage src='' />
+              <AvatarImage src="" />
               <AvatarFallback className="bg-gradient-to-br from-purple-600 to-pink-600 text-white">
                 {name.charAt(0)}
               </AvatarFallback>
@@ -532,7 +531,7 @@ export default function Navbar() {
                       <div className="relative">
                         <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-600/70 to-pink-600/70 animate-pulse-slow blur-sm"></div>
                         <Avatar className="w-14 h-14 border-2 border-purple-500/40 relative">
-                          <AvatarImage src='' />
+                          <AvatarImage src="" />
                           <AvatarFallback className="bg-gradient-to-br from-purple-600 to-pink-600 text-white text-lg font-medium">
                             {name.charAt(0)}
                           </AvatarFallback>
