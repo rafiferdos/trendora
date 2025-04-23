@@ -380,7 +380,7 @@ const Homepage = () => {
             >
               <h2 className="text-3xl sm:text-5xl font-bold mb-2 bg-gradient-to-r from-white via-purple-200 to-pink-100 bg-clip-text text-transparent relative">
                 Featured Listings
-                <span className="absolute -top-4 -left-6 text-lg text-pink-500 font-normal">
+                <span className="absolute -top-4 -left-6 text-lg text-pink-600 font-normal bg-pink-100/40 rounded-4xl px-2">
                   ✨ Hot items
                 </span>
               </h2>
@@ -773,11 +773,10 @@ const Homepage = () => {
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
-                        className="h-4 w-4 text-amber-400"
                         className={
                           i < 4
-                            ? 'fill-amber-400 text-amber-400'
-                            : 'text-amber-400'
+                            ? 'h-4 w-4 fill-amber-400 text-amber-400'
+                            : 'h-4 w-4 text-amber-400'
                         }
                       />
                     ))}
