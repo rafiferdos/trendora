@@ -1,5 +1,7 @@
 'use client'
 
+
+import { CategorySection } from '@/components/modules/category/Categories'
 import { Button } from '@/components/ui/button'
 import { protectedRoutes } from '@/constants'
 import { useUser } from '@/context/UserContext'
@@ -24,6 +26,10 @@ const Homepage = () => {
       <h1 className="font-jost text-2xl">Welcome to SwapNest homepage</h1>
       <Button>Click me</Button>
       <Button onClick={handleLogOut}>Log Out</Button>
+
+      {/* Other sections */}
+      <CategorySection />
+      {/* Other sections */}
     </div>
   )
 }
