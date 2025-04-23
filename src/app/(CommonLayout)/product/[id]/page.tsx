@@ -147,7 +147,7 @@ export default function ProductDetailPage() {
             },
           },
         )
-
+        console.log(response)
         if (!response.ok) {
           throw new Error('Product not found')
         }
