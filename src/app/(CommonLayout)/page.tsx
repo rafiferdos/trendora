@@ -62,7 +62,7 @@ const Homepage = () => {
 
   // Categories for the featured categories section
   const categories = [
-    { name: "Electronics", icon: "/icons/electronics.svg", color: "from-blue-500 to-cyan-500" },
+    { name: "Electronics", icon: "https://img.pikbest.com/ai/illus_our/20230428/8690736d499ac58554cf07afc0ef0507.jpg!w700wp", color: "from-blue-500 to-cyan-500" },
     { name: "Fashion", icon: "/icons/clothing.svg", color: "from-pink-500 to-rose-500" },
     { name: "Home & Garden", icon: "/icons/furniture.svg", color: "from-amber-500 to-yellow-500" },
     { name: "Sports & Outdoors", icon: "/icons/sports.svg", color: "from-green-500 to-emerald-500" },
