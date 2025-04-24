@@ -125,7 +125,7 @@ export default function Navbar() {
   }
 
   const IconLink = ({
-    href,
+    href = "/dashboard/user/wishlist",
     icon: Icon,
     label,
   }: {
@@ -159,8 +159,8 @@ export default function Navbar() {
 
       // Navigate after animation completes
       setTimeout(() => {
-        router.push('/wishlist')
-      }, 600)
+        router.push('/dashboard/user/wishlist')
+      }, 500)
     }
 
     return (
@@ -172,11 +172,10 @@ export default function Navbar() {
           {/* Background effects */}
           <span
             className={`absolute inset-0 rounded-full transition-all duration-500
-            ${
-              isLiked
+            ${isLiked
                 ? 'bg-gradient-to-r from-pink-500/30 to-rose-500/30'
                 : 'bg-gradient-to-r from-purple-500/0 to-pink-500/0 group-hover:from-purple-500/20 group-hover:to-pink-500/20'
-            }`}
+              }`}
           />
 
           {/* Pulsing hover effect */}
@@ -250,7 +249,7 @@ export default function Navbar() {
 
     return (
       <Link
-        href="/wishlist"
+        href="/dashboard/user/wishlist"
         className="flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors relative overflow-hidden"
       >
         <div className="relative">

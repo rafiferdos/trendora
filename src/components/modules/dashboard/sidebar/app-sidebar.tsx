@@ -116,7 +116,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     },
     {
       title: 'Wishlist',
-      url: '/dashboard/wishlist',
+      url: '/dashboard/user/wishlist',
       icon: Heart,
       iconColor: 'text-rose-400',
       bgColor: 'from-rose-600/20 to-red-600/20',
@@ -124,7 +124,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     },
     {
       title: 'Profile Settings',
-      url: '/dashboard/settings',
+      url: '/dashboard/user/profile',
       icon: Settings,
       iconColor: 'text-neutral-400',
       bgColor: 'from-neutral-600/20 to-gray-600/20',

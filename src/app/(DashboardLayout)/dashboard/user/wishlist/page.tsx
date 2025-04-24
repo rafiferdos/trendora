@@ -139,13 +139,12 @@ const WishlistPage = () => {
                 <td className="px-4 py-2">${product?.price}</td>
                 <td className="px-4 py-2">{product?.category}</td>
                 <td
-                  className={`px-4 py-2 font-semibold ${
-                    product?.status === 'sold'
+                  className={`px-4 py-2 font-semibold ${product?.status === 'sold'
                       ? 'text-red-500'
                       : product?.status === 'available'
                         ? 'text-green-500'
                         : ''
-                  }`}
+                    }`}
                 >
                   {product?.status}
                 </td>
