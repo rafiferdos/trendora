@@ -1,10 +1,8 @@
 import { getClientToken, logoutUser } from '@/actions/authActions'
 import { getCurrentUserInfo } from '@/services/AuthService'
 import { TUserInfo } from '@/types'
-import { clearLocalWishlist, getLocalWishlist } from '@/utils/localStorage'
-import { logoutClient } from '@/utils/logoutClient'
+import { clearLocalWishlist } from '@/utils/localStorage'
 
-import { syncWishlistToDB } from '@/utils/syncWishlist'
 import {
   createContext,
   Dispatch,
@@ -28,6 +26,7 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<TUserInfo | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [token, setToken] = useState<string | null>(null)
+
   const handleUser = async () => {
     const user = await getCurrentUserInfo()
     setUser(user)
@@ -40,6 +39,8 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
   const handleLogout = async () => {
     await logoutUser() // Call the server action
+
+    clearLocalWishlist()
     setUser(null) // Clear user from the context
   }
 

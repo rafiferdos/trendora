@@ -1,4 +1,3 @@
-// utils/localStorage.ts
 
 const LOCAL_WISHLIST_KEY = 'wishlist'
 
@@ -7,7 +6,7 @@ export type TLocalWishlistItem = {
 }
 
 export const getLocalWishlist = (): TLocalWishlistItem[] => {
-  if (typeof window !== 'undefined') return []
+  if (typeof window === 'undefined') return []
   const stored = localStorage.getItem(LOCAL_WISHLIST_KEY)
   return stored ? JSON.parse(stored) : []
 }
@@ -24,7 +23,7 @@ export const addToLocalWishlist = (product: TLocalWishlistItem) => {
 
 export const removeFromLocalWishlist = (listingId: string) => {
   const wishlist = getLocalWishlist().filter(
-    (item) => item.listingId !== listingId,
+    (item) => item.listingId !== listingId
   )
   localStorage.setItem(LOCAL_WISHLIST_KEY, JSON.stringify(wishlist))
 }
@@ -35,6 +34,6 @@ export const isInLocalWishlist = (listingId: string): boolean => {
 
 export const clearLocalWishlist = () => {
   if (typeof window !== 'undefined') {
-    localStorage.removeItem('wishlist')
+    localStorage.removeItem(LOCAL_WISHLIST_KEY)
   }
 }

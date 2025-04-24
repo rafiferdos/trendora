@@ -97,34 +97,6 @@ export const getCurrentUserInfo = async () => {
   }
 }
 
-// export const logout = async () => {
-//   (await cookies()).delete('accessToken')
-//   clearLocalWishlist();
-// }
-
-// export const logout = async () => {
-//   // Overwrite the accessToken cookie with an empty value and optional expiration
-//   cookies().set('accessToken', '', {
-//     httpOnly: true,
-//     path: '/',
-//     maxAge: 0, // Optional: makes the cookie expire immediately
-//   });
-
-//   clearLocalWishlist();
-// };
-
-// export const logout = async () => {
-//   // Just overwrite the cookie with an empty string
-//   cookies().set('accessToken', '', {
-//     httpOnly: true,
-//     path: '/',
-//     sameSite: 'lax',
-//     secure: true,
-//     // optional: set maxAge or expires if you want
-//   })
-
-//   clearLocalWishlist()
-// }
 
 export const getNewAccessToken = async () => {
   try {

@@ -3,8 +3,6 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { useUser } from '@/context/UserContext'
 import { toast } from 'sonner'
-import { getLocalWishlist } from '@/utils/localStorage'
-import { syncWishlistToDB } from '@/utils/syncWishlist'
 
 type WishlistContextType = {
   wishlist: string[]
@@ -26,150 +24,125 @@ export const WishlistProvider = ({
   const [wishlistLoading, setWishlistLoading] = useState(true)
   const { user, token } = useUser()
 
-  useEffect(() => {
-    if (token) {
-      // If user logs in, sync the local wishlist with the DB
-      const localWishlist = getLocalWishlist()
-      if (localWishlist.length > 0) {
-        syncWishlistToDB(token, localWishlist).then(() => {
-          // Once sync is complete, clear local storage if necessary
-          localStorage.removeItem('wishlist')
-        })
-      }
-    }
-  }, [token]) // Runs when the token changes (i.e., user logs in)
-
-  // ✅ 1. Fetch wishlist on mount or when user changes
+  // 🔄 Fetch wishlist depending on user login state
   useEffect(() => {
     const fetchWishlist = async () => {
-      if (token) {
-        setWishlistLoading(true)
-
-        try {
+      setWishlistLoading(true)
+      try {
+        if (!user) {
+          const stored = localStorage.getItem('wishlist')
+          if (stored) setWishlistState(JSON.parse(stored))
+        }
+        if (user) {
           const res = await fetch(
             `${process.env.NEXT_PUBLIC_BASE_API}/wishlists`,
             {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
+              headers: { Authorization: `Bearer ${token}` },
             },
           )
-          if (!res.ok) throw new Error('Failed to fetch wishlist')
+
           const data = await res.json()
           const wishlistIds =
             data?.data?.map((item: any) => item.listing._id) || []
           setWishlistState(wishlistIds)
-        } catch (error) {
-          console.error('Failed to fetch wishlist from backend:', error)
-        } finally {
-          setWishlistLoading(false)
         }
-      } else {
-        const stored = localStorage.getItem('wishlist')
-        if (stored) setWishlistState(JSON.parse(stored))
+      } catch (error) {
+        console.error('Error fetching wishlist:', error)
+      } finally {
         setWishlistLoading(false)
       }
     }
 
     fetchWishlist()
-  }, [user])
-
-  // ✅ 2. Clear wishlist after logout and optionally load guest wishlist
-  useEffect(() => {
-    if (!token) {
-      setWishlistState([])
-
-      const stored = localStorage.getItem('wishlist')
-      if (stored) setWishlistState(JSON.parse(stored))
-    }
   }, [token])
 
-  // ✅ 3. Save to localStorage for guest users
   useEffect(() => {
-    if (!token) {
+    if (!token && wishlist.length > 0) {
       localStorage.setItem('wishlist', JSON.stringify(wishlist))
     }
-  }, [wishlist, user])
+  }, [wishlist, token])
 
   const toggleWishlist = async (id: string) => {
     if (wishlistLoading) return
 
     const isInWishlist = wishlist.includes(id)
 
-    if (token) {
-      try {
-        if (isInWishlist) {
-          const res = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_API}/wishlists/${id}`,
-            {
-              method: 'DELETE',
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            },
-          )
-          if (!res.ok) throw new Error('Failed to remove from wishlist')
-          toast.success('Removed from Wishlist!')
-        } else {
-          const res = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_API}/wishlists`,
-            {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
-              },
-              body: JSON.stringify({ listing: id }),
-            },
-          )
-          if (!res.ok) throw new Error('Failed to add to wishlist')
-          toast.success('Added to Wishlist!')
-        }
+    if (!token || !user) {
+      // 🧑‍🚀 Guest logic
+      const updated = isInWishlist
+        ? wishlist.filter((item) => item !== id)
+        : [...wishlist, id]
+      setWishlistState(updated)
 
-        setWishlistState((prev) =>
-          isInWishlist ? prev.filter((item) => item !== id) : [...prev, id],
-        )
-      } catch (error) {
-        console.error('Wishlist update error:', error)
-      }
-    } else {
+      localStorage.setItem('wishlist', JSON.stringify(updated))
+      toast.success(
+        isInWishlist ? 'Removed from Wishlist!' : 'Added to Wishlist!',
+      )
+      return
+    }
+
+    // 🛡️ Authenticated user logic
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_API}/wishlists${isInWishlist ? `/${id}` : ''}`,
+        {
+          method: isInWishlist ? 'DELETE' : 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          ...(isInWishlist ? {} : { body: JSON.stringify({ listing: id }) }),
+        },
+      )
+
+      if (!res.ok) throw new Error('Failed to update wishlist')
+      toast.success(
+        isInWishlist ? 'Removed from Wishlist!' : 'Added to Wishlist!',
+      )
+
       setWishlistState((prev) =>
         isInWishlist ? prev.filter((item) => item !== id) : [...prev, id],
       )
-      // Update the localStorage only when not logged in
-      localStorage.setItem('wishlist', JSON.stringify(wishlist))
+    } catch (error) {
+      console.error('Wishlist update error:', error)
     }
   }
 
   const removeWishlist = async (id: string) => {
-    if (token) {
-      try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_API}/wishlists/${id}`,
-          {
-            method: 'DELETE',
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          },
-        )
+    if (!token || !user) {
+      // 🧑‍🚀 Guest logic
+      const updated = wishlist.filter((item) => item !== id)
+      setWishlistState(updated)
+      localStorage.setItem('wishlist', JSON.stringify(updated))
+      toast.success('Removed from Wishlist!')
+      return
+    }
 
-        if (!res.ok) throw new Error('Failed to remove from wishlist')
+    // 🛡️ Authenticated user logic
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_API}/wishlists/${id}`,
+        {
+          method: 'DELETE',
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      )
 
-        setWishlistState((prev) => prev.filter((item) => item !== id))
-      } catch (error) {
-        console.error('Wishlist remove error:', error)
-      }
-    } else {
+      if (!res.ok) throw new Error('Failed to remove from wishlist')
+
       setWishlistState((prev) => prev.filter((item) => item !== id))
+
+      toast.success('Removed from Wishlist!')
+    } catch (error) {
+      console.error('Wishlist remove error:', error)
     }
   }
 
   const isWishlisted = (id: string) => wishlist.includes(id)
 
   const clearWishlist = () => {
-    setWishlistState([])
-    if (!user?.accessToken) localStorage.removeItem('wishlist')
+    setWishlistState([]) // clear state
+    localStorage.removeItem('wishlist') // clear localStorage
   }
 
   return (

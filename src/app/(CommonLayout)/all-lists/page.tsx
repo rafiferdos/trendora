@@ -1,8 +1,8 @@
 'use client'
 
 import SanitizedImage from '@/components/shared/SanitizedImage'
+import { ListingCategory } from '@/types/listings/listing'
 import dynamic from 'next/dynamic'
-import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import {
@@ -29,36 +29,6 @@ interface Listing {
   images?: string[]
   userID?: string
   status?: 'available' | 'sold'
-}
-
-// Define the category enum
-export enum ListingCategory {
-  Electronics = 'electronics',
-  Mobile = 'mobile',
-  Computers = 'computers',
-  Appliances = 'appliances',
-  Furniture = 'furniture',
-  Clothing = 'clothing',
-  Footwear = 'footwear',
-  Accessories = 'accessories',
-  Vehicles = 'vehicles',
-  Books = 'books',
-  Sports = 'sports',
-  Toys = 'toys',
-  Health = 'health',
-  Beauty = 'beauty',
-  Jewelry = 'jewelry',
-  Tools = 'tools',
-  Gardening = 'gardening',
-  MusicalInstruments = 'musicalinstruments',
-  OfficeSupplies = 'officesupplies',
-  PetSupplies = 'petsupplies',
-  BabyProducts = 'babyproducts',
-  ArtCollectibles = 'artcollectibles',
-  Gaming = 'gaming',
-  Cameras = 'cameras',
-  RealEstate = 'realestate',
-  Other = 'other',
 }
 
 // Format category ID to display name (capitalized with spaces)
@@ -109,42 +79,42 @@ export default function AllListsPage() {
       setIsLoading(true)
       try {
         // Log the full URL being called
-        const apiUrl = `${process.env.NEXT_PUBLIC_BASE_API}/listings`;
-        console.log('Fetching from:', apiUrl);
+        const apiUrl = `${process.env.NEXT_PUBLIC_BASE_API}/listings`
+        console.log('Fetching from:', apiUrl)
 
         const listingsResponse = await fetch(apiUrl, {
           cache: 'no-store',
           headers: {
             'Content-Type': 'application/json',
           },
-        });
+        })
 
         if (!listingsResponse.ok) {
-          const errorData = await listingsResponse.text();
-          console.error('Response not ok:', listingsResponse.status, errorData);
-          throw new Error(`HTTP error! status: ${listingsResponse.status}`);
+          const errorData = await listingsResponse.text()
+          console.error('Response not ok:', listingsResponse.status, errorData)
+          throw new Error(`HTTP error! status: ${listingsResponse.status}`)
         }
 
-        const listingsData = await listingsResponse.json();
-        console.log('Received data structure:', listingsData);
+        const listingsData = await listingsResponse.json()
+        console.log('Received data structure:', listingsData)
 
         if (!listingsData.data || !Array.isArray(listingsData.data)) {
-          console.error('Invalid data structure:', listingsData);
-          throw new Error('Invalid data format received');
+          console.error('Invalid data structure:', listingsData)
+          throw new Error('Invalid data format received')
         }
 
-        setListings(listingsData.data);
-        setFilteredListings(listingsData.data);
+        setListings(listingsData.data)
+        setFilteredListings(listingsData.data)
       } catch (error) {
-        console.error('Detailed fetch error:', error);
-        setError(error instanceof Error ? error.message : 'Failed to load data');
+        console.error('Detailed fetch error:', error)
+        setError(error instanceof Error ? error.message : 'Failed to load data')
       } finally {
-        setIsLoading(false);
+        setIsLoading(false)
       }
-    };
+    }
 
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
   // Apply filters when any filter parameter changes
   useEffect(() => {
