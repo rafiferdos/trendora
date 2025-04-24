@@ -57,7 +57,8 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
     fetchToken()
   }, [])
-  if (isLoading) return
+
+  if (isLoading) return;
 
   return (
     <UserContext.Provider
