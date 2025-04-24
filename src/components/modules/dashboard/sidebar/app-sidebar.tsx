@@ -1,5 +1,4 @@
 'use client'
-import * as React from 'react'
 import { motion } from 'framer-motion'
 import {
   BarChart3,
@@ -14,7 +13,8 @@ import {
   ShoppingCart,
 } from 'lucide-react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
+import * as React from 'react'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
@@ -32,8 +32,10 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar'
 
-import { FaShopware } from 'react-icons/fa'
+import { protectedRoutes } from '@/constants'
 import { useUser } from '@/context/UserContext'
+import { clearLocalWishlist } from '@/utils/localStorage'
+import { FaShopware } from 'react-icons/fa'
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { user } = useUser()
@@ -44,15 +46,21 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     'Listings',
   ])
 
+  const pathname = usePathname()
+  const { handleLogout } = useUser()
+
   // Extract user data
   const userName = user?.data?.name || 'SwapNest User'
   const userEmail = user?.data?.email || 'user@swapnest.com'
   const firstLetter = userName.charAt(0).toUpperCase()
 
   // Handle logout
-  const handleLogout = async () => {
-    await LogOut()
-    router.push('/')
+  const handleLogouts = async () => {
+    await handleLogout()
+    clearLocalWishlist()
+    if (protectedRoutes.some((route) => pathname.match(route))) {
+      router.replace('/')
+    }
   }
 
   // Navigation items with vibrant colors
@@ -249,10 +257,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                         transition={{ delay: 0.3 + index * 0.1, duration: 0.5 }}
                         whileHover={{ x: 5 }}
                         className={`flex items-center justify-between p-2.5 rounded-lg cursor-pointer transition-all
-                        ${activeItem === item.title
+                        ${
+                          activeItem === item.title
                             ? `bg-gradient-to-r ${item.bgColor} border-l-2 ${item.borderColor}`
                             : 'hover:bg-white/10'
-                          }`}
+                        }`}
                       >
                         <div className="flex items-center gap-3 min-w-0">
                           <div
@@ -277,10 +286,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
                         {state === 'expanded' && (
                           <ChevronRight
-                            className={`w-4 h-4 text-white/50 transition-transform ${expandedItems.includes(item.title)
-                              ? 'rotate-90'
-                              : ''
-                              }`}
+                            className={`w-4 h-4 text-white/50 transition-transform ${
+                              expandedItems.includes(item.title)
+                                ? 'rotate-90'
+                                : ''
+                            }`}
                           />
                         )}
                       </motion.div>
@@ -300,10 +310,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                 }}
                                 whileHover={{ x: 5 }}
                                 className={`p-2 rounded-md text-sm transition-all
-                                ${window.location.pathname === subItem.url
+                                ${
+                                  window.location.pathname === subItem.url
                                     ? `${subItem.bgColor} text-white`
                                     : 'text-white/70 hover:text-white hover:bg-white/10'
-                                  }`}
+                                }`}
                               >
                                 {subItem.title}
                               </motion.div>
@@ -321,10 +332,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                       transition={{ delay: 0.3 + index * 0.1, duration: 0.5 }}
                       whileHover={{ x: 5 }}
                       className={`flex items-center justify-between p-2.5 rounded-lg cursor-pointer transition-all 
-                      ${window.location.pathname === item.url
+                      ${
+                        window.location.pathname === item.url
                           ? `bg-gradient-to-r ${item.bgColor} border-l-2 ${item.borderColor}`
                           : 'hover:bg-white/10'
-                        }`}
+                      }`}
                     >
                       <div className="flex items-center gap-3 min-w-0">
                         <div
@@ -393,7 +405,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                onClick={handleLogout}
+                onClick={handleLogouts}
                 className="p-1.5 rounded-md bg-red-500/20 hover:bg-red-500/30 transition-colors"
               >
                 <LogOut className="w-3.5 h-3.5 text-red-400" />

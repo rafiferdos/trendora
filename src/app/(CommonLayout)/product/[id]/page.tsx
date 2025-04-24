@@ -277,7 +277,7 @@ export default function ProductDetailPage() {
                 Go Back
               </button>
               <Link
-                href="/all-lists"
+                href="/listings"
                 className="px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 rounded-xl text-white font-medium hover:from-pink-600 hover:to-purple-700 transition-all duration-300 shadow-lg shadow-purple-700/30"
               >
                 Browse Marketplace

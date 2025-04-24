@@ -1,6 +1,7 @@
 export type SalesHistoryResponse = {
     success: boolean;
     message: string;
+    status: string;
     data: {
         meta: {
             page: number;
