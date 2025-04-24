@@ -8,7 +8,6 @@ import { motion } from "framer-motion";
 
 import { DataTable } from "@/components/modules/dashboard/listing/dataTable/DataTable";
 import { getListings } from "@/services/listings";
-import { TListing } from "@/types/listings/listing";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { getCurrentUser } from "@/services/AuthService";
