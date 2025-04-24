@@ -1,0 +1,112 @@
+import { ListingCategory, ListingCondition, ListingLocation, ListingStatus } from "@/types/listings/listing";
+
+import {
+  FaMicrochip,
+  FaMobileAlt,
+  FaLaptop,
+  FaBlender,
+  FaCouch,
+  FaTshirt,
+  FaShoePrints,
+  FaGlasses,
+  FaCar,
+  FaBook,
+  FaFootballBall,
+  FaChild,
+  FaHeartbeat,
+  FaSmile,
+  FaGem,
+  FaWrench,
+  FaLeaf,
+  FaGuitar,
+  FaBriefcase,
+  FaPaw,
+  FaBaby,
+  FaPalette,
+  FaGamepad,
+  FaCamera,
+  FaHome,
+  FaBox,
+} from 'react-icons/fa'
+
+export const categoryIcons = {
+  [ListingCategory.Electronics]: FaMicrochip,
+  [ListingCategory.Mobile]: FaMobileAlt,
+  [ListingCategory.Computers]: FaLaptop,
+  [ListingCategory.Appliances]: FaBlender,
+  [ListingCategory.Furniture]: FaCouch,
+  [ListingCategory.Clothing]: FaTshirt,
+  [ListingCategory.Footwear]: FaShoePrints,
+  [ListingCategory.Accessories]: FaGlasses,
+  [ListingCategory.Vehicles]: FaCar,
+  [ListingCategory.Books]: FaBook,
+  [ListingCategory.Sports]: FaFootballBall,
+  [ListingCategory.Toys]: FaChild,
+  [ListingCategory.Health]: FaHeartbeat,
+  [ListingCategory.Beauty]: FaSmile,
+  [ListingCategory.Jewelry]: FaGem,
+  [ListingCategory.Tools]: FaWrench,
+  [ListingCategory.Gardening]: FaLeaf,
+  [ListingCategory.MusicalInstruments]: FaGuitar,
+  [ListingCategory.OfficeSupplies]: FaBriefcase,
+  [ListingCategory.PetSupplies]: FaPaw,
+  [ListingCategory.BabyProducts]: FaBaby,
+  [ListingCategory.ArtCollectibles]: FaPalette,
+  [ListingCategory.Gaming]: FaGamepad,
+  [ListingCategory.Cameras]: FaCamera,
+  [ListingCategory.RealEstate]: FaHome,
+  [ListingCategory.Other]: FaBox,
+} as const
+
+export const categoriesArray: ListingCategory[] = [
+  ListingCategory.Electronics,
+  ListingCategory.Mobile,
+  ListingCategory.Computers,
+  ListingCategory.Appliances,
+  ListingCategory.Furniture,
+  ListingCategory.Clothing,
+  ListingCategory.Footwear,
+  ListingCategory.Accessories,
+  ListingCategory.Vehicles,
+  ListingCategory.Books,
+  ListingCategory.Sports,
+  ListingCategory.Toys,
+  ListingCategory.Health,
+  ListingCategory.Beauty,
+  ListingCategory.Jewelry,
+  ListingCategory.Tools,
+  ListingCategory.Gardening,
+  ListingCategory.MusicalInstruments,
+  ListingCategory.OfficeSupplies,
+  ListingCategory.PetSupplies,
+  ListingCategory.BabyProducts,
+  ListingCategory.ArtCollectibles,
+  ListingCategory.Gaming,
+  ListingCategory.Cameras,
+  ListingCategory.RealEstate,
+  ListingCategory.Other,
+];
+
+export const conditionArray: ListingCondition[] = [
+  ListingCondition.EXCELLENT,
+  ListingCondition.GOOD,
+  ListingCondition.FAIR,
+  ListingCondition.POOR
+]
+
+export const statusArray: ListingStatus[] = [
+  ListingStatus.AVAILABLE,
+  ListingStatus.SOLD
+]
+
+export const locationArray: ListingLocation[] = [
+  ListingLocation.BARISAL,
+  ListingLocation.CHATTOGRAM,
+  ListingLocation.DHAKA,
+  ListingLocation.KHULNA,
+  ListingLocation.MYMENSINGH,
+  ListingLocation.RAJSHAHI,
+  ListingLocation.RANGPUR,
+  ListingLocation.SYLHET,
+  ListingLocation.OTHER,
+]

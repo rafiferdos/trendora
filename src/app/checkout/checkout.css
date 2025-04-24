@@ -1,0 +1,247 @@
+.checkout-container {
+  min-height: 100vh;
+  padding: 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.checkout-glass {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+.checkout-wrapper {
+  padding: 2rem;
+}
+
+.checkout-title {
+  text-align: center;
+  color: white;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.checkout-content {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 2rem;
+}
+
+/* Form Styles */
+.billing-form {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 2rem;
+}
+
+.section-title {
+  color: white;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.address-input {
+  width: 100%;
+  min-height: 100px;
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  resize: vertical;
+}
+
+.location-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+/* Order Summary Styles */
+.order-summary {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 2rem;
+  height: fit-content;
+}
+
+.summary-title {
+  color: white;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.product-card {
+  display: flex;
+  gap: 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.product-image {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.product-info {
+  flex: 1;
+}
+
+.product-name {
+  color: white;
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Enhanced Seller Information */
+.seller-info {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.seller-info h3 {
+  color: white;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.seller-info p {
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Price Breakdown */
+.price-breakdown {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  color: rgba(255, 255, 255, 0.9);
+  padding: 0.5rem 0;
+}
+
+.price-row.total {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: white;
+}
+
+.place-order-btn {
+  width: 100%;
+  margin-top: 1.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-weight: 600;
+  padding: 1rem;
+  border-radius: 12px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.place-order-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .checkout-wrapper {
+    padding: 1.5rem;
+  }
+
+  .location-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .checkout-container {
+    padding: 1rem;
+  }
+
+  .checkout-content {
+    grid-template-columns: 1fr;
+  }
+
+  .checkout-title {
+    font-size: 2rem;
+  }
+
+  .product-card {
+    flex-direction: column;
+  }
+
+  .product-image {
+    width: 100%;
+    height: 200px;
+  }
+
+  .seller-info {
+    margin: 1rem 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .checkout-wrapper {
+    padding: 1rem;
+  }
+
+  .location-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section-title,
+  .summary-title {
+    font-size: 1.25rem;
+  }
+
+  .product-name {
+    font-size: 1.1rem;
+  }
+}
+
+/* Loading Animation */
+.loading {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 1.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}

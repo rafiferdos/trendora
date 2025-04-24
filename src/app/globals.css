@@ -1,7 +1,19 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss/preflight';
+@import 'tailwindcss/utilities';
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@import url('https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&display=swap');
 
 @custom-variant dark (&:is(.dark *));
+
+@layer base {
+  /* Force pointer cursor on buttons */
+  button,
+  [role='button'] {
+    cursor: pointer !important;
+  }
+}
 
 @theme inline {
   --color-background: var(--background);
@@ -51,9 +63,9 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
+  --primary: oklch(0.36 0.0322 255.73);
   --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
+  --secondary: oklch(75.45% 0.186 54.79);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
