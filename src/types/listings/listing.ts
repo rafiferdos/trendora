@@ -52,6 +52,7 @@ export enum ListingLocation {
 }
 
 export type TListing = {
+  result: never[]
   description: string
   _id: string
   images: string[]

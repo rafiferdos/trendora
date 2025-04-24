@@ -100,15 +100,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     },
     {
       title: 'Purchase History',
-      url: '/dashboard/purchase-history',
+      url: '/dashboard/user/purchase-history',
       icon: ShoppingCart,
       iconColor: 'text-emerald-400',
       bgColor: 'from-emerald-600/20 to-teal-600/20',
       borderColor: 'border-emerald-500/30',
     },
     {
-      title: 'Sales Analytics',
-      url: '/dashboard/analytics',
+      title: 'Sales History',
+      url: '/dashboard/user/sales-history',
       icon: BarChart3,
       iconColor: 'text-amber-400',
       bgColor: 'from-amber-600/20 to-yellow-600/20',
@@ -278,8 +278,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                         {state === 'expanded' && (
                           <ChevronRight
                             className={`w-4 h-4 text-white/50 transition-transform ${expandedItems.includes(item.title)
-                                ? 'rotate-90'
-                                : ''
+                              ? 'rotate-90'
+                              : ''
                               }`}
                           />
                         )}
