@@ -19,6 +19,7 @@ import { ReactNode, useEffect, useState } from 'react'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
+import { FaHeart } from 'react-icons/fa6'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -30,6 +31,8 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { useUser } from '@/context/UserContext'
 import { cn } from '@/lib/utils'
 import { FaShopware } from 'react-icons/fa'
+import { useWishlist } from '@/context/WishLists.context'
+import { protectedRoutes } from '@/constants'
 
 type UserType = { name: string; email: string }
 
@@ -65,12 +68,14 @@ export default function Navbar() {
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const { wishlist, clearWishlist } = useWishlist()
 
   // State for wishlist animation
   const [lastWishlistClick, setLastWishlistClick] = useState<number | null>(
     null,
   )
-  const { user } = useUser()
+
+  const { user, handleLogout, setIsLoading } = useUser()
   const { name = '', email = '' } = user?.data || {}
 
   useEffect(() => {
@@ -216,11 +221,16 @@ export default function Navbar() {
             transition={{ duration: 0.4 }}
             className="relative z-10"
           >
-            <Heart
+            {/* <Heart
               fill={isLiked ? '#ec4899' : 'none'}
               className={`h-5 w-5 transition-all duration-300
                 ${isLiked ? 'text-pink-500' : 'text-gray-300 group-hover:text-white'}`}
-            />
+            /> */}
+
+            <FaHeart className="text-xl text-white" />
+            <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full px-1 text-xs">
+              {wishlist.length || 0}
+            </span>
           </motion.div>
         </button>
       </GlowingTooltip>
@@ -261,6 +271,15 @@ export default function Navbar() {
         )}
       </Link>
     )
+  }
+
+  const handleForLogout = async () => {
+    await handleLogout()
+    clearWishlist()
+    setIsLoading(true)
+    if (protectedRoutes.some((route) => pathname.match(route))) {
+      router.replace('/')
+    }
   }
 
   return (
@@ -388,7 +407,7 @@ export default function Navbar() {
 
                     <DropdownMenuItem
                       className="flex gap-2.5 px-3 py-2.5 cursor-pointer text-white/90 hover:text-white/100 hover:bg-red-500/10 focus:bg-red-500/10 rounded-lg transition-colors group"
-                      onClick={() => console.log('Logout')}
+                      onClick={handleForLogout}
                     >
                       <div className="p-1.5 rounded-md bg-gradient-to-br from-red-500/20 to-orange-500/20 group-hover:from-red-500/30 group-hover:to-orange-500/30 transition-colors">
                         <LogOut
@@ -593,7 +612,7 @@ export default function Navbar() {
                     <motion.button
                       whileHover={{ y: -2 }}
                       whileTap={{ y: 0 }}
-                      onClick={() => console.log('Logout')}
+                      onClick={handleForLogout}
                       className="w-full flex items-center gap-3 p-4 rounded-xl bg-gradient-to-r from-red-900/20 to-orange-900/20 hover:from-red-900/30 hover:to-orange-900/30 border border-red-500/20 transition-colors shadow-lg shadow-red-900/5"
                     >
                       <div className="p-2 rounded-lg bg-gradient-to-br from-red-500/20 to-orange-500/20">

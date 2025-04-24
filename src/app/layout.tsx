@@ -1,9 +1,10 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono, Jost } from "next/font/google";
-import "./globals.css";
-import { ThemeProvider } from "@/components/themeProvider/theme-provider";
-import { Toaster } from 'sonner';
-import Providers from "@/providers/Providers";
+import type { Metadata } from 'next'
+import { Geist, Geist_Mono, Jost } from 'next/font/google'
+import './globals.css'
+import { ThemeProvider } from '@/components/themeProvider/theme-provider'
+import { Toaster } from 'sonner'
+import Providers from '@/providers/Providers'
+import { WishlistProvider } from '@/context/WishLists.context'
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
@@ -30,24 +31,24 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    
-      <html lang="en" suppressHydrationWarning>
-        <body
-          className={`${geistSans.className} ${geistMono.className} ${jost.className} antialiased`}
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`${geistSans.className} ${geistMono.className} ${jost.className} antialiased`}
       >
         <Providers>
-        <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-          {children}
-          <Toaster position="top-center" richColors />
-        </ThemeProvider>
+          <WishlistProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              {children}
+              <Toaster position="top-center" richColors />
+            </ThemeProvider>
+          </WishlistProvider>
         </Providers>
       </body>
-    </html >
-    
-  );
+    </html>
+  )
 }

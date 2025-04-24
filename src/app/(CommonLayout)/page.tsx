@@ -5,7 +5,6 @@ import { CategorySection } from '@/components/modules/category/Categories'
 import { Button } from '@/components/ui/button'
 import { protectedRoutes } from '@/constants'
 import { useUser } from '@/context/UserContext'
-import { logout } from '@/services/AuthService'
 import { getListings } from '@/services/listings'
 import { TListing } from '@/types/listings/listing'
 import { motion } from 'framer-motion'
@@ -53,14 +52,6 @@ const Homepage = () => {
   const router = useRouter()
   const [featuredListings, setFeaturedListings] = useState<TListing[]>([])
   const [isLoading, setIsLoadingState] = useState(true)
-
-  const handleLogOut = () => {
-    logout()
-    setIsLoading(true)
-    if (protectedRoutes.some((route) => pathname.match(route))) {
-      router.push('/')
-    }
-  }
 
   // Categories for the featured categories section
   const categories = [
