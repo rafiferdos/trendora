@@ -306,7 +306,7 @@ export default function Navbar() {
 
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex items-center space-x-2">
-          <NavLink href="/all-lists" label="Browse" />
+          <NavLink href="/listings" label="Browse" />
           <NavLink
             href="/dashboard/user/listings/create-listing"
             label="Sell"
@@ -509,7 +509,7 @@ export default function Navbar() {
             >
               <div className="flex flex-col gap-1 mt-6">
                 <Link
-                  href="/all-lists"
+                  href="/listings"
                   className="flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors"
                 >
                   <Home size={18} />
