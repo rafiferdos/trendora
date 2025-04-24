@@ -118,7 +118,7 @@ const Homepage = () => {
     const fetchFeaturedListings = async () => {
       try {
         const response = await getListings()
-        if (response.success) {
+        if (response && response.success) {
           // Get random 6 listings or fewer if not enough listings
           const shuffled = [...response.data].sort(() => 0.5 - Math.random())
           setFeaturedListings(shuffled.slice(0, 6))
