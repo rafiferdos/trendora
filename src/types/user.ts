@@ -9,7 +9,10 @@ export type TUserInfo = {
   isDeleted: boolean
   createdAt?: string
   updatedAt?: string
+  accessToken?: string; 
+  data?: { name: string; email: string }
 }
+
 export type TUser = {
   exp?: number
   iat?: number

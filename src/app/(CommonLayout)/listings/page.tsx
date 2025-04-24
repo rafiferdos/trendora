@@ -1,10 +1,9 @@
 'use client'
 
 import SanitizedImage from '@/components/shared/SanitizedImage'
-import { ListingCategory } from '@/types/listings/listing'
 import dynamic from 'next/dynamic'
+import Image from 'next/image'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
 import {
   FiArrowDown,
   FiFilter,
@@ -13,6 +12,9 @@ import {
   FiSearch,
   FiX,
 } from 'react-icons/fi'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import { ListingCategory } from '@/types/listings/listing'
 
 const Card = dynamic(() => import('@/components/shared/Card'), {
   ssr: true,
@@ -55,164 +57,203 @@ const cardColorSchemes = [
 ]
 
 export default function AllListsPage() {
+  const searchParams = useSearchParams()
+  const router = useRouter()
+
   const [listings, setListings] = useState<Listing[]>([])
   const [filteredListings, setFilteredListings] = useState<Listing[]>([])
-  const [selectedCategory, setSelectedCategory] = useState<string>('all')
-  const [searchQuery, setSearchQuery] = useState<string>('')
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [error, setError] = useState<string | null>(null)
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
-  const [sortOrder, setSortOrder] = useState<string>('default')
   const [showFilters, setShowFilters] = useState<boolean>(false)
-  const [filterCondition, setFilterCondition] = useState<string>('all')
-  const [filterPriceRange, setFilterPriceRange] = useState<{
-    min: number
-    max: number
-  }>({ min: 0, max: 10000000 })
+  const [showSortOptions, setShowSortOptions] = useState(false)
+  const [searchQuery, setSearchQuery] = useState<string>(
+    searchParams.get('searchTerm') || '',
+  )
 
-  // Create array of categories from enum
+  // Get values from query params
+  // const searchQuery = searchParams.get('searchTerm') || '';
+  const selectedCategory = searchParams.get('category') || 'all'
+  const filterCondition = searchParams.get('condition') || 'all'
+  const minPrice = Number(searchParams.get('minPrice') || 0)
+  const maxPrice = Number(searchParams.get('maxPrice') || 10000000)
+  const sortOrder = searchParams.get('sort') || 'default'
+
   const categories = Object.values(ListingCategory)
 
-  // Fetch listings
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true)
-      try {
-        // Log the full URL being called
-        const apiUrl = `${process.env.NEXT_PUBLIC_BASE_API}/listings`
-        console.log('Fetching from:', apiUrl)
+  // Update URL query
+  const updateQueryParam = (key: string, value: string | number) => {
+    const params = new URLSearchParams(window.location.search)
+    if (value === '' || value === 'all' || value === 0 || value === 10000000) {
+      params.delete(key)
+    } else {
+      params.set(key, String(value))
+    }
+    router.push(`?${params.toString()}`)
+  }
 
-        const listingsResponse = await fetch(apiUrl, {
+  // FETCH Listings
+  // useEffect(() => {
+  //   const fetchFilteredListings = async () => {
+  //     setIsLoading(true);
+  //     setError(null);
+
+  //     try {
+  //       const queryParams = new URLSearchParams();
+
+  //       if (searchQuery) queryParams.set('searchTerm', searchQuery);
+  //       if (selectedCategory !== 'all')
+  //         queryParams.set('category', selectedCategory);
+  //       if (filterCondition !== 'all')
+  //         queryParams.set('condition', filterCondition);
+  //       if (minPrice) queryParams.set('minPrice', String(minPrice));
+  //       if (maxPrice) queryParams.set('maxPrice', String(maxPrice));
+
+  //       const apiUrl = `${process.env.NEXT_PUBLIC_BASE_API}/listings?${queryParams.toString()}`;
+  //       console.log('Querying backend with:', apiUrl);
+
+  //       const res = await fetch(apiUrl, {
+  //         cache: 'no-store',
+  //         headers: { 'Content-Type': 'application/json' },
+  //       });
+
+  //       if (!res.ok) {
+  //         const text = await res.text();
+  //         throw new Error(`${text}`);
+  //       }
+
+  //       const data = await res.json();
+  //       if (!Array.isArray(data.data)) {
+  //         throw new Error('Invalid data format received');
+  //       }
+
+  //       let sortedListings = data.data;
+
+  //       if (sortOrder === 'price-low') {
+  //         sortedListings = sortedListings.sort((a: any, b: any) => a.price - b.price);
+  //       } else if (sortOrder === 'price-high') {
+  //         sortedListings = sortedListings.sort((a: any, b: any) => b.price - a.price);
+  //       }
+
+  //       setFilteredListings(sortedListings);
+  //     } catch (err) {
+  //       console.error('Filter fetch failed:', err);
+  //       setError(err instanceof Error ? err.message : 'Unknown error');
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   };
+
+  //   fetchFilteredListings();
+  // }, [searchQuery, selectedCategory, filterCondition, minPrice, maxPrice, sortOrder]);
+  useEffect(() => {
+    const fetchFilteredListings = async () => {
+      setIsLoading(true)
+      setError(null)
+
+      try {
+        const queryParams = new URLSearchParams()
+
+        if (searchQuery) queryParams.set('searchTerm', searchQuery)
+        if (selectedCategory !== 'all')
+          queryParams.set('category', selectedCategory)
+        if (filterCondition !== 'all')
+          queryParams.set('condition', filterCondition)
+        if (minPrice) queryParams.set('minPrice', String(minPrice))
+        if (maxPrice) queryParams.set('maxPrice', String(maxPrice))
+
+        const apiUrl = `${process.env.NEXT_PUBLIC_BASE_API}/listings?${queryParams.toString()}`
+        console.log('Querying backend with:', apiUrl)
+
+        const res = await fetch(apiUrl, {
           cache: 'no-store',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: { 'Content-Type': 'application/json' },
         })
 
-        if (!listingsResponse.ok) {
-          const errorData = await listingsResponse.text()
-          console.error('Response not ok:', listingsResponse.status, errorData)
-          throw new Error(`HTTP error! status: ${listingsResponse.status}`)
+        const data = await res.json()
+
+        if (!res.ok) {
+          if (res.status === 404) {
+            // ✅ Gracefully handle empty listings
+            setFilteredListings([])
+            setError(null)
+            return
+          }
+
+          throw new Error(data.message || 'Something went wrong')
         }
 
-        const listingsData = await listingsResponse.json()
-        console.log('Received data structure:', listingsData)
-
-        if (!listingsData.data || !Array.isArray(listingsData.data)) {
-          console.error('Invalid data structure:', listingsData)
+        if (!Array.isArray(data.data)) {
           throw new Error('Invalid data format received')
         }
 
-        setListings(listingsData.data)
-        setFilteredListings(listingsData.data)
-      } catch (error) {
-        console.error('Detailed fetch error:', error)
-        setError(error instanceof Error ? error.message : 'Failed to load data')
+        let sortedListings = data.data
+
+        if (sortOrder === 'price-low') {
+          sortedListings = sortedListings.sort(
+            (a: any, b: any) => a.price - b.price,
+          )
+        } else if (sortOrder === 'price-high') {
+          sortedListings = sortedListings.sort(
+            (a: any, b: any) => b.price - a.price,
+          )
+        }
+
+        setFilteredListings(sortedListings)
+      } catch (err) {
+        console.error('Filter fetch failed:', err)
+        setFilteredListings([]) // Optional fallback
+        setError(err instanceof Error ? err.message : 'Unknown error')
       } finally {
         setIsLoading(false)
       }
     }
 
-    fetchData()
-  }, [])
-
-  // Apply filters when any filter parameter changes
-  useEffect(() => {
-    // Start with a fresh copy of all listings
-    let result = [...listings]
-
-    console.log('Starting filter with', listings.length, 'listings')
-
-    // Filter by search query
-    if (searchQuery) {
-      result = result.filter(
-        (item) =>
-          item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          item.description.toLowerCase().includes(searchQuery.toLowerCase()),
-      )
-    }
-
-    // Filter by category
-    if (selectedCategory !== 'all') {
-      result = result.filter((item) => item.category === selectedCategory)
-    }
-
-    // Filter by condition
-    if (filterCondition !== 'all') {
-      result = result.filter(
-        (item) =>
-          item.condition.toLowerCase() === filterCondition.toLowerCase(),
-      )
-    }
-
-    // Filter by price range
-    result = result.filter(
-      (item) =>
-        item.price >= filterPriceRange.min &&
-        item.price <= filterPriceRange.max,
-    )
-
-    // Apply sorting
-    if (sortOrder === 'price-low') {
-      result.sort((a, b) => a.price - b.price)
-    } else if (sortOrder === 'price-high') {
-      result.sort((a, b) => b.price - a.price)
-    } else if (sortOrder === 'newest') {
-      // If your listings have a timestamp, you can sort by that
-      // For now, we'll keep the order as is since we don't have timestamps
-    }
-
-    setFilteredListings(result)
+    fetchFilteredListings()
   }, [
     searchQuery,
     selectedCategory,
     filterCondition,
-    filterPriceRange,
+    minPrice,
+    maxPrice,
     sortOrder,
-    listings,
   ])
 
-  // Handle search input
+  // Handlers that update URL
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value)
+    updateQueryParam('searchTerm', e.target.value)
   }
 
-  // Handle category selection
+  const clearSearch = () => {
+    setSearchQuery('')
+    updateQueryParam('searchTerm', '')
+  }
+
   const handleCategorySelect = (categoryId: string) => {
-    setSelectedCategory(categoryId)
+    updateQueryParam('category', categoryId)
   }
 
-  // Handle sort order change
   const handleSortChange = (order: string) => {
-    setSortOrder(order)
+    updateQueryParam('sort', order)
   }
 
-  // Toggle filter panel
   const toggleFilters = () => {
     setShowFilters(!showFilters)
   }
 
-  // Handle condition filter change
   const handleConditionChange = (condition: string) => {
-    setFilterCondition(condition)
+    updateQueryParam('condition', condition)
   }
 
-  // Handle price range filter change
   const handlePriceRangeChange = (type: 'min' | 'max', value: string) => {
     const numValue = parseInt(value) || 0
-    setFilterPriceRange((prev) => ({
-      ...prev,
-      [type]: numValue,
-    }))
+    if (type === 'min') updateQueryParam('minPrice', numValue)
+    else updateQueryParam('maxPrice', numValue)
   }
 
-  // Reset all filters
   const resetFilters = () => {
-    setSearchQuery('')
-    setSelectedCategory('all')
-    setFilterCondition('all')
-    setFilterPriceRange({ min: 0, max: 10000 })
-    setSortOrder('default')
+    router.push('/')
   }
 
   return (
@@ -479,7 +520,7 @@ export default function AllListsPage() {
                     />
                     {searchQuery && (
                       <button
-                        onClick={() => setSearchQuery('')}
+                        onClick={() => clearSearch()}
                         className="absolute right-3 top-1/2 -translate-y-1/2 text-purple-300 hover:text-white"
                       >
                         <FiX size={16} />
@@ -501,11 +542,7 @@ export default function AllListsPage() {
 
                     <div className="relative flex-1">
                       <button
-                        onClick={() =>
-                          setSortOrder((prev) =>
-                            prev === 'default' ? 'price-low' : 'default',
-                          )
-                        }
+                        onClick={() => setShowSortOptions((prev) => !prev)}
                         className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl 
                                   bg-white/10 hover:bg-white/20 text-white border border-white/20
                                   transition-all duration-300"
@@ -513,32 +550,30 @@ export default function AllListsPage() {
                         <FiArrowDown size={16} />
                         <span>Sort</span>
                       </button>
-                      {sortOrder !== 'default' && (
-                        <div className="absolute right-0 top-full mt-2 bg-black/30 !backdrop-blur-md rounded-xl overflow-hidden z-20 border border-white/20 w-full shadow-xl ">
-                          <button
-                            onClick={() => handleSortChange('default')}
-                            className={`w-full text-left px-4 py-3 text-white hover:bg-white/20 transition-all duration-200 ${sortOrder === 'default' ? 'bg-white/20' : ''}`}
-                          >
-                            Default
-                          </button>
-                          <button
-                            onClick={() => handleSortChange('price-low')}
-                            className={`w-full text-left px-4 py-3 text-white hover:bg-white/20 transition-all duration-200 ${sortOrder === 'price-low' ? 'bg-white/20' : ''}`}
-                          >
-                            Price: Low to High
-                          </button>
-                          <button
-                            onClick={() => handleSortChange('price-high')}
-                            className={`w-full text-left px-4 py-3 text-white hover:bg-white/20 transition-all duration-200 ${sortOrder === 'price-high' ? 'bg-white/20' : ''}`}
-                          >
-                            Price: High to Low
-                          </button>
-                          <button
-                            onClick={() => handleSortChange('newest')}
-                            className={`w-full text-left px-4 py-3 text-white hover:bg-white/20 transition-all duration-200 ${sortOrder === 'newest' ? 'bg-white/20' : ''}`}
-                          >
-                            Newest First
-                          </button>
+                      {showSortOptions && (
+                        <div className="absolute z-10 bg-black">
+                          {['default', 'price-low', 'price-high', 'newest'].map(
+                            (sortKey) => (
+                              <button
+                                key={sortKey}
+                                onClick={() => {
+                                  handleSortChange(sortKey)
+                                  setShowSortOptions(false)
+                                }}
+                                className={`w-full text-left px-4 py-3 text-white hover:bg-white/20 ${
+                                  sortOrder === sortKey ? 'bg-white/20' : ''
+                                }`}
+                              >
+                                {sortKey === 'default'
+                                  ? 'Default'
+                                  : sortKey === 'price-low'
+                                    ? 'Price: Low to High'
+                                    : sortKey === 'price-high'
+                                      ? 'Price: High to Low'
+                                      : 'Newest First'}
+                              </button>
+                            ),
+                          )}
                         </div>
                       )}
                     </div>
@@ -576,86 +611,85 @@ export default function AllListsPage() {
                 </div>
 
                 {/* Advanced filters panel (conditionally rendered) */}
-                {showFilters && (
-                  <div className="mt-6 p-6 bg-black/30 backdrop-blur-md rounded-xl border border-white/10 animate-fadeIn">
-                    <div className="flex justify-between items-center mb-4">
-                      <h3 className="text-lg font-semibold text-white">
-                        Advanced Filters
-                      </h3>
-                      <button
-                        onClick={resetFilters}
-                        className="text-pink-300 hover:text-pink-100 text-xs underline"
-                      >
-                        Reset All
-                      </button>
-                    </div>
 
-                    {/* Condition filter */}
-                    <div className="mb-6">
-                      <h4 className="text-white mb-2 font-medium text-sm">
-                        Condition
-                      </h4>
-                      <div className="flex flex-wrap gap-2">
-                        {['all', 'new', 'like new', 'good', 'fair', 'poor'].map(
-                          (condition) => (
-                            <button
-                              key={condition}
-                              onClick={() => handleConditionChange(condition)}
-                              className={`px-3 py-1 rounded-lg text-xs ${
-                                filterCondition === condition
-                                  ? 'bg-pink-500 text-white'
-                                  : 'bg-white/10 text-white hover:bg-white/20'
-                              } transition-all duration-200`}
-                            >
-                              {condition.charAt(0).toUpperCase() +
-                                condition.slice(1)}
-                            </button>
-                          ),
-                        )}
+                <div className="mt-6 p-6 bg-black/30 backdrop-blur-md rounded-xl border border-white/10 animate-fadeIn">
+                  <div className="flex justify-between items-center mb-4">
+                    <h3 className="text-lg font-semibold text-white">
+                      Advanced Filters
+                    </h3>
+                    <button
+                      onClick={resetFilters}
+                      className="text-pink-300 hover:text-pink-100 text-xs underline"
+                    >
+                      Reset All
+                    </button>
+                  </div>
+
+                  {/* Condition filter */}
+                  <div className="mb-6">
+                    <h4 className="text-white mb-2 font-medium text-sm">
+                      Condition
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {['excellent', 'good', 'fair', 'poor'].map(
+                        (condition) => (
+                          <button
+                            key={condition}
+                            onClick={() => handleConditionChange(condition)}
+                            className={`px-3 py-1 rounded-lg text-xs ${
+                              filterCondition === condition
+                                ? 'bg-pink-500 text-white'
+                                : 'bg-white/10 text-white hover:bg-white/20'
+                            } transition-all duration-200`}
+                          >
+                            {condition.charAt(0).toUpperCase() +
+                              condition.slice(1)}
+                          </button>
+                        ),
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Price range filter */}
+                  <div>
+                    <h4 className="text-white mb-2 font-medium text-sm">
+                      Price Range
+                    </h4>
+                    <div className="flex gap-2 items-center">
+                      <div className="relative">
+                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-purple-300 text-xs">
+                          $
+                        </span>
+                        <input
+                          type="number"
+                          value={minPrice}
+                          onChange={(e) =>
+                            handlePriceRangeChange('min', e.target.value)
+                          }
+                          className="w-full py-2 pl-6 pr-2 rounded-lg border border-purple-400/30
+                                      bg-white/10 backdrop-blur-sm focus:bg-white/20
+                                      text-white text-xs focus:ring-1 focus:ring-pink-500/50 focus:outline-none"
+                        />
                       </div>
-                    </div>
-
-                    {/* Price range filter */}
-                    <div>
-                      <h4 className="text-white mb-2 font-medium text-sm">
-                        Price Range
-                      </h4>
-                      <div className="flex gap-2 items-center">
-                        <div className="relative">
-                          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-purple-300 text-xs">
-                            $
-                          </span>
-                          <input
-                            type="number"
-                            value={filterPriceRange.min}
-                            onChange={(e) =>
-                              handlePriceRangeChange('min', e.target.value)
-                            }
-                            className="w-full py-2 pl-6 pr-2 rounded-lg border border-purple-400/30
+                      <span className="text-white">to</span>
+                      <div className="relative">
+                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-purple-300 text-xs">
+                          $
+                        </span>
+                        <input
+                          type="number"
+                          value={maxPrice}
+                          onChange={(e) =>
+                            handlePriceRangeChange('max', e.target.value)
+                          }
+                          className="w-full py-2 pl-6 pr-2 rounded-lg border border-purple-400/30
                                       bg-white/10 backdrop-blur-sm focus:bg-white/20
                                       text-white text-xs focus:ring-1 focus:ring-pink-500/50 focus:outline-none"
-                          />
-                        </div>
-                        <span className="text-white">to</span>
-                        <div className="relative">
-                          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-purple-300 text-xs">
-                            $
-                          </span>
-                          <input
-                            type="number"
-                            value={filterPriceRange.max}
-                            onChange={(e) =>
-                              handlePriceRangeChange('max', e.target.value)
-                            }
-                            className="w-full py-2 pl-6 pr-2 rounded-lg border border-purple-400/30
-                                      bg-white/10 backdrop-blur-sm focus:bg-white/20
-                                      text-white text-xs focus:ring-1 focus:ring-pink-500/50 focus:outline-none"
-                          />
-                        </div>
+                        />
                       </div>
                     </div>
                   </div>
-                )}
+                </div>
               </div>
             </section>
           </div>

@@ -1,13 +1,10 @@
 'use client'
 
-import * as React from 'react'
 import { Slot } from '@radix-ui/react-slot'
 import { VariantProps, cva } from 'class-variance-authority'
 import { PanelLeftIcon } from 'lucide-react'
-import { motion } from 'framer-motion'
+import * as React from 'react'
 
-import { useIsMobile } from '@/hooks/use-mobile'
-import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
@@ -25,6 +22,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import { useIsMobile } from '@/hooks/use-mobile'
+import { cn } from '@/lib/utils'
 
 const SIDEBAR_COOKIE_NAME = 'sidebar_state'
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
@@ -56,14 +55,14 @@ function useSidebar() {
 
 // Animated variants for Framer Motion
 const sidebarVariants = {
-  expanded: { 
-    width: 'var(--sidebar-width)', 
-    transition: { duration: 0.3, ease: "easeInOut" } 
+  expanded: {
+    width: 'var(--sidebar-width)',
+    transition: { duration: 0.3, ease: 'easeInOut' },
   },
-  collapsed: { 
-    width: 'var(--sidebar-width-icon)', 
-    transition: { duration: 0.3, ease: "easeInOut" } 
-  }
+  collapsed: {
+    width: 'var(--sidebar-width-icon)',
+    transition: { duration: 0.3, ease: 'easeInOut' },
+  },
 }
 
 function SidebarProvider({
@@ -160,9 +159,12 @@ function SidebarProvider({
           {/* Decorative elements for improved UI */}
           <div className="absolute inset-0 -z-10 opacity-40 pointer-events-none">
             <div className="absolute top-1/4 left-1/4 w-40 h-40 bg-gradient-to-br from-purple-600/30 to-pink-500/30 rounded-full blur-3xl animate-pulse-slow"></div>
-            <div className="absolute bottom-1/3 right-1/4 w-60 h-60 bg-gradient-to-br from-blue-500/20 to-cyan-400/20 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '2s' }}></div>
+            <div
+              className="absolute bottom-1/3 right-1/4 w-60 h-60 bg-gradient-to-br from-blue-500/20 to-cyan-400/20 rounded-full blur-3xl animate-pulse-slow"
+              style={{ animationDelay: '2s' }}
+            ></div>
           </div>
-          
+
           {children}
         </div>
       </TooltipProvider>
@@ -222,7 +224,10 @@ function Sidebar({
             {/* Mobile sidebar background effects */}
             <div className="absolute inset-0 -z-10 opacity-50 pointer-events-none">
               <div className="absolute top-1/4 left-1/4 w-40 h-40 bg-purple-600/20 rounded-full blur-3xl animate-pulse-slow"></div>
-              <div className="absolute bottom-1/3 right-1/4 w-60 h-60 bg-pink-500/20 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '2s' }}></div>
+              <div
+                className="absolute bottom-1/3 right-1/4 w-60 h-60 bg-pink-500/20 rounded-full blur-3xl animate-pulse-slow"
+                style={{ animationDelay: '2s' }}
+              ></div>
             </div>
             {children}
           </div>
@@ -231,17 +236,22 @@ function Sidebar({
     )
   }
 
+  // Updated version with type-safe approach
   return (
-    <motion.div
+    <div
       className="group peer text-white hidden md:block"
       data-state={state}
       data-collapsible={state === 'collapsed' ? collapsible : ''}
       data-variant={variant}
       data-side={side}
       data-slot="sidebar"
-      initial={false}
-      animate={state}
-      variants={sidebarVariants}
+      style={{
+        width:
+          state === 'expanded'
+            ? 'var(--sidebar-width)'
+            : 'var(--sidebar-width-icon)',
+        transition: 'width 0.3s ease-in-out',
+      }}
     >
       {/* This is what handles the sidebar gap on desktop */}
       <div
@@ -255,10 +265,10 @@ function Sidebar({
             : 'group-data-[collapsible=icon]:w-(--sidebar-width-icon)',
         )}
       />
-      <motion.div
+      <div
         data-slot="sidebar-container"
         className={cn(
-          'fixed inset-y-0 z-10 hidden h-svh w-(--sidebar-width) transition-[left,right,width] duration-300 ease-in-out md:flex',
+          'fixed inset-y-0 z-10 hidden h-svh transition-[left,right,width] duration-300 ease-in-out md:flex',
           side === 'left'
             ? 'left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]'
             : 'right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]',
@@ -268,6 +278,14 @@ function Sidebar({
             : 'group-data-[collapsible=icon]:w-(--sidebar-width-icon) group-data-[side=left]:border-r group-data-[side=right]:border-l',
           className,
         )}
+        style={{
+          width:
+            state === 'expanded'
+              ? 'var(--sidebar-width)'
+              : 'var(--sidebar-width-icon)',
+          transition:
+            'width 0.3s ease-in-out, left 0.3s ease-in-out, right 0.3s ease-in-out',
+        }}
         {...props}
       >
         <div
@@ -278,12 +296,15 @@ function Sidebar({
           {/* Background effects for sidebar */}
           <div className="absolute inset-0 -z-10 pointer-events-none">
             <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-purple-600/20 rounded-full blur-3xl animate-pulse-slow"></div>
-            <div className="absolute bottom-1/4 right-1/4 w-40 h-40 bg-pink-500/20 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '2s' }}></div>
+            <div
+              className="absolute bottom-1/4 right-1/4 w-40 h-40 bg-pink-500/20 rounded-full blur-3xl animate-pulse-slow"
+              style={{ animationDelay: '2s' }}
+            ></div>
           </div>
           {children}
         </div>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   )
 }
 
@@ -293,30 +314,27 @@ function SidebarTrigger({
   ...props
 }: React.ComponentProps<typeof Button>) {
   const { toggleSidebar } = useSidebar()
-  
-  // Using Framer Motion for button animation
+
+  // Use CSS transitions instead of motion.div
   return (
-    <motion.div
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      transition={{ duration: 0.2 }}
+    <Button
+      data-sidebar="trigger"
+      data-slot="sidebar-trigger"
+      variant="ghost"
+      size="icon"
+      className={cn(
+        'size-7 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-lg hover:scale-105 active:scale-95 transition-transform duration-200',
+        className,
+      )}
+      onClick={(event) => {
+        onClick?.(event)
+        toggleSidebar()
+      }}
+      {...props}
     >
-      <Button
-        data-sidebar="trigger"
-        data-slot="sidebar-trigger"
-        variant="ghost"
-        size="icon"
-        className={cn('size-7 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-lg', className)}
-        onClick={(event) => {
-          onClick?.(event)
-          toggleSidebar()
-        }}
-        {...props}
-      >
-        <PanelLeftIcon className="text-purple-100" />
-        <span className="sr-only">Toggle Sidebar</span>
-      </Button>
-    </motion.div>
+      <PanelLeftIcon className="text-purple-100" />
+      <span className="sr-only">Toggle Sidebar</span>
+    </Button>
   )
 }
 
@@ -367,7 +385,10 @@ function SidebarInput({
     <Input
       data-slot="sidebar-input"
       data-sidebar="input"
-      className={cn('bg-white/5 border border-white/10 text-white h-8 w-full rounded-lg focus:ring-1 focus:ring-purple-400 focus:border-purple-400 placeholder:text-white/50', className)}
+      className={cn(
+        'bg-white/5 border border-white/10 text-white h-8 w-full rounded-lg focus:ring-1 focus:ring-purple-400 focus:border-purple-400 placeholder:text-white/50',
+        className,
+      )}
       {...props}
     />
   )
@@ -378,7 +399,10 @@ function SidebarHeader({ className, ...props }: React.ComponentProps<'div'>) {
     <div
       data-slot="sidebar-header"
       data-sidebar="header"
-      className={cn('flex flex-col gap-2 p-3 border-b border-white/10', className)}
+      className={cn(
+        'flex flex-col gap-2 p-3 border-b border-white/10',
+        className,
+      )}
       {...props}
     />
   )
@@ -389,7 +413,10 @@ function SidebarFooter({ className, ...props }: React.ComponentProps<'div'>) {
     <div
       data-slot="sidebar-footer"
       data-sidebar="footer"
-      className={cn('flex flex-col gap-2 p-3 border-t border-white/10', className)}
+      className={cn(
+        'flex flex-col gap-2 p-3 border-t border-white/10',
+        className,
+      )}
       {...props}
     />
   )
@@ -552,21 +579,21 @@ function SidebarMenuButton({
   const Comp = asChild ? Slot : 'button'
   const { isMobile, state } = useSidebar()
 
+  // Remove the motion.div wrapper and use the component directly
   const button = (
-    <motion.div
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-      transition={{ duration: 0.2 }}
-    >
-      <Comp
-        data-slot="sidebar-menu-button"
-        data-sidebar="menu-button"
-        data-size={size}
-        data-active={isActive}
-        className={cn(sidebarMenuButtonVariants({ variant, size }), className)}
-        {...props}
-      />
-    </motion.div>
+    <Comp
+      data-slot="sidebar-menu-button"
+      data-sidebar="menu-button"
+      data-size={size}
+      data-active={isActive}
+      className={cn(
+        sidebarMenuButtonVariants({ variant, size }),
+        // Add hover and tap effects with CSS instead
+        'hover:scale-[1.02] active:scale-[0.98] transition-transform duration-200',
+        className,
+      )}
+      {...props}
+    />
   )
 
   if (!tooltip) {
@@ -697,19 +724,18 @@ function SidebarMenuSubButton({
 } & VariantProps<typeof sidebarMenuSubButtonVariants>) {
   const Comp = asChild ? Slot : 'button'
 
+  // Use the component directly with CSS transitions instead of motion.div
   return (
-    <motion.div
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-      transition={{ duration: 0.2 }}
-    >
-      <Comp
-        data-slot="sidebar-menu-sub-button"
-        data-sidebar="menu-sub-button"
-        className={cn(sidebarMenuSubButtonVariants({ variant }), className)}
-        {...props}
-      />
-    </motion.div>
+    <Comp
+      data-slot="sidebar-menu-sub-button"
+      data-sidebar="menu-sub-button"
+      className={cn(
+        sidebarMenuSubButtonVariants({ variant }),
+        'hover:scale-[1.02] active:scale-[0.98] transition-transform duration-200',
+        className,
+      )}
+      {...props}
+    />
   )
 }
 

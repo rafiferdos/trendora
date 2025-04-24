@@ -3,6 +3,8 @@
 import { cookies } from 'next/headers'
 import { FieldValues } from 'react-hook-form'
 import { jwtDecode } from 'jwt-decode'
+import { clearLocalWishlist } from '@/utils/localStorage'
+
 export const registerUser = async (userData: FieldValues) => {
   try {
     const res = await fetch(
@@ -45,6 +47,7 @@ export const loginUser = async (userData: FieldValues) => {
     Error(error)
   }
 }
+
 
 export const getCurrentUser = async () => {
   const accessToken = (await cookies()).get('accessToken')?.value
@@ -94,9 +97,6 @@ export const getCurrentUserInfo = async () => {
   }
 }
 
-export const logout = async () => {
-  ;(await cookies()).delete('accessToken')
-}
 
 export const getNewAccessToken = async () => {
   try {
