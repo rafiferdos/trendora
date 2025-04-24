@@ -1,9 +1,7 @@
 'use client'
 
-
 import { CategorySection } from '@/components/modules/category/Categories'
 import { Button } from '@/components/ui/button'
-import { protectedRoutes } from '@/constants'
 import { useUser } from '@/context/UserContext'
 import { getListings } from '@/services/listings'
 import { TListing } from '@/types/listings/listing'
@@ -187,7 +185,7 @@ const Homepage = () => {
                 and connect in our sustainable trading community.
               </p>
               <div className="flex flex-wrap gap-4">
-                <Link href="/all-lists">
+                <Link href="/listings">
                   <Button className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-medium px-8 py-6 rounded-xl shadow-lg shadow-purple-900/30 text-lg border-0 flex items-center gap-2">
                     Explore Marketplace
                     <ChevronRight className="h-5 w-5" />
@@ -320,7 +318,7 @@ const Homepage = () => {
                 whileHover={{ y: -5, transition: { duration: 0.2 } }}
               >
                 <Link
-                  href={`/all-lists?category=${category.name.toLowerCase()}`}
+                  href={`/listings?category=${category.name.toLowerCase()}`}
                 >
                   <div
                     className={`bg-gradient-to-br ${category.color} p-0.5 rounded-xl shadow-lg overflow-hidden`}
@@ -392,7 +390,7 @@ const Homepage = () => {
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
             >
-              <Link href="/all-lists">
+              <Link href="/listings">
                 <Button
                   variant="outline"
                   className="bg-white/10 hover:bg-white/20 border-white/20 text-white overflow-hidden group relative"
@@ -571,7 +569,7 @@ const Homepage = () => {
                 className="mt-4"
               >
                 <Link
-                  href="/all-lists"
+                  href="/listings"
                   className="text-lg inline-flex items-center gap-2 text-gradient bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent hover:from-purple-300 hover:to-pink-300 transition-all"
                 >
                   Browse all listings
@@ -854,7 +852,7 @@ const Homepage = () => {
                   Create an Account
                 </Button>
               </Link>
-              <Link href="/all-lists">
+              <Link href="/listings">
                 <Button
                   variant="outline"
                   className="bg-white/10 hover:bg-white/20 border-white/20 text-white font-medium px-8 py-6 rounded-xl text-lg w-full sm:w-auto"

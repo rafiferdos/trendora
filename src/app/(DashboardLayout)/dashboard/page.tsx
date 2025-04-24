@@ -394,7 +394,7 @@ const Dashboard = () => {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.8, duration: 0.5 }}
               >
-                <Link href="/all-lists">
+                <Link href="/listings">
                   <Button
                     variant="outline"
                     className="bg-white/10 hover:bg-white/20 border-white/10 text-white"
