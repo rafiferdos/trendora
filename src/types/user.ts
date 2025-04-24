@@ -16,3 +16,46 @@ export type TUser = {
   role: 'user' | 'admin'
   userId: string
 }
+
+export type TOrder = {
+  _id: string;
+  userId: TUser; // previously was string; now proper type
+  products: TOrderProduct[];
+  totalAmount: number; // ensure this is not optional
+  status: TOrderStatus;
+  transaction: TTransaction;
+  createdAt: string;
+  updatedAt?: string;
+}
+
+// product entry in an order
+export type TOrderProduct = {
+  _id: string; // this is usually the order item ID
+  productId: TProduct; // previously this was just string
+  quantity: number;
+};
+
+export type TOrderStatus =
+  | "Pending"
+  | "Paid"
+  | "Shipped"
+  | "Completed"
+  | "Cancelled";
+
+export type TTransaction = {
+  id: string;
+  transactionStatus: string;
+  bank_status: string;
+  sp_code: string;
+  sp_message: string;
+  method: string;
+  date_time: string;
+};
+
+// product type used inside order
+export type TProduct = {
+  _id: string;
+  name: string;
+  image: string;
+};
+
