@@ -310,7 +310,7 @@ export default function Navbar() {
           <NavLink href="/listings" label="Browse" />
           <NavLink
             href="/dashboard/user/listings/create-listing"
-            label="Sell"
+            label="Add Listing"
           />
 
           <div className="flex items-center space-x-2 ml-4">
