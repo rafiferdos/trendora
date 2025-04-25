@@ -153,16 +153,16 @@ export default function OrderDetailsTable({ data }: { data: OrderItem[] }) {
                 Price
               </TableHead>
               <TableHead className="text-white dark:text-gray-300">
-                Status
+                Payment Status
               </TableHead>
               <TableHead className="text-white dark:text-gray-300">
-                Seller
+                Seller Name
               </TableHead>
               <TableHead className="text-white dark:text-gray-300">
-                Contact
+                Seller Contact
               </TableHead>
               <TableHead className="text-white dark:text-gray-300">
-                Date
+                Purchase Date
               </TableHead>
             </TableRow>
           </TableHeader>
@@ -171,7 +171,7 @@ export default function OrderDetailsTable({ data }: { data: OrderItem[] }) {
               <TableRow key={item._id} className="bg-transparent">
                 <TableCell>
                   <Image
-                    src={item.itemID.images[0]}
+                    src={item?.itemID?.images[0]}
                     alt="Product"
                     width={50}
                     height={50}
