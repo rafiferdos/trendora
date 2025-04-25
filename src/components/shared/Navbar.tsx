@@ -76,7 +76,7 @@ export default function Navbar() {
     null,
   )
 
-  const { user, handleLogout, setIsLoading } = useUser()
+  const { user, handleLogout } = useUser()
   const { name = '', email = '' } = user?.data || {}
 
   useEffect(() => {
@@ -278,7 +278,7 @@ export default function Navbar() {
     await handleLogout()
     toast.success('Logged out successfully!')
     clearWishlist()
-    setIsLoading(true)
+
     if (protectedRoutes.some((route) => pathname.match(route))) {
       router.replace('/')
     }
