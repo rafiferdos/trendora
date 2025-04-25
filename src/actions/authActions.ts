@@ -7,7 +7,6 @@ export const getClientToken = async (): Promise<string | null> => {
   return token
 }
 
-
 export const logoutUser = async () => {
   const cookieStore = await cookies() // Ensure we await the cookies store
 

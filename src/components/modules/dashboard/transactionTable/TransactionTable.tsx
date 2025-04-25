@@ -1,9 +1,8 @@
-"use client"
+'use client'
 import { updateListingItem } from '@/services/listings'
 import { updateTransactionStatus } from '@/services/transactions'
 import React, { FC, useState } from 'react'
 import { toast } from 'sonner'
-
 
 const TRANSACTION_STATUS = {
   PENDING: 'pending',

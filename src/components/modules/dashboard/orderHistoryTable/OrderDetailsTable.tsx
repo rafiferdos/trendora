@@ -171,11 +171,12 @@ export default function OrderDetailsTable({ data }: { data: OrderItem[] }) {
               <TableRow key={item._id} className="bg-transparent">
                 <TableCell>
                   <Image
-                    src={item.itemID.images[0]}
-                    alt="Product"
+                    src={sanitizeImageUrl(item.itemID.images[0])}
+                    alt={`Product ${item.itemID.title}`}
                     width={50}
                     height={50}
                     className="rounded-md object-cover"
+                    priority={true}
                   />
                 </TableCell>
                 <TableCell className="text-white dark:text-gray-300">
@@ -240,4 +241,8 @@ export default function OrderDetailsTable({ data }: { data: OrderItem[] }) {
       </CardContent>
     </Card>
   )
+}
+
+const sanitizeImageUrl = (url: string) => {
+  return url ? encodeURIComponent(url.trim()) : ''
 }

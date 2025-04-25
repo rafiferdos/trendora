@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import { ChevronRight, type LucideIcon } from 'lucide-react'
 import { motion } from 'framer-motion'
@@ -8,7 +8,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from '@/components/ui/dropdown-menu'
 import {
   SidebarGroup,
   SidebarMenu,
@@ -18,8 +18,12 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
   useSidebar,
-} from "@/components/ui/sidebar"
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
+} from '@/components/ui/sidebar'
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/ui/collapsible'
 
 export function NavMain({
   items,
@@ -42,22 +46,18 @@ export function NavMain({
       transition: {
         staggerChildren: 0.1,
         delayChildren: 0.1,
-      }
-    }
-  };
+      },
+    },
+  }
 
   const item = {
     hidden: { opacity: 0, y: 10 },
-    show: { opacity: 1, y: 0 }
-  };
+    show: { opacity: 1, y: 0 },
+  }
 
   return (
     <SidebarGroup>
-      <motion.div
-        variants={container}
-        initial="hidden"
-        animate="show"
-      >
+      <motion.div variants={container} initial="hidden" animate="show">
         <SidebarMenu>
           {items.map((menuItem, index) => (
             <motion.div key={menuItem.title} variants={item}>

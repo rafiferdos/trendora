@@ -38,10 +38,10 @@ export function TeamSwitcher({
   }
 
   const gradients = [
-    "bg-gradient-to-r from-pink-500 to-purple-600",
-    "bg-gradient-to-r from-blue-500 to-cyan-500",
-    "bg-gradient-to-r from-emerald-500 to-teal-600",
-  ];
+    'bg-gradient-to-r from-pink-500 to-purple-600',
+    'bg-gradient-to-r from-blue-500 to-cyan-500',
+    'bg-gradient-to-r from-emerald-500 to-teal-600',
+  ]
 
   return (
     <SidebarMenu>
@@ -52,7 +52,7 @@ export function TeamSwitcher({
               size="lg"
               className="data-[state=open]:bg-white/10 data-[state=open]:text-white transition-all duration-300"
             >
-              <motion.div 
+              <motion.div
                 animate={isDropdownOpen ? { scale: 1.05 } : { scale: 1 }}
                 transition={{ duration: 0.2 }}
                 className={`flex aspect-square size-8 items-center justify-center rounded-lg ${gradients[0]} text-white shadow-lg shadow-pink-600/20`}
@@ -96,11 +96,15 @@ export function TeamSwitcher({
                 onClick={() => setActiveTeam(team)}
                 className={`gap-2 p-2 hover:bg-white/10 text-white transition-all duration-200 ${activeTeam.name === team.name ? 'bg-white/10' : ''}`}
               >
-                <div className={`flex size-6 items-center justify-center rounded-sm ${gradients[index % gradients.length]} shadow-md`}>
+                <div
+                  className={`flex size-6 items-center justify-center rounded-sm ${gradients[index % gradients.length]} shadow-md`}
+                >
                   <team.logo className="size-4 shrink-0 text-white" />
                 </div>
                 {team.name}
-                <DropdownMenuShortcut className="text-white/50">⌘{index + 1}</DropdownMenuShortcut>
+                <DropdownMenuShortcut className="text-white/50">
+                  ⌘{index + 1}
+                </DropdownMenuShortcut>
               </DropdownMenuItem>
             ))}
             <DropdownMenuSeparator className="bg-white/10" />

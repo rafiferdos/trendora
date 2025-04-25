@@ -267,7 +267,7 @@ export default function ProductDetailPage() {
               {error || 'Product not found'}
             </h3>
             <p className="text-purple-100 mb-6">
-              We couldn't find the product you're looking for.
+              {"We couldn't find the product you're looking for."}
             </p>
             <div className="flex gap-4 justify-center">
               <button

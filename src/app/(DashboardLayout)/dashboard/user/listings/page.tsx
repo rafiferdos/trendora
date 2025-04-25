@@ -1,53 +1,53 @@
-"use client";
+'use client'
 
-import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Plus, ListFilter, Search, RefreshCw } from "lucide-react";
-import Link from "next/link";
-import { motion } from "framer-motion";
+import { useEffect, useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { Plus, ListFilter, RefreshCw } from 'lucide-react'
+import Link from 'next/link'
+import { motion } from 'framer-motion'
 
-import { DataTable } from "@/components/modules/dashboard/listing/dataTable/DataTable";
-import { getListings } from "@/services/listings";
-import { TListing } from "@/types/listings/listing";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
-import { getCurrentUser } from "@/services/AuthService";
-import { getColumns } from "@/components/modules/dashboard/listing/columns/Columns";
-import { useUser } from "@/context/UserContext";
+import { DataTable } from '@/components/modules/dashboard/listing/dataTable/DataTable'
+import { getListings } from '@/services/listings'
+import { TListing } from '@/types/listings/listing'
+import 'react-loading-skeleton/dist/skeleton.css'
+import { getCurrentUser } from '@/services/AuthService'
+import { getColumns } from '@/components/modules/dashboard/listing/columns/Columns'
+import { useUser } from '@/context/UserContext'
 
 export default function DashboardPage() {
-  const [data, setData] = useState<TListing[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<TListing[]>([])
+  const [loading, setLoading] = useState(true)
   const [error, serError] = useState('')
   const [role, setRole] = useState('')
-  const {user}  = useUser()
+  const { user } = useUser()
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { role, userId } = await getCurrentUser();
+        const { role, userId } = await getCurrentUser()
 
         const listings = await getListings()
 
         if (!listings?.success) {
           return serError(listings?.message)
         }
-        if (role === "admin") {
+        if (role === 'admin') {
           setRole(role)
           return setData(listings?.data)
-        } 
-        const data = listings?.data.filter((item) => (item.userID?._id).toString() === userId.toString())
+        }
+        const data = listings?.data.filter(
+          (item) => (item.userID?._id).toString() === userId.toString(),
+        )
         setData(data)
-        
       } catch (error) {
-        console.error("Error fetching listings", error);
+        console.error('Error fetching listings', error)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
+    }
 
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
   if (loading) {
     return (
@@ -55,26 +55,40 @@ export default function DashboardPage() {
         <div className="backdrop-blur-xl bg-white/5 rounded-2xl border border-white/10 shadow-2xl p-8">
           <div className="flex flex-col items-center justify-center space-y-6">
             <div className="relative flex justify-center items-center">
-              <div className="w-20 h-20 rounded-full border-4 border-transparent 
+              <div
+                className="w-20 h-20 rounded-full border-4 border-transparent 
                     border-t-pink-500 border-r-purple-500 border-b-blue-500
-                    animate-spin"></div>
-              <div className="absolute w-14 h-14 rounded-full bg-gradient-to-br from-pink-500/80 to-purple-600/80 
-                    blur-sm animate-pulse"></div>
+                    animate-spin"
+              ></div>
+              <div
+                className="absolute w-14 h-14 rounded-full bg-gradient-to-br from-pink-500/80 to-purple-600/80 
+                    blur-sm animate-pulse"
+              ></div>
             </div>
-            
+
             <p className="text-xl font-medium text-white">
               <span className="inline-block animate-pulse">
                 Loading your listings
               </span>
               <span className="inline-block animate-bounce mx-0.5">.</span>
-              <span className="inline-block animate-bounce mx-0.5" style={{ animationDelay: '0.2s' }}>.</span>
-              <span className="inline-block animate-bounce mx-0.5" style={{ animationDelay: '0.4s' }}>.</span>
+              <span
+                className="inline-block animate-bounce mx-0.5"
+                style={{ animationDelay: '0.2s' }}
+              >
+                .
+              </span>
+              <span
+                className="inline-block animate-bounce mx-0.5"
+                style={{ animationDelay: '0.4s' }}
+              >
+                .
+              </span>
             </p>
-            
+
             <div className="w-full max-w-md space-y-3">
               {[...Array(5)].map((_, i) => (
-                <div 
-                  key={i} 
+                <div
+                  key={i}
                   className="h-16 bg-white/5 rounded-xl animate-pulse"
                   style={{ animationDelay: `${i * 0.1}s` }}
                 ></div>
@@ -91,10 +105,16 @@ export default function DashboardPage() {
       {/* Background decoration elements */}
       <div className="fixed inset-0 -z-10 overflow-hidden">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl animate-pulse-slow"></div>
-        <div className="absolute bottom-1/4 right-1/3 w-80 h-80 bg-pink-600/20 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute top-1/3 right-1/4 w-64 h-64 bg-blue-600/20 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '1s' }}></div>
+        <div
+          className="absolute bottom-1/4 right-1/3 w-80 h-80 bg-pink-600/20 rounded-full blur-3xl animate-pulse-slow"
+          style={{ animationDelay: '2s' }}
+        ></div>
+        <div
+          className="absolute top-1/3 right-1/4 w-64 h-64 bg-blue-600/20 rounded-full blur-3xl animate-pulse-slow"
+          style={{ animationDelay: '1s' }}
+        ></div>
       </div>
-      
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -105,27 +125,27 @@ export default function DashboardPage() {
         <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
           <div>
             <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-white via-purple-200 to-pink-100 bg-clip-text text-transparent">
-              {role === "admin" ? "All" : "Your"} Listings
+              {role === 'admin' ? 'All' : 'Your'} Listings
             </h2>
             <p className="text-purple-200/80 mt-1">
-              {role === 'admin' 
-                ? 'Manage all listings across the platform' 
+              {role === 'admin'
+                ? 'Manage all listings across the platform'
                 : `Welcome back, ${data[0]?.userID?.name || user?.data?.name || 'User'}`}
             </p>
           </div>
-          
+
           {role === 'admin' ? (
             <div className="flex items-center gap-2">
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 size="icon"
                 className="bg-white/10 border-white/20 text-white hover:bg-white/20"
                 onClick={() => window.location.reload()}
               >
                 <RefreshCw className="h-4 w-4" />
               </Button>
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 className="bg-white/10 border-white/20 text-white hover:bg-white/20"
               >
                 <ListFilter className="mr-2 h-4 w-4" />
@@ -143,40 +163,46 @@ export default function DashboardPage() {
             </Link>
           )}
         </div>
-        
+
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.1 }}
             className="backdrop-blur-md bg-gradient-to-br from-pink-500/20 to-purple-600/20 p-4 rounded-xl border border-white/10 shadow-lg"
           >
-            <h3 className="text-white/70 text-sm font-medium mb-1">Total Listings</h3>
+            <h3 className="text-white/70 text-sm font-medium mb-1">
+              Total Listings
+            </h3>
             <p className="text-3xl font-bold text-white">{data.length}</p>
           </motion.div>
-          
-          <motion.div 
+
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.2 }}
             className="backdrop-blur-md bg-gradient-to-br from-blue-500/20 to-cyan-600/20 p-4 rounded-xl border border-white/10 shadow-lg"
           >
-            <h3 className="text-white/70 text-sm font-medium mb-1">Available Items</h3>
+            <h3 className="text-white/70 text-sm font-medium mb-1">
+              Available Items
+            </h3>
             <p className="text-3xl font-bold text-white">
-              {data.filter(item => item.status === 'available').length}
+              {data.filter((item) => item.status === 'available').length}
             </p>
           </motion.div>
-          
-          <motion.div 
+
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.3 }}
             className="backdrop-blur-md bg-gradient-to-br from-emerald-500/20 to-teal-600/20 p-4 rounded-xl border border-white/10 shadow-lg"
           >
-            <h3 className="text-white/70 text-sm font-medium mb-1">Sold Items</h3>
+            <h3 className="text-white/70 text-sm font-medium mb-1">
+              Sold Items
+            </h3>
             <p className="text-3xl font-bold text-white">
-              {data.filter(item => item.status === 'sold').length}
+              {data.filter((item) => item.status === 'sold').length}
             </p>
           </motion.div>
         </div>

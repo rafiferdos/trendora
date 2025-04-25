@@ -140,7 +140,8 @@
   margin-bottom: 0.5rem;
 }
 
-.condition, .category {
+.condition,
+.category {
   color: rgba(255, 255, 255, 0.7);
   font-size: 0.875rem;
   margin-bottom: 0.25rem;
@@ -180,7 +181,8 @@
   margin-right: 0.5rem;
 }
 
-.print-button, .dashboard-button {
+.print-button,
+.dashboard-button {
   display: flex;
   align-items: center;
   padding: 0.75rem 1.5rem;
@@ -220,13 +222,23 @@
 }
 
 @keyframes bounceIn {
-  0% { transform: scale(0); opacity: 0; }
-  50% { transform: scale(1.2); }
-  100% { transform: scale(1); opacity: 1; }
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @media (max-width: 1024px) {

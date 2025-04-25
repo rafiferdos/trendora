@@ -36,7 +36,7 @@ const fadeIn = {
 
 const Dashboard = () => {
   const { user } = useUser()
-  const { name = '', email = '' } = user?.data || {}
+  const { name = '' } = user?.data || {}
   const [mounted, setMounted] = useState(false)
   const [stats, setStats] = useState({
     views: 0,

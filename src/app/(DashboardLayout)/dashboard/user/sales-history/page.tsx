@@ -1,50 +1,52 @@
-"use client";
+'use client'
 
-import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Plus, ListFilter, Search, RefreshCw } from "lucide-react";
-import Link from "next/link";
-import { motion } from "framer-motion";
+import { useEffect, useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { Plus, ListFilter, Search, RefreshCw } from 'lucide-react'
+import Link from 'next/link'
+import { motion } from 'framer-motion'
 
-import { DataTable } from "@/components/modules/dashboard/listing/dataTable/DataTable";
-import { getListings } from "@/services/listings";
-import { TListing } from "@/types/listings/listing";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
-import { getCurrentUser } from "@/services/AuthService";
-import { getColumns } from "@/components/modules/dashboard/listing/columns/Columns";
-import { useUser } from "@/context/UserContext";
-import { getSellsHistory } from "@/services/history";
-import TransactionTable, {  TTransaction } from "@/components/modules/dashboard/transactionTable/TransactionTable";
+import { DataTable } from '@/components/modules/dashboard/listing/dataTable/DataTable'
+import { getListings } from '@/services/listings'
+import { TListing } from '@/types/listings/listing'
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+import { getCurrentUser } from '@/services/AuthService'
+import { getColumns } from '@/components/modules/dashboard/listing/columns/Columns'
+import { useUser } from '@/context/UserContext'
+import { getSellsHistory } from '@/services/history'
+import TransactionTable, {
+  TTransaction,
+} from '@/components/modules/dashboard/transactionTable/TransactionTable'
 
 export default function SalesHistoryPage() {
   const [transactionData, setTransactionData] = useState<TTransaction[]>([])
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true)
   const [error, serError] = useState('')
   const [role, setRole] = useState('')
-  const {user}  = useUser()
+  const { user } = useUser()
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { role, userId } = await getCurrentUser();
+        const { role, userId } = await getCurrentUser()
         const salesHistories = await getSellsHistory(userId)
         console.log(salesHistories.data?.result)
 
         if (!salesHistories?.success) {
           return serError(salesHistories?.message)
         }
-        
+
         setTransactionData(salesHistories.data?.result)
       } catch (error) {
-        console.error("Error fetching listings", error);
+        console.error('Error fetching listings', error)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
+    }
 
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
   if (loading) {
     return (
@@ -52,26 +54,40 @@ export default function SalesHistoryPage() {
         <div className="backdrop-blur-xl bg-white/5 rounded-2xl border border-white/10 shadow-2xl p-8">
           <div className="flex flex-col items-center justify-center space-y-6">
             <div className="relative flex justify-center items-center">
-              <div className="w-20 h-20 rounded-full border-4 border-transparent 
+              <div
+                className="w-20 h-20 rounded-full border-4 border-transparent 
                     border-t-pink-500 border-r-purple-500 border-b-blue-500
-                    animate-spin"></div>
-              <div className="absolute w-14 h-14 rounded-full bg-gradient-to-br from-pink-500/80 to-purple-600/80 
-                    blur-sm animate-pulse"></div>
+                    animate-spin"
+              ></div>
+              <div
+                className="absolute w-14 h-14 rounded-full bg-gradient-to-br from-pink-500/80 to-purple-600/80 
+                    blur-sm animate-pulse"
+              ></div>
             </div>
-            
+
             <p className="text-xl font-medium text-white">
               <span className="inline-block animate-pulse">
                 Loading your listings
               </span>
               <span className="inline-block animate-bounce mx-0.5">.</span>
-              <span className="inline-block animate-bounce mx-0.5" style={{ animationDelay: '0.2s' }}>.</span>
-              <span className="inline-block animate-bounce mx-0.5" style={{ animationDelay: '0.4s' }}>.</span>
+              <span
+                className="inline-block animate-bounce mx-0.5"
+                style={{ animationDelay: '0.2s' }}
+              >
+                .
+              </span>
+              <span
+                className="inline-block animate-bounce mx-0.5"
+                style={{ animationDelay: '0.4s' }}
+              >
+                .
+              </span>
             </p>
-            
+
             <div className="w-full max-w-md space-y-3">
               {[...Array(5)].map((_, i) => (
-                <div 
-                  key={i} 
+                <div
+                  key={i}
                   className="h-16 bg-white/5 rounded-xl animate-pulse"
                   style={{ animationDelay: `${i * 0.1}s` }}
                 ></div>
@@ -158,7 +174,9 @@ export default function SalesHistoryPage() {
             <h3 className="text-white/70 text-sm font-medium mb-1">
               Total Listings
             </h3>
-            <p className="text-3xl font-bold text-white">{transactionData.length}</p>
+            <p className="text-3xl font-bold text-white">
+              {transactionData.length}
+            </p>
           </motion.div>
 
           <motion.div
@@ -171,7 +189,10 @@ export default function SalesHistoryPage() {
               Available Items
             </h3>
             <p className="text-3xl font-bold text-white">
-              {transactionData.filter((item) => item.status === 'available').length}
+              {
+                transactionData.filter((item) => item.status === 'available')
+                  .length
+              }
             </p>
           </motion.div>
 

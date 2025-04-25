@@ -1,21 +1,15 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Plus, ListFilter, Search, RefreshCw } from 'lucide-react'
-import Link from 'next/link'
+
 import { motion } from 'framer-motion'
 
-import { DataTable } from '@/components/modules/dashboard/listing/dataTable/DataTable'
-import { getListings } from '@/services/listings'
-import { TListing } from '@/types/listings/listing'
-import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { getCurrentUser } from '@/services/AuthService'
-import { getColumns } from '@/components/modules/dashboard/listing/columns/Columns'
+
 import { useUser } from '@/context/UserContext'
-import { getPurchaseHistory, getSellsHistory } from '@/services/history'
-import { PurchaseHistoryResponse } from '@/types/purchase/purchase'
+import { getPurchaseHistory } from '@/services/history'
+
 import OrderDetailsTable from '@/components/modules/dashboard/orderHistoryTable/OrderDetailsTable'
 
 export default function PurchaseHistoryPage() {
@@ -32,7 +26,7 @@ export default function PurchaseHistoryPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { role, userId } = await getCurrentUser()
+        const { userId } = await getCurrentUser()
 
         const purchaseListings = await getPurchaseHistory(userId)
 
