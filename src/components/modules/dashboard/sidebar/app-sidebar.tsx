@@ -99,16 +99,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       ],
     },
     {
-      title: 'Messages',
-      url: '/dashboard/messages',
-      icon: MessageCircle,
-      iconColor: 'text-blue-400',
-      bgColor: 'from-blue-600/20 to-cyan-600/20',
-      borderColor: 'border-blue-500/30',
-      hasNotification: true,
-      notificationCount: 4,
-    },
-    {
       title: 'Purchase History',
       url: '/dashboard/user/purchase-history',
       icon: ShoppingCart,
