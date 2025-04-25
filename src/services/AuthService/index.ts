@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use server'
+import { jwtDecode } from 'jwt-decode'
 import { cookies } from 'next/headers'
 import { FieldValues } from 'react-hook-form'
-import { jwtDecode } from 'jwt-decode'
-import { clearLocalWishlist } from '@/utils/localStorage'
 
 export const registerUser = async (userData: FieldValues) => {
   try {
@@ -37,14 +36,31 @@ export const loginUser = async (userData: FieldValues) => {
       },
       body: JSON.stringify(userData),
     })
+
     const result = await res.json()
-    if (
-      ((await cookies()).set('accessToken', result.data.accessToken),
-      (await cookies()).set('refreshToken', result.data.refreshToken))
-    )
-      return result
+
+    // Check if the response is successful and contains the expected tokens
+    if (res.ok && result?.data?.accessToken && result?.data?.refreshToken) {
+      ;(await cookies()).set('accessToken', result.data.accessToken),
+        (await cookies()).set('refreshToken', result.data.refreshToken)
+    }
+
+    // If login fails, return the error message from backend
+    if (!res.ok) {
+      return {
+        success: false,
+        message: result.message('Something went wrong'),
+        errorDetails: result.errorSources, // optional: error sources for detailed debugging
+      }
+    }
+
+    return result // successful login response
   } catch (error: any) {
-    Error(error)
+    console.error('Login error:', error)
+    return {
+      success: false,
+      message: error?.message('Something went wrong during login'),
+    }
   }
 }
 
