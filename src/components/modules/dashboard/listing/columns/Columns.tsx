@@ -21,11 +21,14 @@ import {
 import { toast } from 'sonner'
 
 type Props = {
-  role: string;
+  role: string
   onDeleteSuccess: (id: string) => void
 }
 
-export const getColumns = ({ onDeleteSuccess , role}: Props): ColumnDef<TListing>[] => [
+export const getColumns = ({
+  onDeleteSuccess,
+  role,
+}: Props): ColumnDef<TListing>[] => [
   {
     id: 'serial',
     header: 'SL',

@@ -50,7 +50,7 @@ const Homepage = () => {
   const router = useRouter()
   const [featuredListings, setFeaturedListings] = useState<TListing[]>([])
   const [isLoading, setIsLoadingState] = useState(true)
-
+console.log(user);
   // Categories for the featured categories section
   const categories = [
     {
@@ -275,7 +275,7 @@ const Homepage = () => {
                     <span className="font-medium text-white">New Message</span>
                   </div>
                   <p className="text-xs text-white/70">
-                    "Is this item still available? I'm interested!"
+                    {"Is this item still available? I'm interested!"}
                   </p>
                 </motion.div>
               </div>
@@ -715,9 +715,9 @@ const Homepage = () => {
                   </div>
                 </div>
                 <p className="text-purple-100/90 italic">
-                  "SwapNest has transformed how I declutter my home. I've sold
-                  items I no longer need and found amazing vintage pieces at
-                  great prices!"
+                  {
+                    "SwapNest has transformed how I declutter my home. I've sold items I no longer need and found amazing vintage pieces at great prices!"
+                  }
                 </p>
               </div>
             </motion.div>
@@ -744,9 +744,9 @@ const Homepage = () => {
                   </div>
                 </div>
                 <p className="text-purple-100/90 italic">
-                  "The messaging system makes it so easy to negotiate and set up
-                  meetups. I've found incredible deals on tech gear that would
-                  have cost a fortune new."
+                  {
+                    "The messaging system makes it so easy to negotiate and set up meetups. I've found incredible deals on tech gear that would have cost a fortune new."
+                  }
                 </p>
               </div>
             </motion.div>
@@ -777,9 +777,9 @@ const Homepage = () => {
                   </div>
                 </div>
                 <p className="text-purple-100/90 italic">
-                  "I love that SwapNest helps reduce waste through second-hand
-                  trading. The community is respectful and the platform is so
-                  easy to use!"
+                  {
+                    'I love that SwapNest helps reduce waste through second-hand trading. The community is respectful and the platform is so easy to use!'
+                  }
                 </p>
               </div>
             </motion.div>

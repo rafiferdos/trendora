@@ -186,7 +186,7 @@ const RegisterForm = () => {
                         <Mail size={16} />
                       </div>
                       <Input
-                        type="email"
+                        type="text"
                         {...field}
                         className="bg-white/10 border-white/10 pl-10 text-white placeholder:text-white/50 focus:border-purple-400 focus:ring-1 focus:ring-purple-400"
                         placeholder="Enter your email or phone"

@@ -40,17 +40,11 @@ const LoginForm = () => {
     try {
       const res = await loginUser(data)
       setIsLoading(true)
-      
+
       if (res?.success) {
         // Show success toast notification instead of alert
-        toast.success(res?.message, {
-          style: {
-            background: 'rgba(0, 0, 0, 0.8)',
-            color: 'white',
-            borderRadius: '12px',
-          },
-        })
-        
+        toast.success(res?.message)
+        alert('hello')
         if (redirect) {
           router.push(redirect)
         } else {
@@ -58,17 +52,11 @@ const LoginForm = () => {
         }
       } else {
         // Show error toast notification
-        toast.error(res?.message, {
-          style: {
-            background: 'rgba(0, 0, 0, 0.8)',
-            color: 'white',
-            borderRadius: '12px',
-          },
-        })
+        toast.error(res?.message)
       }
     } catch (error: any) {
       console.error(error)
-      toast.error("An error occurred during login", {
+      toast.error('An error occurred during login', {
         style: {
           background: 'rgba(0, 0, 0, 0.8)',
           color: 'white',
@@ -84,17 +72,17 @@ const LoginForm = () => {
       opacity: 1,
       transition: {
         staggerChildren: 0.2,
-      }
-    }
+      },
+    },
   }
-  
+
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
-      transition: { type: "spring", stiffness: 100 }
-    }
+      transition: { type: 'spring', stiffness: 100 },
+    },
   }
 
   return (
@@ -107,8 +95,8 @@ const LoginForm = () => {
             <LogIn className="w-8 h-8 text-white" />
           </div>
         </div>
-        
-        <motion.h1 
+
+        <motion.h1
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -116,7 +104,7 @@ const LoginForm = () => {
         >
           Welcome Back
         </motion.h1>
-        <motion.p 
+        <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
@@ -127,7 +115,7 @@ const LoginForm = () => {
       </div>
 
       <Form {...form}>
-        <motion.form 
+        <motion.form
           variants={formVariants}
           initial="hidden"
           animate="visible"
@@ -149,7 +137,7 @@ const LoginForm = () => {
                         <Mail size={16} />
                       </div>
                       <Input
-                        type="email"
+                        type="text"
                         {...field}
                         className="bg-white/10 border-white/10 pl-10 text-white placeholder:text-white/50 focus:border-purple-400 focus:ring-1 focus:ring-purple-400"
                         placeholder="Enter your email or phone"
@@ -162,7 +150,7 @@ const LoginForm = () => {
               )}
             />
           </motion.div>
-          
+
           <motion.div variants={itemVariants}>
             <FormField
               control={form.control}
@@ -178,14 +166,14 @@ const LoginForm = () => {
                         <LockKeyhole size={16} />
                       </div>
                       <Input
-                        type={showPassword ? "text" : "password"}
+                        type={showPassword ? 'text' : 'password'}
                         placeholder="Enter your password"
                         className="bg-white/10 border-white/10 pl-10 text-white placeholder:text-white/50 focus:border-purple-400 focus:ring-1 focus:ring-purple-400"
                         {...field}
                         value={field.value || ''}
                       />
-                      <button 
-                        type="button" 
+                      <button
+                        type="button"
                         className="absolute right-3 top-1/2 -translate-y-1/2 text-white/50 hover:text-white"
                         onClick={() => setShowPassword(!showPassword)}
                       >
@@ -198,7 +186,7 @@ const LoginForm = () => {
               )}
             />
           </motion.div>
-          
+
           <motion.div variants={itemVariants}>
             <div className="flex justify-end">
               <Link
@@ -210,10 +198,7 @@ const LoginForm = () => {
             </div>
           </motion.div>
 
-          <motion.div 
-            variants={itemVariants}
-            className="pt-2"
-          >
+          <motion.div variants={itemVariants} className="pt-2">
             <Button
               type="submit"
               className="relative overflow-hidden bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white shadow-md shadow-purple-500/20 hover:shadow-lg hover:shadow-purple-500/30 transition-all duration-300 border-0 w-full h-12 font-medium"
@@ -224,9 +209,25 @@ const LoginForm = () => {
               <span className="relative flex items-center justify-center gap-2">
                 {isSubmitting ? (
                   <>
-                    <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    <svg
+                      className="animate-spin h-5 w-5 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
                     </svg>
                     Signing In...
                   </>
@@ -248,7 +249,7 @@ const LoginForm = () => {
         className="mt-8 text-center"
       >
         <p className="text-purple-200/70">
-          Don't have an account?{' '}
+          {"Don't have an account?"}{' '}
           <Link
             href="/register"
             className="text-white font-medium hover:text-pink-300 transition-colors underline decoration-white/30 underline-offset-4 hover:decoration-pink-400"

@@ -34,7 +34,7 @@ import { FaShopware } from 'react-icons/fa'
 import { useWishlist } from '@/context/WishLists.context'
 import { protectedRoutes } from '@/constants'
 
-type UserType = { name: string; email: string }
+// type UserType = { name: string; email: string }
 
 function GlowingTooltip({
   children,
@@ -125,7 +125,7 @@ export default function Navbar() {
   }
 
   const IconLink = ({
-    href = "/dashboard/user/wishlist",
+    href = '/dashboard/user/wishlist',
     icon: Icon,
     label,
   }: {
@@ -172,10 +172,11 @@ export default function Navbar() {
           {/* Background effects */}
           <span
             className={`absolute inset-0 rounded-full transition-all duration-500
-            ${isLiked
+            ${
+              isLiked
                 ? 'bg-gradient-to-r from-pink-500/30 to-rose-500/30'
                 : 'bg-gradient-to-r from-purple-500/0 to-pink-500/0 group-hover:from-purple-500/20 group-hover:to-pink-500/20'
-              }`}
+            }`}
           />
 
           {/* Pulsing hover effect */}

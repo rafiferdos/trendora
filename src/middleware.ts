@@ -6,7 +6,7 @@ type Role = keyof typeof roleBasedPrivateRoutes
 const authRoutes = ['/login', '/register']
 
 const roleBasedPrivateRoutes = {
-  user: [/^\/user/, /^\/dashboard/, /^\/product\/[^\/]+$/],  // Added product pattern
+  user: [/^\/user/, /^\/dashboard/], // Add dashboard pattern here
   admin: [/^\/admin/],
 }
 
@@ -20,24 +20,18 @@ export const middleware = async (request: NextRequest) => {
     // Check if the path is a product detail page
     if (pathname.startsWith('/product/')) {
       return NextResponse.redirect(
-        new URL(
-          `/login?redirectPath=${pathname}`,
-          request.url
-        )
+        new URL(`/login?redirectPath=${pathname}`, request.url),
       )
     }
-    
+
     if (authRoutes.includes(pathname)) {
       return NextResponse.next()
     } else if (
-      roleBasedPrivateRoutes.user.some(pattern => pattern.test(pathname)) ||
-      roleBasedPrivateRoutes.admin.some(pattern => pattern.test(pathname))
+      roleBasedPrivateRoutes.user.some((pattern) => pattern.test(pathname)) ||
+      roleBasedPrivateRoutes.admin.some((pattern) => pattern.test(pathname))
     ) {
       return NextResponse.redirect(
-        new URL(
-          `/login?redirectPath=${pathname}`,
-          request.url
-        )
+        new URL(`/login?redirectPath=${pathname}`, request.url),
       )
     }
   }
@@ -51,10 +45,11 @@ export const middleware = async (request: NextRequest) => {
   }
 
   // For non-protected routes, allow access
-  if (!pathname.startsWith('/admin') && 
-      !pathname.startsWith('/user') && 
-      !pathname.startsWith('/dashboard') &&
-      !pathname.match(/^\/product\/[^\/]+$/)) {
+  if (
+    !pathname.startsWith('/admin') &&
+    !pathname.startsWith('/user') &&
+    !pathname.startsWith('/dashboard')
+  ) {
     return NextResponse.next()
   }
 
@@ -65,12 +60,11 @@ export const middleware = async (request: NextRequest) => {
 // Update the matcher config to include product detail pages
 export const config = {
   matcher: [
-    '/admin', 
-    '/admin/:page*', 
-    '/user', 
+    '/admin',
+    '/admin/:page*',
+    '/user',
     '/user/:page*',
     '/dashboard',
     '/dashboard/:path*',
-    '/product/:id'
   ],
 }

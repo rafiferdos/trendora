@@ -14,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { addListingItem } from '@/services/transactions'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import './checkout.css'
@@ -34,7 +35,26 @@ interface ProductCheckoutData {
     avatar?: string
   }
 }
-
+interface TransactionData {
+  itemID: string;
+  sellerID: string;
+  transactionId: string;
+  orderDetails: {
+    address: string;
+    phone: string;
+    division: string;
+    district: string;
+    thana: string;
+    total: string;
+    product: {
+      title: string;
+      price: number;
+      image: string;
+      condition: string;
+      category: string;
+    };
+  };
+}
 export default function Checkout() {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -46,6 +66,8 @@ export default function Checkout() {
   const [thana, setThana] = useState('')
   const [product, setProduct] = useState<ProductCheckoutData | null>(null)
 
+
+  const [transactionId] = useState(`TRX${Date.now()}`);
   useEffect(() => {
     const productData = searchParams.get('productData')
     if (productData) {
@@ -73,33 +95,52 @@ export default function Checkout() {
   const subtotal = product.price
   const shipping = 0
   const total = subtotal + shipping
-
-  const handlePlaceOrder = () => {
+  const handlePlaceOrder = async () => {
     if (!address || !phone || !division || !district || !thana) {
       toast.error('Please fill in all required fields')
       return
     }
-
-    const orderDetails = {
-      productId: product._id,
-      sellerId: product.userID?._id,
-      address,
-      phone,
-      division,
-      district,
-      thana,
-      total: total.toFixed(2),
-      product: {
-        title: product.title,
-        price: product.price,
-        image: product.images[0],
-        condition: product.condition,
-        category: product.category,
+  
+    if (!product?._id || !product?.userID?._id) {
+      toast.error('Invalid product or seller information')
+      return
+    }
+  
+    const transactionId = `TRX${Date.now()}`
+    const transactionData: TransactionData = {
+      itemID: product._id,
+      sellerID: product.userID._id,
+      transactionId,
+      orderDetails: {
+        address,
+        phone,
+        division,
+        district,
+        thana,
+        total: total.toFixed(2),
+        product: {
+          title: product.title,
+          price: product.price,
+          image: product.images[0],
+          condition: product.condition,
+          category: product.category,
+        },
       },
     }
-
-    const queryString = encodeURIComponent(JSON.stringify(orderDetails))
-    router.push(`/transactions?data=${queryString}`)
+  
+    try {
+      const response = await addListingItem(transactionData)
+      console.log(response)
+      if (!response.ok) {
+        throw new Error(response.error || 'Failed to create transaction')
+      }
+      
+      toast.success('Order placed successfully!')
+      router.push(`/transactions?data=${encodeURIComponent(JSON.stringify(transactionData))}`)
+    } catch (error) {
+      console.error('Error creating transaction:', error)
+      toast.error(error instanceof Error ? error.message : 'Failed to place order')
+    }
   }
 
   const handleDivisionChange = (value: string) => {

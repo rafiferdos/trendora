@@ -1,4 +1,3 @@
-
 const LOCAL_WISHLIST_KEY = 'wishlist'
 
 export type TLocalWishlistItem = {
@@ -23,7 +22,7 @@ export const addToLocalWishlist = (product: TLocalWishlistItem) => {
 
 export const removeFromLocalWishlist = (listingId: string) => {
   const wishlist = getLocalWishlist().filter(
-    (item) => item.listingId !== listingId
+    (item) => item.listingId !== listingId,
   )
   localStorage.setItem(LOCAL_WISHLIST_KEY, JSON.stringify(wishlist))
 }
