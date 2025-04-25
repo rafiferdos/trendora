@@ -20,7 +20,8 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [error, serError] = useState('')
   const [role, setRole] = useState('')
-  const {user}  = useUser()
+  const { user } = useUser()
+  console.log(user);
 
   useEffect(() => {
     const fetchData = async () => {
