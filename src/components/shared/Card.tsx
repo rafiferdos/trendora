@@ -1,8 +1,8 @@
+import { useWishlist } from '@/context/WishLists.context'
 import Image from 'next/image'
 import Link from 'next/link'
-import { FiHeart, FiShoppingBag, FiStar } from 'react-icons/fi'
-import { FaRegHeart, FaHeart } from 'react-icons/fa6'
-import { useWishlist } from '@/context/WishLists.context'
+import { FaHeart, FaRegHeart } from 'react-icons/fa6'
+import { FiStar } from 'react-icons/fi'
 interface CardProps {
   id?: string
   _id: string
@@ -51,9 +51,6 @@ export default function Card({
             className="mx-2 p-3 rounded-full bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 transition-all"
           >
             {isActive ? <FaHeart className="text-red-500" /> : <FaRegHeart />}
-          </button>
-          <button className="mx-2 p-3 rounded-full bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 transition-all">
-            <FiShoppingBag size={18} />
           </button>
         </div>
         <Image

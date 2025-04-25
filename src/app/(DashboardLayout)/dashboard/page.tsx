@@ -115,13 +115,6 @@ const Dashboard = () => {
       color: 'from-blue-500 to-cyan-500',
     },
     {
-      title: 'Messages',
-      path: '/dashboard/messages',
-      description: 'Check your conversations',
-      icon: <Gift className="h-6 w-6" />,
-      color: 'from-amber-500 to-orange-500',
-    },
-    {
       title: 'Orders',
       path: '/dashboard/orders',
       description: 'View purchase history',

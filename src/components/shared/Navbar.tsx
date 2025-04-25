@@ -19,7 +19,6 @@ import { ReactNode, useEffect, useState } from 'react'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
-import { FaHeart } from 'react-icons/fa6'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -28,11 +27,13 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import { protectedRoutes } from '@/constants'
 import { useUser } from '@/context/UserContext'
+import { useWishlist } from '@/context/WishLists.context'
 import { cn } from '@/lib/utils'
 import { FaShopware } from 'react-icons/fa'
-import { useWishlist } from '@/context/WishLists.context'
-import { protectedRoutes } from '@/constants'
+import { FaHeart } from 'react-icons/fa6'
+import { toast } from 'sonner'
 
 // type UserType = { name: string; email: string }
 
@@ -75,7 +76,7 @@ export default function Navbar() {
     null,
   )
 
-  const { user, handleLogout, setIsLoading } = useUser()
+  const { user, handleLogout } = useUser()
   const { name = '', email = '' } = user?.data || {}
 
   useEffect(() => {
@@ -275,8 +276,9 @@ export default function Navbar() {
 
   const handleForLogout = async () => {
     await handleLogout()
+    toast.success('Logged out successfully!')
     clearWishlist()
-    setIsLoading(true)
+
     if (protectedRoutes.some((route) => pathname.match(route))) {
       router.replace('/')
     }
@@ -310,7 +312,7 @@ export default function Navbar() {
           <NavLink href="/listings" label="Browse" />
           <NavLink
             href="/dashboard/user/listings/create-listing"
-            label="Sell"
+            label="Add Listing"
           />
 
           <div className="flex items-center space-x-2 ml-4">
@@ -328,7 +330,7 @@ export default function Navbar() {
                     <div className="absolute inset-0.5 rounded-full bg-gray-900/90 backdrop-blur-sm"></div>
 
                     <Avatar className="w-9 h-9 cursor-pointer relative">
-                      <AvatarImage src="" />
+                      <AvatarImage src={''} />
                       <AvatarFallback className="bg-gradient-to-br from-purple-600 to-pink-600 text-white font-medium">
                         {name.charAt(0)}
                       </AvatarFallback>
