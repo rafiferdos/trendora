@@ -29,7 +29,6 @@ const LoginForm = () => {
     formState: { isSubmitting, errors },
   } = form
 
-  const { setIsLoading } = useUser()
   const [showPassword, setShowPassword] = useState(false)
 
   const searchParams = useSearchParams()
@@ -39,12 +38,10 @@ const LoginForm = () => {
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
       const res = await loginUser(data)
-      setIsLoading(true)
 
       if (res?.success) {
         // Show success toast notification instead of alert
         toast.success(res?.message)
-        alert('hello')
         if (redirect) {
           router.push(redirect)
         } else {
