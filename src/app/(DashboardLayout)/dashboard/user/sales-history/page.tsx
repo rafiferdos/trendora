@@ -37,7 +37,7 @@ export default function SalesHistoryPage() {
         
         setTransactionData(salesHistories.data?.result)
       } catch (error) {
-        console.error("Error fetching listings", error);
+        console.error("Error fetching sales history", error);
       } finally {
         setLoading(false);
       }
