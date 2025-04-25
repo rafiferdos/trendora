@@ -328,7 +328,7 @@ export default function Navbar() {
                     <div className="absolute inset-0.5 rounded-full bg-gray-900/90 backdrop-blur-sm"></div>
 
                     <Avatar className="w-9 h-9 cursor-pointer relative">
-                      <AvatarImage src="" />
+                      <AvatarImage src={""} />
                       <AvatarFallback className="bg-gradient-to-br from-purple-600 to-pink-600 text-white font-medium">
                         {name.charAt(0)}
                       </AvatarFallback>

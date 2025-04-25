@@ -6,16 +6,40 @@ import { revalidateTag } from 'next/cache'
 
 export async function getListings(): Promise<ApiResponse<TListing[]>> {
   const token = await getValidToken()
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/listings`, {
-    next: {
-      tags: ['LISTINGS'],
-    },
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
-  return res.json()
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/listings`, {
+      next: {
+        tags: ['LISTINGS_LATEST'],
+      },
+      method: 'GET',
+      cache: 'no-store',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    
+    if (!res.ok) {
+      throw new Error(`Error fetching listings: ${res.status}`)
+    }
+    
+    const data = await res.json()
+    
+    // Sort by creation date - newest first
+    if (data.success && Array.isArray(data.data)) {
+      data.data = data.data.sort((a: TListing, b: TListing) => {
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      })
+    }
+    
+    return data
+  } catch (error) {
+    console.error('Error in getLatestListings:', error)
+    return {
+      success: false,
+      message: error instanceof Error ? error.message : 'Failed to fetch latest listings',
+      data: []
+    }
+  }
 }
 
 // single fetch data by id
