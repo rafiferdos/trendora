@@ -4,6 +4,9 @@ import { ListingCategory } from '@/types/listings/listing'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { MdOutlineAllOut } from 'react-icons/md'
+// Import any icon for the "All" category - using a grid view icon or similar
+// import { Grid3x3GapFill } from 'react-icons'
 
 // Animation variants
 const fadeIn = {
@@ -84,12 +87,16 @@ export const CategorySection = () => {
     fetchCategories()
   }, [])
 
-  const handleCategoryClick = (category: ListingCategory) => {
-    router.push(`/listings?category=${category}`)
+  const handleCategoryClick = (category: ListingCategory | 'all') => {
+    if (category === 'all') {
+      router.push('/listings')
+    } else {
+      router.push(`/listings?category=${category}`)
+    }
   }
   
   // Placeholder categories for loading state
-  const loadingPlaceholders = Array(6).fill(0)
+  const loadingPlaceholders = Array(7).fill(0) // Increased to include "All" category
 
   return (
     <section className="py-16 bg-gradient-to-br from-gray-900 via-purple-950 to-violet-900">
@@ -157,57 +164,103 @@ export const CategorySection = () => {
               key="categories-loaded"
             >
               {categories.length > 0 ? (
-                categories.map((category, idx) => {
-                  const Icon = categoryIcons[category]
-                  const displayName = category
-                    .split(/(?=[A-Z])/)
-                    .join(' ')
-                    .replace(/(^\w|\s\w)/g, (m) => m.toUpperCase())
+                <>
+                  {/* Dynamic categories */}
+                  {categories.map((category, idx) => {
+                    const Icon = categoryIcons[category]
+                    const displayName = category
+                      .split(/(?=[A-Z])/)
+                      .join(' ')
+                      .replace(/(^\w|\s\w)/g, (m) => m.toUpperCase())
 
-                  return (
-                    <motion.div
-                      key={category}
-                      variants={fadeIn}
-                      whileHover={{ y: -8, scale: 1.05, transition: { duration: 0.2 } }}
-                      className="group"
-                      layout
-                    >
-                      <button
-                        onClick={() => handleCategoryClick(category)}
-                        className="w-full"
+                    return (
+                      <motion.div
+                        key={category}
+                        variants={fadeIn}
+                        whileHover={{ y: -8, scale: 1.05, transition: { duration: 0.2 } }}
+                        className="group"
+                        layout
                       >
-                        <div
-                          className={`bg-gradient-to-br ${gradients[idx % gradients.length]} p-0.5 rounded-xl shadow-lg overflow-hidden`}
+                        <button
+                          onClick={() => handleCategoryClick(category)}
+                          className="w-full"
                         >
-                          <div className="bg-black/40 backdrop-blur-sm h-full w-full rounded-[calc(0.75rem-1px)] p-6 flex flex-col items-center justify-center transition-all duration-300 group-hover:bg-black/30">
-                            <div className="relative w-16 h-16 rounded-full bg-white/20 flex items-center justify-center mb-4 group-hover:bg-white/30 transition-all duration-300">
-                              <Icon className="w-8 h-8 text-white" />
-                              <motion.div 
-                                className="absolute inset-0 rounded-full bg-white/5"
-                                animate={{
-                                  scale: [1, 1.2, 1],
-                                  opacity: [0, 0.3, 0],
-                                }}
-                                transition={{
-                                  duration: 2,
-                                  repeat: Infinity,
-                                  repeatType: "loop",
-                                }}
+                          <div
+                            className={`bg-gradient-to-br ${gradients[idx % gradients.length]} p-0.5 rounded-xl shadow-lg overflow-hidden`}
+                          >
+                            <div className="bg-black/40 backdrop-blur-sm h-full w-full rounded-[calc(0.75rem-1px)] p-6 flex flex-col items-center justify-center transition-all duration-300 group-hover:bg-black/30">
+                              <div className="relative w-16 h-16 rounded-full bg-white/20 flex items-center justify-center mb-4 group-hover:bg-white/30 transition-all duration-300">
+                                <Icon className="w-8 h-8 text-white" />
+                                <motion.div 
+                                  className="absolute inset-0 rounded-full bg-white/5"
+                                  animate={{
+                                    scale: [1, 1.2, 1],
+                                    opacity: [0, 0.3, 0],
+                                  }}
+                                  transition={{
+                                    duration: 2,
+                                    repeat: Infinity,
+                                    repeatType: "loop",
+                                  }}
+                                />
+                              </div>
+                              <h3 className="font-medium text-center text-white group-hover:text-white/90">
+                                {displayName}
+                              </h3>
+                              <motion.div
+                                className="w-10 h-0.5 bg-white/40 mt-2 group-hover:w-16 group-hover:bg-white/70"
+                                transition={{ duration: 0.3 }}
                               />
                             </div>
-                            <h3 className="font-medium text-center text-white group-hover:text-white/90">
-                              {displayName}
-                            </h3>
-                            <motion.div
-                              className="w-10 h-0.5 bg-white/40 mt-2 group-hover:w-16 group-hover:bg-white/70"
-                              transition={{ duration: 0.3 }}
+                          </div>
+                        </button>
+                      </motion.div>
+                    )
+                  })}
+
+                  {/* Static "All Categories" option */}
+                  <motion.div
+                    key="all-categories"
+                    variants={fadeIn}
+                    whileHover={{ y: -8, scale: 1.05, transition: { duration: 0.2 } }}
+                    className="group"
+                    layout
+                  >
+                    <button
+                      onClick={() => handleCategoryClick('all')}
+                      className="w-full"
+                    >
+                      <div
+                        className="bg-gradient-to-br from-white/30 to-white/10 p-0.5 rounded-xl shadow-lg overflow-hidden"
+                      >
+                        <div className="bg-black/40 backdrop-blur-sm h-full w-full rounded-[calc(0.75rem-1px)] p-6 flex flex-col items-center justify-center transition-all duration-300 group-hover:bg-black/30">
+                          <div className="relative w-16 h-16 rounded-full bg-white/20 flex items-center justify-center mb-4 group-hover:bg-white/30 transition-all duration-300">
+                            <MdOutlineAllOut className="w-8 h-8 text-white" />
+                            <motion.div 
+                              className="absolute inset-0 rounded-full bg-white/5"
+                              animate={{
+                                scale: [1, 1.2, 1],
+                                opacity: [0, 0.3, 0],
+                              }}
+                              transition={{
+                                duration: 2,
+                                repeat: Infinity,
+                                repeatType: "loop",
+                              }}
                             />
                           </div>
+                          <h3 className="font-medium text-center text-white group-hover:text-white/90">
+                            All Categories
+                          </h3>
+                          <motion.div
+                            className="w-10 h-0.5 bg-white/40 mt-2 group-hover:w-16 group-hover:bg-white/70"
+                            transition={{ duration: 0.3 }}
+                          />
                         </div>
-                      </button>
-                    </motion.div>
-                  )
-                })
+                      </div>
+                    </button>
+                  </motion.div>
+                </>
               ) : (
                 <motion.div 
                   variants={fadeIn} 
