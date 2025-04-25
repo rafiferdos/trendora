@@ -1,5 +1,6 @@
 'use client'
 
+import { useUser } from '@/context/UserContext'
 import { getValidToken } from '@/lib/verifyToken'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -118,6 +119,8 @@ export default function ProductDetailPage() {
   const router = useRouter()
   const params = useParams()
   const productId = params.id as string
+
+  const user = useUser()
 
   const [product, setProduct] = useState<Product | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
@@ -254,6 +257,8 @@ export default function ProductDetailPage() {
       </main>
     )
   }
+
+  if(!user) return null
 
   // Error state
   if (error || !product) {
