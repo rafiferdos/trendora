@@ -108,8 +108,9 @@ export default function NotFound() {
               Page Not Found
             </h2>
             <p className="text-purple-100/80 mb-8 max-w-md mx-auto">
-              The page you're looking for doesn't exist or has been moved. Let's
-              get you back on track.
+              {
+                "The page you're looking for doesn't exist or has been moved. Let's get you back on track."
+              }
             </p>
           </motion.div>
 

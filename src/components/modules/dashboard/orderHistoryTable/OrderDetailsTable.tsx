@@ -176,6 +176,7 @@ export default function OrderDetailsTable({ data }: { data: OrderItem[] }) {
                     width={50}
                     height={50}
                     className="rounded-md object-cover"
+                    priority={true}
                   />
                 </TableCell>
                 <TableCell className="text-white dark:text-gray-300">
@@ -240,4 +241,8 @@ export default function OrderDetailsTable({ data }: { data: OrderItem[] }) {
       </CardContent>
     </Card>
   )
+}
+
+const sanitizeImageUrl = (url: string) => {
+  return url ? encodeURIComponent(url.trim()) : ''
 }

@@ -1,5 +1,4 @@
 'use client'
-
 import { updateListingItem } from '@/services/listings'
 import { updateTransactionStatus } from '@/services/transactions'
 import React, { FC, useState, useMemo } from 'react'
@@ -289,7 +288,7 @@ const TransactionTable: FC<Props> = ({ transactions }) => {
                 : 'Is this List sold?'}
             </h3>
             <p className="text-sm text-purple-100 mb-6">
-              Once you update, you can't change it.
+             {" Once you update, you can't change it."}
             </p>
             <div className="flex justify-center gap-4">
               <button

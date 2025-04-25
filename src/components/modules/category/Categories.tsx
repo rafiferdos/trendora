@@ -1,4 +1,3 @@
-
 import { categoryIcons } from '@/constant'
 import { getListings } from '@/services/listings'
 import { ListingCategory } from '@/types/listings/listing'
@@ -7,11 +6,9 @@ import { useRouter } from 'next/navigation'
 
 import { useEffect, useState } from 'react'
 
-export  const  CategorySection = () => {
+export const CategorySection = () => {
   const router = useRouter()
   const [categories, setCategories] = useState<ListingCategory[]>([])
-
-
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -32,8 +29,6 @@ export  const  CategorySection = () => {
 
     fetchCategories()
   }, [])
-
-
 
   const handleCategoryClick = (category: ListingCategory) => {
     router.push(`listings?category=${category}`)
@@ -74,5 +69,3 @@ export  const  CategorySection = () => {
     </section>
   )
 }
-
-

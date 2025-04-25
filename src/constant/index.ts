@@ -1,4 +1,9 @@
-import { ListingCategory, ListingCondition, ListingLocation, ListingStatus } from "@/types/listings/listing";
+import {
+  ListingCategory,
+  ListingCondition,
+  ListingLocation,
+  ListingStatus,
+} from '@/types/listings/listing'
 
 import {
   FaMicrochip,
@@ -85,18 +90,18 @@ export const categoriesArray: ListingCategory[] = [
   ListingCategory.Cameras,
   ListingCategory.RealEstate,
   ListingCategory.Other,
-];
+]
 
 export const conditionArray: ListingCondition[] = [
   ListingCondition.EXCELLENT,
   ListingCondition.GOOD,
   ListingCondition.FAIR,
-  ListingCondition.POOR
+  ListingCondition.POOR,
 ]
 
 export const statusArray: ListingStatus[] = [
   ListingStatus.AVAILABLE,
-  ListingStatus.SOLD
+  ListingStatus.SOLD,
 ]
 
 export const locationArray: ListingLocation[] = [

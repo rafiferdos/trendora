@@ -1,4 +1,3 @@
-
 'use server'
 
 import { getNewAccessToken } from '@/services/AuthService'
@@ -31,7 +30,7 @@ export const getValidToken = async (): Promise<string | null> => {
     try {
       const { data } = await getNewAccessToken()
       token = data?.accessToken
-      return token || null 
+      return token || null
     } catch (err) {
       console.error('Error refreshing token:', err)
       return null

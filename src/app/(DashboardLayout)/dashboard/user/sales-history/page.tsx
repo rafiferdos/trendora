@@ -170,7 +170,9 @@ export default function SalesHistoryPage() {
             <h3 className="text-white/70 text-sm font-medium mb-1">
               Total Listings
             </h3>
-            <p className="text-3xl font-bold text-white">{transactionData.length}</p>
+            <p className="text-3xl font-bold text-white">
+              {transactionData.length}
+            </p>
           </motion.div>
 
           <motion.div
@@ -183,7 +185,10 @@ export default function SalesHistoryPage() {
               Available Items
             </h3>
             <p className="text-3xl font-bold text-white">
-              {transactionData.filter((item) => item.status === 'available').length}
+              {
+                transactionData.filter((item) => item.status === 'available')
+                  .length
+              }
             </p>
           </motion.div>
 
@@ -211,7 +216,7 @@ export default function SalesHistoryPage() {
         >
           <div className="bg-black/20 rounded-xl overflow-hidden">
             {transactionData.length === 0 ? (
-              <p className="text-white">You haven't sell anything yet.</p>
+              <p className="text-white">{"You haven't sell anything yet."}</p>
             ) : (
               <TransactionTable transactions={transactionData} />
             )}

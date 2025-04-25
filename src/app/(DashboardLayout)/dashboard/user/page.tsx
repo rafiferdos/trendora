@@ -1,7 +1,5 @@
 import React from 'react'
 
 export const UserPage = () => {
-  return (
-    <div>UserPage</div>
-  )
+  return <div>UserPage</div>
 }

@@ -48,7 +48,6 @@ export const loginUser = async (userData: FieldValues) => {
   }
 }
 
-
 export const getCurrentUser = async () => {
   const accessToken = (await cookies()).get('accessToken')?.value
   let decodedData = null
@@ -96,7 +95,6 @@ export const getCurrentUserInfo = async () => {
     return null
   }
 }
-
 
 export const getNewAccessToken = async () => {
   try {

@@ -192,8 +192,9 @@ const CreateListingPage = () => {
               Add Great Photos
             </h3>
             <p className="text-purple-100/80 text-sm">
-              Clear, well-lit photos from multiple angles can increase your
-              item's visibility by up to 70%.
+              {
+                "Clear, well-lit photos from multiple angles can increase your item's visibility by up to 70%."
+              }
             </p>
           </motion.div>
 

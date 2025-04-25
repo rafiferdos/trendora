@@ -18,7 +18,7 @@ export default function PurchaseHistoryPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { role, userId } = await getCurrentUser()
+        const { userId } = await getCurrentUser()
 
         const purchaseListings = await getPurchaseHistory(userId)
 
@@ -126,7 +126,7 @@ export default function PurchaseHistoryPage() {
         >
           <div className="bg-black/20 rounded-xl overflow-hidden">
             {data.length === 0 ? (
-              <p className="text-white">You haven't purchased anything yet.</p>
+              <p className="text-white">{"You haven't purchased anything yet."}</p>
             ) : (
               <OrderDetailsTable data={data} />
             )}

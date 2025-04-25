@@ -9,7 +9,7 @@ export type TUserInfo = {
   isDeleted: boolean
   createdAt?: string
   updatedAt?: string
-  accessToken?: string; 
+  accessToken?: string
   data?: { name: string; email: string }
 }
 
@@ -21,44 +21,43 @@ export type TUser = {
 }
 
 export type TOrder = {
-  _id: string;
-  userId: TUser; // previously was string; now proper type
-  products: TOrderProduct[];
-  totalAmount: number; // ensure this is not optional
-  status: TOrderStatus;
-  transaction: TTransaction;
-  createdAt: string;
-  updatedAt?: string;
+  _id: string
+  userId: TUser // previously was string; now proper type
+  products: TOrderProduct[]
+  totalAmount: number // ensure this is not optional
+  status: TOrderStatus
+  transaction: TTransaction
+  createdAt: string
+  updatedAt?: string
 }
 
 // product entry in an order
 export type TOrderProduct = {
-  _id: string; // this is usually the order item ID
-  productId: TProduct; // previously this was just string
-  quantity: number;
-};
+  _id: string // this is usually the order item ID
+  productId: TProduct // previously this was just string
+  quantity: number
+}
 
 export type TOrderStatus =
-  | "Pending"
-  | "Paid"
-  | "Shipped"
-  | "Completed"
-  | "Cancelled";
+  | 'Pending'
+  | 'Paid'
+  | 'Shipped'
+  | 'Completed'
+  | 'Cancelled'
 
 export type TTransaction = {
-  id: string;
-  transactionStatus: string;
-  bank_status: string;
-  sp_code: string;
-  sp_message: string;
-  method: string;
-  date_time: string;
-};
+  id: string
+  transactionStatus: string
+  bank_status: string
+  sp_code: string
+  sp_message: string
+  method: string
+  date_time: string
+}
 
 // product type used inside order
 export type TProduct = {
-  _id: string;
-  name: string;
-  image: string;
-};
-
+  _id: string
+  name: string
+  image: string
+}
