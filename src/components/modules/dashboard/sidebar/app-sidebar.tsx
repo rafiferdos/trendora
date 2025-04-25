@@ -41,7 +41,7 @@ import { toast } from 'sonner'
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { user } = useUser()
   const router = useRouter()
-  const { isMobile, state } = useSidebar()
+  const { state } = useSidebar()
   const [activeItem, setActiveItem] = React.useState('Dashboard')
   const [expandedItems, setExpandedItems] = React.useState<string[]>([
     'Listings',
@@ -342,17 +342,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                             <span className="text-white/90 truncate">
                               {item.title}
                             </span>
-                            {item.hasNotification && (
-                              <div className="flex ml-auto">
-                                {item.notificationCount ? (
-                                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-pink-600 text-[10px] text-white">
-                                    {item.notificationCount}
-                                  </span>
-                                ) : (
-                                  <span className="flex h-2 w-2 rounded-full bg-pink-500"></span>
-                                )}
-                              </div>
-                            )}
                           </>
                         )}
                       </div>
