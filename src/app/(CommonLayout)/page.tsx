@@ -21,7 +21,6 @@ import {
 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 // Animation variants
@@ -45,45 +44,9 @@ const staggerContainer = {
 }
 
 const Homepage = () => {
-  const { user, setIsLoading } = useUser()
-  const pathname = usePathname()
-  const router = useRouter()
+  const { user } = useUser()
   const [featuredListings, setFeaturedListings] = useState<TListing[]>([])
   const [isLoading, setIsLoadingState] = useState(true)
-console.log(user);
-  // Categories for the featured categories section
-  const categories = [
-    {
-      name: 'Electronics',
-      icon: 'https://img.pikbest.com/ai/illus_our/20230428/8690736d499ac58554cf07afc0ef0507.jpg!w700wp',
-      color: 'from-blue-500 to-cyan-500',
-    },
-    {
-      name: 'Fashion',
-      icon: 'https://www.shutterstock.com/image-vector/3d-girl-teenage-clothes-set-600nw-2449902313.jpg',
-      color: 'from-pink-500 to-rose-500',
-    },
-    {
-      name: 'Home & Garden',
-      icon: 'https://cdna.artstation.com/p/assets/images/images/039/733/086/large/th-thanh-cg-mini-house.jpg?1626782721',
-      color: 'from-amber-500 to-yellow-500',
-    },
-    {
-      name: 'Sports & Outdoors',
-      icon: 'https://static.vecteezy.com/system/resources/thumbnails/020/410/093/small_2x/3d-football-object-design-realistic-rendering-abstract-futuristic-background-3d-illustration-motion-geometry-concept-sport-competition-graphic-tournament-game-bet-content-soccer-ball-element-photo.jpg',
-      color: 'from-green-500 to-emerald-500',
-    },
-    {
-      name: 'Collectibles',
-      icon: 'https://cdn.dribbble.com/userupload/16805340/file/still-2db767d355b367c0428776d17932d26a.png?format=webp&resize=400x300&vertical=center',
-      color: 'from-purple-500 to-indigo-500',
-    },
-    {
-      name: 'Vehicles',
-      icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKWkn_PC7pmZ7QFgA6C7y3uKst5lq_mTOz1aHpTlqFfYvPUUVYJxwYf7xXWyJnJK8h7yg&usqp=CAU',
-      color: 'from-red-500 to-orange-500',
-    },
-  ]
 
   // Stats for the statistics section
   const stats = [
@@ -283,8 +246,6 @@ console.log(user);
           </div>
         </div>
       </section>
-
-
 
       {/* categoires section */}
       <CategorySection />
