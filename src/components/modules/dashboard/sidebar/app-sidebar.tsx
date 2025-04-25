@@ -36,6 +36,7 @@ import { protectedRoutes } from '@/constants'
 import { useUser } from '@/context/UserContext'
 import { clearLocalWishlist } from '@/utils/localStorage'
 import { FaShopware } from 'react-icons/fa'
+import { toast } from 'sonner'
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { user } = useUser()
@@ -57,6 +58,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   // Handle logout
   const handleLogouts = async () => {
     await handleLogout()
+    toast.success('Logged out successfully')
     clearLocalWishlist()
     if (protectedRoutes.some((route) => pathname.match(route))) {
       router.replace('/')
