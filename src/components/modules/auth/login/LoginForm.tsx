@@ -43,14 +43,8 @@ const LoginForm = () => {
 
       if (res?.success) {
         // Show success toast notification instead of alert
-        toast.success(res?.message, {
-          style: {
-            background: 'rgba(0, 0, 0, 0.8)',
-            color: 'white',
-            borderRadius: '12px',
-          },
-        })
-
+        toast.success(res?.message)
+        alert('hello')
         if (redirect) {
           router.push(redirect)
         } else {
@@ -58,13 +52,7 @@ const LoginForm = () => {
         }
       } else {
         // Show error toast notification
-        toast.error(res?.message, {
-          style: {
-            background: 'rgba(0, 0, 0, 0.8)',
-            color: 'white',
-            borderRadius: '12px',
-          },
-        })
+        toast.error(res?.message)
       }
     } catch (error: any) {
       console.error(error)
@@ -149,7 +137,7 @@ const LoginForm = () => {
                         <Mail size={16} />
                       </div>
                       <Input
-                        type="email"
+                        type="text"
                         {...field}
                         className="bg-white/10 border-white/10 pl-10 text-white placeholder:text-white/50 focus:border-purple-400 focus:ring-1 focus:ring-purple-400"
                         placeholder="Enter your email or phone"

@@ -50,7 +50,7 @@ const Homepage = () => {
   const router = useRouter()
   const [featuredListings, setFeaturedListings] = useState<TListing[]>([])
   const [isLoading, setIsLoadingState] = useState(true)
-
+console.log(user);
   // Categories for the featured categories section
   const categories = [
     {

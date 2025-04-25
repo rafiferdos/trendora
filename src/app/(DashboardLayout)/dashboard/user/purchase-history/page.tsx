@@ -1,15 +1,11 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-
 import { motion } from 'framer-motion'
-
 import 'react-loading-skeleton/dist/skeleton.css'
 import { getCurrentUser } from '@/services/AuthService'
-
 import { useUser } from '@/context/UserContext'
-import { getPurchaseHistory } from '@/services/history'
-
+import { getPurchaseHistory, getSellsHistory } from '@/services/history'
 import OrderDetailsTable from '@/components/modules/dashboard/orderHistoryTable/OrderDetailsTable'
 
 export default function PurchaseHistoryPage() {
@@ -18,19 +14,13 @@ export default function PurchaseHistoryPage() {
   const [error, serError] = useState('')
   const [role, setRole] = useState('')
   const { user } = useUser()
-  data?.map((item) => {
-    console.log(item)
-  })
 
-  console.log(data)
   useEffect(() => {
     const fetchData = async () => {
       try {
         const { userId } = await getCurrentUser()
 
         const purchaseListings = await getPurchaseHistory(userId)
-
-        console.log('sellsListings', purchaseListings)
 
         setData(purchaseListings?.data?.result || [])
 
@@ -44,7 +34,7 @@ export default function PurchaseHistoryPage() {
         // const data = sellsListings?.data.filter((item) => (item.userID?._id).toString() === userId.toString())
         // setData(data)
       } catch (error) {
-        console.error('Error fetching listings', error)
+       
       } finally {
         setLoading(false)
       }
@@ -125,91 +115,7 @@ export default function PurchaseHistoryPage() {
         transition={{ duration: 0.5 }}
         className="backdrop-blur-xl bg-white/5 rounded-2xl border border-white/10 shadow-2xl p-6 md:p-8"
       >
-        {/* Header Section */}
-        {/* <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
-          <div>
-            <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-white via-purple-200 to-pink-100 bg-clip-text text-transparent">
-              {role === "admin" ? "All" : "Your"} purchase history
-            </h2>
-            <p className="text-purple-200/80 mt-1">
-              {role === 'admin'
-                ? 'Manage all listings across the platform'
-                : `Welcome back, ${data[0]?.userID?.name || user?.data?.name || 'User'}`}
-            </p>
-          </div>
-
-          {role === 'admin' ? (
-            <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                size="icon"
-                className="bg-white/10 border-white/20 text-white hover:bg-white/20"
-                onClick={() => window.location.reload()}
-              >
-                <RefreshCw className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="outline"
-                className="bg-white/10 border-white/20 text-white hover:bg-white/20"
-              >
-                <ListFilter className="mr-2 h-4 w-4" />
-                Filter
-              </Button>
-            </div>
-          ) : (
-            <Link href="/dashboard/user/listings/create-listing">
-              <Button className="relative overflow-hidden bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white shadow-md shadow-purple-500/20 hover:shadow-lg hover:shadow-purple-500/30 transition-all duration-300 border-0">
-                <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-purple-600 to-pink-600 animate-gradient-x [animation-duration:3s]"></span>
-                <span className="absolute inset-0 w-1/2 h-full bg-white/20 skew-x-[-20deg] transform -translate-x-full group-hover:duration-1000 duration-1000 transition-transform group-hover:translate-x-[200%]"></span>
-                <Plus className="mr-2 h-4 w-4 relative z-10" />
-                <span className="relative z-10">Create New Listing</span>
-              </Button>
-            </Link>
-          )}
-        </div> */}
-
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: 0.1 }}
-            className="backdrop-blur-md bg-gradient-to-br from-pink-500/20 to-purple-600/20 p-4 rounded-xl border border-white/10 shadow-lg"
-          >
-            <h3 className="text-white/70 text-sm font-medium mb-1">
-              Total purchase
-            </h3>
-            <p className="text-3xl font-bold text-white">{data?.length}</p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: 0.2 }}
-            className="backdrop-blur-md bg-gradient-to-br from-blue-500/20 to-cyan-600/20 p-4 rounded-xl border border-white/10 shadow-lg"
-          >
-            <h3 className="text-white/70 text-sm font-medium mb-1">
-              Available Items
-            </h3>
-            <p className="text-3xl font-bold text-white">
-              {data.filter((item) => item.status === 'available').length}
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: 0.3 }}
-            className="backdrop-blur-md bg-gradient-to-br from-emerald-500/20 to-teal-600/20 p-4 rounded-xl border border-white/10 shadow-lg"
-          >
-            <h3 className="text-white/70 text-sm font-medium mb-1">
-              Sold Items
-            </h3>
-            <p className="text-3xl font-bold text-white">
-              {data.filter((item) => item.status === 'sold').length}
-            </p>
-          </motion.div>
-        </div>
 
         {/* Table container with glassmorphism effect */}
         <motion.div
@@ -219,20 +125,11 @@ export default function PurchaseHistoryPage() {
           className="backdrop-blur-md bg-white/5 p-0.5 rounded-xl border border-white/10 shadow-lg overflow-hidden"
         >
           <div className="bg-black/20 rounded-xl overflow-hidden">
-            {/* <DataTable
-              columns={getColumns({
-                role,
-                onDeleteSuccess: (id: string) => {
-                  setData((prev) => prev.filter((item) => item._id !== id))
-                },
-              })}
-              data={data}
-              error={error}
-            />
-
-            <DataTable data={data} columns={getColumns()} /> */}
-
-            <OrderDetailsTable data={data} />
+            {data.length === 0 ? (
+              <p className="text-white">{"You haven't purchased anything yet."}</p>
+            ) : (
+              <OrderDetailsTable data={data} />
+            )}
           </div>
         </motion.div>
       </motion.div>

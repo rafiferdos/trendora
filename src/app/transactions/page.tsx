@@ -186,6 +186,7 @@ export default function TransactionPage() {
         <p>Loading transaction details...</p>
       </div>
     )
+    
   }
 
   return (
@@ -220,10 +221,16 @@ export default function TransactionPage() {
                     <span className="value">
                       {new Date().toLocaleDateString()}
                     </span>
+                    <span className="value">
+                      {new Date().toLocaleDateString()}
+                    </span>
                   </div>
                   <div className="info-item">
                     <span className="label">
                       <Clock className="icon" /> Time
+                    </span>
+                    <span className="value">
+                      {new Date().toLocaleTimeString()}
                     </span>
                     <span className="value">
                       {new Date().toLocaleTimeString()}
@@ -293,11 +300,21 @@ export default function TransactionPage() {
           <div className="action-buttons">
             <Button
               onClick={() => window.print()}
+            >
+              Print
+            </Button>
+            <Button
+              onClick={() => window.print()}
               className="print-button"
               variant="outline"
             >
               <Download className="button-icon" />
               Download Receipt
+            </Button>
+            <Button
+              onClick={() => router.push('/dashboard')}
+            >
+              Dashboard
             </Button>
             <Button
               onClick={() => router.push('/dashboard')}
@@ -311,4 +328,5 @@ export default function TransactionPage() {
       </div>
     </div>
   )
+  
 }

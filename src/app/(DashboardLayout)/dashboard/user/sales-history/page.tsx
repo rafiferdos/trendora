@@ -21,6 +21,7 @@ import TransactionTable, {
 
 export default function SalesHistoryPage() {
   const [transactionData, setTransactionData] = useState<TTransaction[]>([])
+  const [transactions, setTransactions] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, serError] = useState('')
   const [role, setRole] = useState('')
@@ -31,7 +32,7 @@ export default function SalesHistoryPage() {
       try {
         const { role, userId } = await getCurrentUser()
         const salesHistories = await getSellsHistory(userId)
-        console.log(salesHistories.data?.result)
+
 
         if (!salesHistories?.success) {
           return serError(salesHistories?.message)
@@ -39,7 +40,7 @@ export default function SalesHistoryPage() {
 
         setTransactionData(salesHistories.data?.result)
       } catch (error) {
-        console.error('Error fetching listings', error)
+
       } finally {
         setLoading(false)
       }
@@ -126,11 +127,6 @@ export default function SalesHistoryPage() {
             <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-white via-purple-200 to-pink-100 bg-clip-text text-transparent">
               {role === 'admin' ? 'All' : 'Your'} Listings
             </h2>
-            <p className="text-purple-200/80 mt-1">
-              {role === 'admin'
-                ? 'Manage all listings across the platform'
-                : `Welcome back, ${transactionData[0]?.userID?.name || user?.data?.name || 'User'}`}
-            </p>
           </div>
 
           {role === 'admin' ? (
@@ -164,7 +160,7 @@ export default function SalesHistoryPage() {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -209,7 +205,7 @@ export default function SalesHistoryPage() {
               {transactionData.filter((item) => item.status === 'sold').length}
             </p>
           </motion.div>
-        </div>
+        </div> */}
 
         {/* Table container with glassmorphism effect */}
         <motion.div
@@ -219,7 +215,9 @@ export default function SalesHistoryPage() {
           className="backdrop-blur-md bg-white/5 p-0.5 rounded-xl border border-white/10 shadow-lg overflow-hidden"
         >
           <div className="bg-black/20 rounded-xl overflow-hidden">
-            {transactionData.length > 0 && (
+            {transactionData.length === 0 ? (
+              <p className="text-white">{"You haven't sell anything yet."}</p>
+            ) : (
               <TransactionTable transactions={transactionData} />
             )}
           </div>
