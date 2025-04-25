@@ -49,7 +49,7 @@ const LoginForm = () => {
         }
       } else {
         // Show error toast notification
-        toast.error(res?.message)
+        toast.error("Invalid credentials")
       }
     } catch (error: any) {
       console.error(error)
