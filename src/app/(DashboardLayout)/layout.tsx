@@ -1,5 +1,6 @@
 'use client'
 
+import { NotificationBell } from '@/components/modules/dashboard/notification/NotificationBell'
 import { AppSidebar } from '@/components/modules/dashboard/sidebar/app-sidebar'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
@@ -141,23 +142,10 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
               </motion.div>
 
               {/* Notification Bell */}
-              <motion.button
-                whileHover={{ y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                className="relative p-1.5 rounded-full bg-white/5 hover:bg-white/15 transition-all"
-              >
-                <BellRing className="h-4 w-4 text-white/70" />
-                <span className="absolute top-0.5 right-1 h-2 w-2 bg-pink-500 rounded-full border border-gray-900"></span>
-              </motion.button>
 
-              {/* Settings */}
-              <motion.button
-                whileHover={{ rotate: 20 }}
-                transition={{ type: 'spring', stiffness: 300, damping: 10 }}
-                className="p-1.5 rounded-full bg-white/5 hover:bg-white/15 transition-all hidden sm:block"
-              >
-                <Settings2 className="h-4 w-4 text-white/70" />
-              </motion.button>
+              {/* <div className="relative z-50">
+                <NotificationBell />
+              </div> */}
 
               {/* Separator */}
               <Separator

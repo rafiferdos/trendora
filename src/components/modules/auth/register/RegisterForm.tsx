@@ -10,7 +10,6 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { useUser } from '@/context/UserContext'
 import { registerUser } from '@/services/AuthService'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { motion } from 'framer-motion'
@@ -36,7 +35,6 @@ const RegisterForm = () => {
     formState: { isSubmitting },
   } = form
 
-  const { setIsLoading } = useUser()
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
@@ -47,7 +45,6 @@ const RegisterForm = () => {
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
       const res = await registerUser(data)
-      setIsLoading(true)
 
       if (res?.success) {
         toast.success(res?.message, {

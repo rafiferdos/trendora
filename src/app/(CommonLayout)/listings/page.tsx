@@ -1,9 +1,11 @@
 'use client'
 
 import SanitizedImage from '@/components/shared/SanitizedImage'
+import { ListingCategory } from '@/types/listings/listing'
 import dynamic from 'next/dynamic'
-import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import {
   FiArrowDown,
   FiFilter,
@@ -12,9 +14,6 @@ import {
   FiSearch,
   FiX,
 } from 'react-icons/fi'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import { ListingCategory } from '@/types/listings/listing'
 
 const Card = dynamic(() => import('@/components/shared/Card'), {
   ssr: true,
@@ -148,9 +147,6 @@ export default function AllListsPage() {
   // }, [searchQuery, selectedCategory, filterCondition, minPrice, maxPrice, sortOrder]);
   useEffect(() => {
     const fetchFilteredListings = async () => {
-      setIsLoading(true)
-      setError(null)
-
       try {
         const queryParams = new URLSearchParams()
 
@@ -189,7 +185,15 @@ export default function AllListsPage() {
 
         let sortedListings = data.data
 
-        if (sortOrder === 'price-low') {
+        // Sort by newest first by default (assuming items have a createdAt field)
+        // This will show the most recently added items first
+        if (sortOrder === 'newest' || sortOrder === 'default') {
+          sortedListings = sortedListings.sort((a: any, b: any) => {
+            return (
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            )
+          })
+        } else if (sortOrder === 'price-low') {
           sortedListings = sortedListings.sort(
             (a: any, b: any) => a.price - b.price,
           )
