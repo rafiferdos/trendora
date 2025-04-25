@@ -284,69 +284,10 @@ console.log(user);
         </div>
       </section>
 
-      {/* Categories Section */}
-      <section className="py-16 bg-black/20">
-        <div className="container mx-auto px-4">
-          <motion.div
-            className="text-center mb-12"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeIn}
-          >
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4 bg-gradient-to-r from-white via-purple-200 to-pink-100 bg-clip-text text-transparent">
-              Explore Categories
-            </h2>
-            <p className="text-lg text-purple-100/80 max-w-2xl mx-auto">
-              Discover items across diverse categories, all in one vibrant
-              marketplace
-            </p>
-          </motion.div>
 
-          <motion.div
-            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4"
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            {categories.map((category, index) => (
-              <motion.div
-                key={category.name}
-                variants={fadeIn}
-                className="group"
-                whileHover={{ y: -5, transition: { duration: 0.2 } }}
-              >
-                <Link
-                  href={`/listings?category=${category.name.toLowerCase()}`}
-                >
-                  <div
-                    className={`bg-gradient-to-br ${category.color} p-0.5 rounded-xl shadow-lg overflow-hidden`}
-                  >
-                    <div className="bg-black/40 backdrop-blur-sm h-full w-full rounded-[calc(0.75rem-1px)] p-6 flex flex-col items-center justify-center transition-all duration-300 group-hover:bg-black/30">
-                      <div className="w-24 h-24 rounded-full bg-white/20 flex items-center justify-center mb-3 group-hover:bg-white/30 transition-all duration-300">
-                        <Image
-                          src={category.icon}
-                          alt={category.name}
-                          width={96}
-                          height={96}
-                          className="w-24 h-24 rounded-full"
-                        />
-                      </div>
-                      <h3 className="font-medium text-center text-white">
-                        {category.name}
-                      </h3>
-                    </div>
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
 
       {/* categoires section */}
-      <CategorySection></CategorySection>
+      <CategorySection />
 
       {/* Featured Items - Enhanced with vibrant animations */}
       <section className="py-20 relative overflow-hidden">
