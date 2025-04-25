@@ -1,50 +1,53 @@
-"use client";
+'use client'
 
-import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Plus, ListFilter, Search, RefreshCw } from "lucide-react";
-import Link from "next/link";
-import { motion } from "framer-motion";
+import { useEffect, useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { Plus, ListFilter, Search, RefreshCw } from 'lucide-react'
+import Link from 'next/link'
+import { motion } from 'framer-motion'
 
-import { DataTable } from "@/components/modules/dashboard/listing/dataTable/DataTable";
-import { getListings } from "@/services/listings";
-import { TListing } from "@/types/listings/listing";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
-import { getCurrentUser } from "@/services/AuthService";
-import { getColumns } from "@/components/modules/dashboard/listing/columns/Columns";
-import { useUser } from "@/context/UserContext";
-import { getSellsHistory } from "@/services/history";
-import TransactionTable, {  TTransaction } from "@/components/modules/dashboard/transactionTable/TransactionTable";
+import { DataTable } from '@/components/modules/dashboard/listing/dataTable/DataTable'
+import { getListings } from '@/services/listings'
+import { TListing } from '@/types/listings/listing'
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+import { getCurrentUser } from '@/services/AuthService'
+import { getColumns } from '@/components/modules/dashboard/listing/columns/Columns'
+import { useUser } from '@/context/UserContext'
+import { getSellsHistory } from '@/services/history'
+import TransactionTable, {
+  TTransaction,
+} from '@/components/modules/dashboard/transactionTable/TransactionTable'
 
 export default function SalesHistoryPage() {
   const [transactionData, setTransactionData] = useState<TTransaction[]>([])
-  const [loading, setLoading] = useState(true);
+  const [transactions, setTransactions] = useState([])
+  const [loading, setLoading] = useState(true)
   const [error, serError] = useState('')
   const [role, setRole] = useState('')
-  const {user}  = useUser()
+  const { user } = useUser()
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { role, userId } = await getCurrentUser();
+        const { role, userId } = await getCurrentUser()
         const salesHistories = await getSellsHistory(userId)
-        console.log(salesHistories.data?.result)
+
 
         if (!salesHistories?.success) {
           return serError(salesHistories?.message)
         }
-        
+
         setTransactionData(salesHistories.data?.result)
       } catch (error) {
-        console.error("Error fetching sales history", error);
-      } finally {
-        setLoading(false);
-      }
-    };
 
-    fetchData();
-  }, []);
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchData()
+  }, [])
 
   if (loading) {
     return (
@@ -52,26 +55,40 @@ export default function SalesHistoryPage() {
         <div className="backdrop-blur-xl bg-white/5 rounded-2xl border border-white/10 shadow-2xl p-8">
           <div className="flex flex-col items-center justify-center space-y-6">
             <div className="relative flex justify-center items-center">
-              <div className="w-20 h-20 rounded-full border-4 border-transparent 
+              <div
+                className="w-20 h-20 rounded-full border-4 border-transparent 
                     border-t-pink-500 border-r-purple-500 border-b-blue-500
-                    animate-spin"></div>
-              <div className="absolute w-14 h-14 rounded-full bg-gradient-to-br from-pink-500/80 to-purple-600/80 
-                    blur-sm animate-pulse"></div>
+                    animate-spin"
+              ></div>
+              <div
+                className="absolute w-14 h-14 rounded-full bg-gradient-to-br from-pink-500/80 to-purple-600/80 
+                    blur-sm animate-pulse"
+              ></div>
             </div>
-            
+
             <p className="text-xl font-medium text-white">
               <span className="inline-block animate-pulse">
                 Loading your listings
               </span>
               <span className="inline-block animate-bounce mx-0.5">.</span>
-              <span className="inline-block animate-bounce mx-0.5" style={{ animationDelay: '0.2s' }}>.</span>
-              <span className="inline-block animate-bounce mx-0.5" style={{ animationDelay: '0.4s' }}>.</span>
+              <span
+                className="inline-block animate-bounce mx-0.5"
+                style={{ animationDelay: '0.2s' }}
+              >
+                .
+              </span>
+              <span
+                className="inline-block animate-bounce mx-0.5"
+                style={{ animationDelay: '0.4s' }}
+              >
+                .
+              </span>
             </p>
-            
+
             <div className="w-full max-w-md space-y-3">
               {[...Array(5)].map((_, i) => (
-                <div 
-                  key={i} 
+                <div
+                  key={i}
                   className="h-16 bg-white/5 rounded-xl animate-pulse"
                   style={{ animationDelay: `${i * 0.1}s` }}
                 ></div>
@@ -110,11 +127,6 @@ export default function SalesHistoryPage() {
             <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-white via-purple-200 to-pink-100 bg-clip-text text-transparent">
               {role === 'admin' ? 'All' : 'Your'} Listings
             </h2>
-            <p className="text-purple-200/80 mt-1">
-              {role === 'admin'
-                ? 'Manage all listings across the platform'
-                : `Welcome back, ${transactionData[0]?.userID?.name || user?.data?.name || 'User'}`}
-            </p>
           </div>
 
           {role === 'admin' ? (
@@ -148,7 +160,7 @@ export default function SalesHistoryPage() {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -188,7 +200,7 @@ export default function SalesHistoryPage() {
               {transactionData.filter((item) => item.status === 'sold').length}
             </p>
           </motion.div>
-        </div>
+        </div> */}
 
         {/* Table container with glassmorphism effect */}
         <motion.div
@@ -198,7 +210,9 @@ export default function SalesHistoryPage() {
           className="backdrop-blur-md bg-white/5 p-0.5 rounded-xl border border-white/10 shadow-lg overflow-hidden"
         >
           <div className="bg-black/20 rounded-xl overflow-hidden">
-            {transactionData.length > 0 && (
+            {transactionData.length === 0 ? (
+              <p className="text-white">You haven't sell anything yet.</p>
+            ) : (
               <TransactionTable transactions={transactionData} />
             )}
           </div>
