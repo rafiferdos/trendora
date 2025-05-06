@@ -66,5 +66,6 @@ export const config = {
     '/user/:page*',
     '/dashboard',
     '/dashboard/:path*',
+    '/product/:id*'
   ],
 }
