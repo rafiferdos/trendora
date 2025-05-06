@@ -21,8 +21,8 @@ const jost = Jost({
 })
 
 export const metadata: Metadata = {
-  title: 'Swap Nest',
-  description: 'Swap Nest is a decentralized exchange (DEX) aggregator that helps users find the best prices for their crypto trades across multiple DEXs.',
+  title: 'Trendora',
+  description: 'Trendora is a decentralized exchange (DEX) aggregator that helps users find the best prices for their crypto trades across multiple DEXs.',
 }
 
 export default function RootLayout({
