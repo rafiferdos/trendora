@@ -49,7 +49,7 @@ export const loginUser = async (userData: FieldValues) => {
     if (!res.ok) {
       return {
         success: false,
-        message: result.message('Something went wrong'),
+        message: result.message || 'Something went wrong',
         errorDetails: result.errorSources, // optional: error sources for detailed debugging
       }
     }
@@ -59,7 +59,7 @@ export const loginUser = async (userData: FieldValues) => {
     console.error('Login error:', error)
     return {
       success: false,
-      message: error?.message('Something went wrong during login'),
+      message: error?.message || 'Something went wrong during login',
     }
   }
 }

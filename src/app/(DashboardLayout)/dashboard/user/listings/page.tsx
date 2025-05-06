@@ -26,7 +26,6 @@ export default function DashboardPage() {
     const fetchData = async () => {
       try {
         const { role, userId } = await getCurrentUser()
-
         const listings = await getListings()
 
         if (!listings?.success) {
@@ -36,10 +35,15 @@ export default function DashboardPage() {
           setRole(role)
           return setData(listings?.data)
         }
-        const data = listings?.data.filter(
-          (item) => (item.userID?._id).toString() === userId.toString(),
+        
+        // Fix the filtering logic to safely handle undefined userID
+        const filteredData = listings?.data.filter(
+          (item) => {
+            // Check if userID exists and has _id property
+            return item.userID && item.userID._id && item.userID._id.toString() === userId.toString()
+          }
         )
-        setData(data)
+        setData(filteredData)
       } catch (error) {
         console.error('Error fetching listings', error)
       } finally {

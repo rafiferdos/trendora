@@ -1,6 +1,7 @@
 'use client'
 
 import { useUser } from '@/context/UserContext'
+import { useWishlist } from '@/context/WishLists.context'
 import { getValidToken } from '@/lib/verifyToken'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -119,6 +120,7 @@ export default function ProductDetailPage() {
   const router = useRouter()
   const params = useParams()
   const productId = params.id as string
+  const { toggleWishlist, isWishlisted } = useWishlist()
 
   const user = useUser()
 
@@ -215,7 +217,60 @@ export default function ProductDetailPage() {
     const queryString = encodeURIComponent(JSON.stringify(checkoutData))
     router.push(`/checkout?productData=${queryString}`)
   }
+  // Add this function before the return statement
+  const handleShare = async () => {
+    if (!product) return
 
+    const shareData = {
+      title: `SwapNest: ${product.title}`,
+      text: `Check out this ${product.condition} ${product.category}: ${product.title} for $${product.price} on SwapNest!`,
+      url: window.location.href,
+    }
+
+    // Check if the Web Share API is available
+    if (
+      navigator.share &&
+      navigator.canShare &&
+      navigator.canShare(shareData)
+    ) {
+      try {
+        await navigator.share(shareData)
+        toast.success('Shared successfully!')
+      } catch (error) {
+        if ((error as Error).name !== 'AbortError') {
+          console.error('Error sharing:', error)
+          // Only show error if user didn't just cancel the share
+          fallbackShare()
+        }
+      }
+    } else {
+      // Fallback for browsers that don't support Web Share API
+      fallbackShare()
+    }
+  }
+
+  // Fallback sharing method
+  const fallbackShare = () => {
+    // Create a temporary input to copy the URL
+    const url = window.location.href
+    const textArea = document.createElement('textarea')
+    textArea.value = url
+    document.body.appendChild(textArea)
+    textArea.select()
+
+    try {
+      document.execCommand('copy')
+      toast.success('Link copied to clipboard! Share it with your friends.', {
+        duration: 3000,
+      })
+    } catch (err) {
+      console.error('Failed to copy link:', err)
+      toast.error('Unable to copy link. Try again or share manually.')
+    }
+
+    document.body.removeChild(textArea)
+  }
+  
   // Loading state with animated effects
   if (loading) {
     return (
@@ -258,7 +313,7 @@ export default function ProductDetailPage() {
     )
   }
 
-  if(!user) return null
+  if (!user) return null
 
   // Error state
   if (error || !product) {
@@ -442,6 +497,7 @@ export default function ProductDetailPage() {
 
               <div className="flex gap-3">
                 <button
+                  onClick={() => toggleWishlist(productId)}
                   className="flex-1 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white
                                  transition-all duration-300 flex items-center justify-center gap-2"
                 >
@@ -449,6 +505,7 @@ export default function ProductDetailPage() {
                   <span>Save</span>
                 </button>
                 <button
+                  onClick={() => handleShare()}
                   className="flex-1 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white
                                  transition-all duration-300 flex items-center justify-center gap-2"
                 >
