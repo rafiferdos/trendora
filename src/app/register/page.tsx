@@ -92,7 +92,7 @@ const RegisterPage = () => {
               transition={{ duration: 0.6, delay: 0.7 }}
               className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white via-purple-200 to-pink-100"
             >
-              Join SwapNest Today
+              Join Trendora Today
             </motion.h2>
 
             <motion.p

@@ -222,8 +222,8 @@ export default function ProductDetailPage() {
     if (!product) return
 
     const shareData = {
-      title: `SwapNest: ${product.title}`,
-      text: `Check out this ${product.condition} ${product.category}: ${product.title} for $${product.price} on SwapNest!`,
+      title: `Trendora: ${product.title}`,
+      text: `Check out this ${product.condition} ${product.category}: ${product.title} for $${product.price} on Trendora!`,
       url: window.location.href,
     }
 

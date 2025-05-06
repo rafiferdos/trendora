@@ -1,6 +1,6 @@
-# 🛒 SwapNest - Frontend
+# 🛒 Trendora - Frontend
 
-SwapNest is a modern web platform designed to simplify the exchange of second-hand goods. This repository houses the **frontend** of SwapNest, crafted with contemporary web technologies to deliver an intuitive, fast, and user-friendly marketplace experience.
+Trendora is a modern web platform designed to simplify the exchange of second-hand goods. This repository houses the **frontend** of Trendora, crafted with contemporary web technologies to deliver an intuitive, fast, and user-friendly marketplace experience.
 ---
 
 ## 🚀 Features
@@ -56,11 +56,11 @@ resellbd-frontend/
 
 1. **Clone the repository**
    ```sh
-   git clone https://github.com/hossain-ahamed-khan/SwapNest-Client.git
+   git clone https://github.com/rafiferdos/trendora.git
    ```
 2. **Navigate to the project directory**
    ```sh
-   cd SwapNest-Client
+   cd trendora
    ```
 3. **Install dependencies**
    ```sh
@@ -117,8 +117,8 @@ resellbd-frontend/
 
 ---
 
-Github Link: https://github.com/hossain-ahamed-khan/SwapNest-Client
+Github Link: https://github.com/rafiferdos/trendora
 
-Live Link: https://swap-nest-client.vercel.app/
+Live Link: https://trendora-black.vercel.app/
 
 ---

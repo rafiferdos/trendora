@@ -109,7 +109,7 @@ const LoginForm = () => {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="text-purple-100/80 text-center"
         >
-          Sign in to your SwapNest account
+          Sign in to your Trendora account
         </motion.p>
       </div>
 

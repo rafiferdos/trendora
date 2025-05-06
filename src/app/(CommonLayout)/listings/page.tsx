@@ -501,7 +501,7 @@ export default function AllListsPage() {
               <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl blur-2xl opacity-30"></div>
               <div className="relative bg-black/40 backdrop-blur-xl p-6 rounded-3xl shadow-2xl border border-white/20">
                 <h1 className="text-2xl md:text-3xl font-bold mb-3 bg-gradient-to-r from-white to-pink-200 inline-block text-transparent bg-clip-text">
-                  SwapNest Marketplace
+                Trendora Marketplace
                 </h1>
                 <p className="text-sm md:text-base text-white mb-6">
                   Discover amazing second-hand treasures from our community.

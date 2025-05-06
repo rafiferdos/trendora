@@ -51,8 +51,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { handleLogout } = useUser()
 
   // Extract user data
-  const userName = user?.data?.name || 'SwapNest User'
-  const userEmail = user?.data?.email || 'user@swapnest.com'
+  const userName = user?.data?.name || 'Trendora User'
+  const userEmail = user?.data?.email || 'user@trendora.com'
   const firstLetter = userName.charAt(0).toUpperCase()
 
   // Handle logout
@@ -194,7 +194,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   className="flex flex-col"
                 >
                   <span className="font-bold text-lg bg-gradient-to-r from-white via-purple-100 to-pink-100 bg-clip-text text-transparent">
-                    SwapNest
+                  Trendora
                   </span>
                   <span className="text-xs text-white/40">Marketplace</span>
                 </motion.div>

@@ -130,7 +130,7 @@ const RegisterForm = () => {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="text-purple-100/80 text-center"
         >
-          Join SwapNest to start buying and selling
+          Join Trendora to start buying and selling
         </motion.p>
       </div>
 

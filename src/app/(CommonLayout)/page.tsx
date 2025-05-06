@@ -140,7 +140,7 @@ const Homepage = () => {
             >
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
                 <span className="bg-gradient-to-r from-white via-purple-200 to-pink-100 bg-clip-text text-transparent">
-                  Discover, Trade, Thrive on SwapNest
+                  Discover, Trade, Thrive on Trendora
                 </span>
               </h1>
               <p className="text-xl text-purple-100/80 mb-8 max-w-lg">
@@ -200,7 +200,7 @@ const Homepage = () => {
                   <div className="absolute inset-0 bg-gradient-to-br from-purple-600/30 to-pink-600/30 mix-blend-overlay"></div>
                   <Image
                     src="https://png.pngtree.com/thumb_back/fh260/background/20230930/pngtree-3d-rendered-digital-marketing-mobile-app-for-convenient-online-shopping-image_13551670.png"
-                    alt="SwapNest Marketplace"
+                    alt="Trendora Marketplace"
                     width={600}
                     height={400}
                     className="w-full h-auto object-cover"
@@ -499,7 +499,7 @@ const Homepage = () => {
             variants={fadeIn}
           >
             <h2 className="text-3xl sm:text-4xl font-bold mb-4 bg-gradient-to-r from-white via-purple-200 to-pink-100 bg-clip-text text-transparent">
-              How SwapNest Works
+              How Trendora Works
             </h2>
             <p className="text-lg text-purple-100/80 max-w-2xl mx-auto">
               Follow these simple steps to start trading on our marketplace
@@ -584,7 +584,7 @@ const Homepage = () => {
               What Our Community Says
             </h2>
             <p className="text-lg text-purple-100/80 max-w-2xl mx-auto">
-              Join thousands of satisfied users on SwapNest
+              Join thousands of satisfied users on Trendora
             </p>
           </motion.div>
 
@@ -618,7 +618,7 @@ const Homepage = () => {
                 </div>
                 <p className="text-purple-100/90 italic">
                   {
-                    "SwapNest has transformed how I declutter my home. I've sold items I no longer need and found amazing vintage pieces at great prices!"
+                    "Trendora has transformed how I declutter my home. I've sold items I no longer need and found amazing vintage pieces at great prices!"
                   }
                 </p>
               </div>
@@ -680,7 +680,7 @@ const Homepage = () => {
                 </div>
                 <p className="text-purple-100/90 italic">
                   {
-                    'I love that SwapNest helps reduce waste through second-hand trading. The community is respectful and the platform is so easy to use!'
+                    'I love that Trendora helps reduce waste through second-hand trading. The community is respectful and the platform is so easy to use!'
                   }
                 </p>
               </div>
@@ -742,7 +742,7 @@ const Homepage = () => {
             transition={{ duration: 0.7 }}
           >
             <h2 className="text-3xl sm:text-4xl font-bold mb-6 bg-gradient-to-r from-white via-purple-200 to-pink-100 bg-clip-text text-transparent">
-              Ready to Join the SwapNest Community?
+              Ready to Join the Trendora Community?
             </h2>
             <p className="text-lg text-purple-100/80 mb-8">
               Start buying and selling today. Join thousands of users creating a

@@ -58,7 +58,7 @@ const Footer = () => {
                   <FaShopware />
                 </div>
                 <span className="ml-3 text-2xl font-bold bg-gradient-to-r from-white via-purple-200 to-pink-100 text-transparent bg-clip-text">
-                  SwapNest
+                Trendora
                 </span>
               </div>
               <p className="mt-4 max-w-md text-purple-100/80">
@@ -269,13 +269,13 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="mailto:swapnest@gmail.com"
+                  href="mailto:trendora@gmail.com"
                   className="text-purple-100 hover:text-white transition-colors duration-300 flex items-center gap-3"
                 >
                   <div className="bg-white/10 p-2 rounded-lg">
                     <MdEmail className="text-pink-400" size={18} />
                   </div>
-                  <span>swapnest@gmail.com</span>
+                  <span>trendora@gmail.com</span>
                 </Link>
               </li>
               <li>
@@ -328,7 +328,7 @@ const Footer = () => {
           <div className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
           <div className="pt-8 flex flex-col md:flex-row justify-between items-center">
             <p className="text-purple-100/70 text-sm mb-4 md:mb-0">
-              &copy; {new Date().getFullYear()} SwapNest. All rights reserved.
+              &copy; {new Date().getFullYear()} Trendora. All rights reserved.
             </p>
             <div className="flex gap-6">
               <Link

@@ -112,7 +112,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                             <RefreshCcw className="h-3 w-3 text-white" />
                           </div>
                         </motion.div>
-                        <span>SwapNest</span>
+                        <span>Trendora</span>
                       </BreadcrumbPage>
                     </BreadcrumbItem>
                   </BreadcrumbList>

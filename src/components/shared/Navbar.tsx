@@ -302,7 +302,7 @@ export default function Navbar() {
               <FaShopware />
             </div>
             <span className="ml-3 text-2xl font-bold bg-gradient-to-r from-white via-purple-200 to-pink-100 group-hover:from-white group-hover:via-pink-200 group-hover:to-purple-100 bg-clip-text text-transparent transition-all duration-300">
-              SwapNest
+            Trendora
             </span>
           </div>
         </Link>
