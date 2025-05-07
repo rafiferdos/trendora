@@ -1,6 +1,5 @@
 'use client'
 
-import { NotificationBell } from '@/components/modules/dashboard/notification/NotificationBell'
 import { AppSidebar } from '@/components/modules/dashboard/sidebar/app-sidebar'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
@@ -11,6 +10,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
+import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import {
   SidebarInset,
@@ -20,15 +20,16 @@ import {
 import { useUser } from '@/context/UserContext'
 import { motion } from 'framer-motion'
 import {
-  BellRing,
   ChevronRight,
   LayoutDashboard,
   RefreshCcw,
   Search,
   Settings2,
 } from 'lucide-react'
+import { useTheme } from 'next-themes'
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
+  const { theme, setTheme } = useTheme()
   const { user } = useUser()
   const { name = '', email = '' } = user?.data || {}
 
@@ -122,30 +123,25 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
 
             {/* Right Section with Quick Actions */}
             <div className="flex items-center gap-2">
-              {/* Search */}
+              {/* dark mode switch */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.2, duration: 0.3 }}
+                transition={{ delay: 0.4, duration: 0.3 }}
                 className="relative hidden md:block"
               >
                 <div className="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none">
-                  <Search className="h-3.5 w-3.5 text-white/50" />
+                  <Button
+                    onClick={() =>
+                      setTheme(theme === 'dark' ? 'light' : 'dark')
+                    }
+                  >
+                    <Settings2 className="h-3.5 w-3.5 text-white/50" />
+                  </Button>
                 </div>
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  className="py-1.5 pl-8 pr-3 rounded-lg bg-white/5 border border-white/10 text-sm text-white/80 
-                  placeholder:text-white/40 focus:outline-none focus:ring-1 focus:ring-purple-500/50 
-                  focus:bg-white/10 transition-all w-40 focus:w-60"
-                />
               </motion.div>
 
-              {/* Notification Bell */}
-
-              {/* <div className="relative z-50">
-                <NotificationBell />
-              </div> */}
+              
 
               {/* Separator */}
               <Separator
