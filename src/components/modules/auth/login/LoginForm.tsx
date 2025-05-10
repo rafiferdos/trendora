@@ -27,14 +27,28 @@ const LoginForm = () => {
   const { setIsLoading } = useUser()
   const form = useForm({ resolver: zodResolver(loginSchema) })
   const {
-    formState: { isSubmitting, errors },
+    formState: { isSubmitting },
   } = form
-
   const [showPassword, setShowPassword] = useState(false)
+
+  // Demo user credentials
+  const demoUserEmail = "demo@trendora.com"  // Replace with actual demo email when available
+  const demoUserPassword = "demopass123"  // Replace with actual demo password when available
 
   const searchParams = useSearchParams()
   const redirect = searchParams.get('redirectPath')
   const router = useRouter()
+    // Function to handle demo login
+  const handleDemoLogin = () => {
+    // Set form values
+    form.setValue("identifier", demoUserEmail)
+    form.setValue("password", demoUserPassword)
+    
+    // Submit the form after a slight delay to show the filled values to the user
+    setTimeout(() => {
+      form.handleSubmit(onSubmit)()
+    }, 500)
+  }
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
@@ -237,6 +251,28 @@ const LoginForm = () => {
                 )}
               </span>
             </Button>
+          </motion.div>          <motion.div variants={itemVariants} className="pt-2">
+            <Button
+              type="button"
+              className="relative overflow-hidden bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white shadow-md shadow-emerald-500/20 hover:shadow-lg hover:shadow-emerald-500/30 transition-all duration-300 border-0 w-full h-12 font-medium group"
+              onClick={handleDemoLogin}
+            >
+              <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-emerald-600 to-teal-600 animate-gradient-x [animation-duration:3s]"></span>
+              <span className="absolute inset-0 w-1/2 h-full bg-white/20 skew-x-[-20deg] transform -translate-x-full group-hover:duration-1000 duration-1000 transition-transform group-hover:translate-x-[200%]"></span>
+              <span className="relative flex items-center justify-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-user-check mr-1"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg>
+                Try Demo Account
+              </span>
+            </Button>
+          </motion.div>
+          
+          <motion.div 
+            variants={itemVariants}
+            className="mt-2 text-center" 
+          >
+            <p className="text-xs text-purple-200/60 italic">
+              Quick access with pre-filled demo credentials
+            </p>
           </motion.div>
         </motion.form>
       </Form>
