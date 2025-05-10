@@ -21,11 +21,34 @@ import { useUser } from '@/context/UserContext'
 import { motion } from 'framer-motion'
 import { ChevronRight, LayoutDashboard, RefreshCcw } from 'lucide-react'
 import { useTheme } from 'next-themes'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const { theme, setTheme } = useTheme()
-  const { user } = useUser()
+  const { user, isLoading } = useUser()
   const { name = '', email = '' } = user?.data || {}
+
+  // Redirect if user is not authenticated
+  const router = useRouter()
+
+  useEffect(() => {
+    if (!isLoading && !user) {
+      router.replace('/login?redirectPath=' + window.location.pathname)
+    }
+  }, [user, isLoading, router])
+
+  // Show nothing while checking authentication or redirecting
+  if (isLoading || !user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-purple-950 to-violet-900">
+        <div className="text-center">
+          <div className="w-16 h-16 mx-auto mb-4 border-4 border-t-purple-500 border-r-transparent border-b-purple-500 border-l-transparent rounded-full animate-spin"></div>
+          <p className="text-white/70">Loading dashboard...</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="bg-gradient-to-br from-gray-900 via-purple-950 to-violet-900 min-h-screen">

@@ -6,7 +6,7 @@ type Role = keyof typeof roleBasedPrivateRoutes
 const authRoutes = ['/login', '/register']
 
 const roleBasedPrivateRoutes = {
-  user: [/^\/user/, /^\/dashboard/], // Add dashboard pattern here
+  user: [/^\/user/, /^\/dashboard/, /^\/checkout/], // Routes requiring user authentication
   admin: [/^\/admin/],
 }
 
@@ -17,13 +17,6 @@ export const middleware = async (request: NextRequest) => {
 
   // If user is not logged in and trying to access a protected route
   if (!userInfo) {
-    // Check if the path is a product detail page
-    if (pathname.startsWith('/product/')) {
-      return NextResponse.redirect(
-        new URL(`/login?redirectPath=${pathname}`, request.url),
-      )
-    }
-
     if (authRoutes.includes(pathname)) {
       return NextResponse.next()
     } else if (
@@ -43,12 +36,12 @@ export const middleware = async (request: NextRequest) => {
       return NextResponse.next()
     }
   }
-
   // For non-protected routes, allow access
   if (
     !pathname.startsWith('/admin') &&
     !pathname.startsWith('/user') &&
-    !pathname.startsWith('/dashboard')
+    !pathname.startsWith('/dashboard') &&
+    !pathname.startsWith('/checkout')
   ) {
     return NextResponse.next()
   }
@@ -57,7 +50,7 @@ export const middleware = async (request: NextRequest) => {
   return NextResponse.redirect(new URL('/', request.url))
 }
 
-// Update the matcher config to include product detail pages
+// Configure middleware to only run on protected routes
 export const config = {
   matcher: [
     '/admin',
@@ -66,6 +59,9 @@ export const config = {
     '/user/:page*',
     '/dashboard',
     '/dashboard/:path*',
-    '/product/:id*'
+    '/login',
+    '/register',
+    '/checkout',
+    '/checkout/:path*',
   ],
 }
